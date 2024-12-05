@@ -1,0 +1,17 @@
+better-exceptions
+prompt-toolkit
+
+# Development tools
+ruff
+mypy
+pyright
+
+# AI tools
+llm
+llm-claude-3
+aider-chat[playwright]
+anthropic
+
+# Audio recording and transcription
+pyaudio
+openai
