@@ -109,80 +109,79 @@ $ consilio --decision-type financial
 [What's unclear]
 ```
 
-### 3.2 Initial Analysis
+### 3.2 Initial Analysis & Observation
 
 1. Read `Statement.md`
 2. Load prompts from `1-Observe/`
-3. Send to Claude
+3. Send to Claude with the following process:
+   - Claude analyzes the situation from an expert advisor perspective
+   - Performs detailed analysis of key elements, risks, opportunities
+   - Formulates impactful questions to guide decision-making
+   - Identifies relevant perspectives to consult
 4. Save response to `Observation.xml`:
 
 ```xml
-<observation>
-    <summary>
-        [Initial analysis summary]
-    </summary>
-    <clarifications>
-        <question>...</question>
-        <question>...</question>
-    </clarifications>
-    <perspectives>
-        <perspective>
-            <name>Financial</name>
-            <questions>
-                <question>What's the ROI timeline?</question>
-                <question>What are the cash flow implications?</question>
-            </questions>
-        </perspective>
-        <perspective>
-            <name>Operational</name>
-            <questions>
-                <question>How will this affect daily operations?</question>
-                <question>What resources are needed?</question>
-            </questions>
-        </perspective>
-    </perspectives>
-</observation>
+<analysis>
+    [Detailed analysis of situation including:]
+    - Key elements breakdown
+    - Potential risks and opportunities 
+    - Alternative approaches
+    - Key stakeholders
+    - Short/long-term implications
+</analysis>
+
+<consult>
+    <perspective>
+        <title>[Perspective description]</title>
+        <question>[Information seeking details]</question>
+    </perspective>
+    [Additional perspectives...]
+</consult>
 ```
 5. User reviews and can either:
    - Edit `Statement.md` and retry
    - Continue to next stage
 
-### 3.3 Multiple Perspectives
+### 3.3 Multiple Perspectives Consultation
 
-1. Parse `Observation.xml` to extract perspectives and their questions
-2. For each perspective in the XML:
-   - Create new Claude session
+1. Parse `Observation.xml` to extract identified perspectives
+2. For each perspective:
+   - Create new Claude session with specific perspective expertise
    - Load prompts from `2-Consult/`
-   - Include `Statement.md` and perspective questions
-3. Save all responses to `Perspectives.xml`:
+   - Include original situation, advisor observations, and specific questions
+3. Save responses to `Perspectives.xml`:
 ```xml
 <perspectives>
     <perspective>
-        <name>Financial</name>
-        <analysis>
-            [Claude's analysis from financial perspective]
-        </analysis>
-        <recommendations>
-            [Specific recommendations]
-        </recommendations>
+        <thought_process>
+            - Key points summary
+            - Potential solutions analysis
+            - Reasoning explanation
+        </thought_process>
+        <answer>
+            [Concrete, actionable answers to questions]
+        </answer>
     </perspective>
-    <perspective>
-        <name>Operational</name>
-        <analysis>
-            [Claude's analysis from operational perspective]
-        </analysis>
-        <recommendations>
-            [Specific recommendations]
-        </recommendations>
-    </perspective>
+    [Additional perspectives...]
 </perspectives>
 ```
 4. User reviews and can either:
    - Edit `Statement.md` and restart
    - Continue to the synthesis step
 
-### 3.4 Final Synthesis
+### 3.4 Final Synthesis & Advice
 
 1. Load prompts from `3-Advise/`
-2. Send all previous documents to Claude
-3. Save final advice directly to `Memo.md`
+2. Send all previous documents to Claude for:
+   - Comprehensive analysis of all gathered information
+   - Identification of patterns, conflicts, and gaps
+   - Risk and opportunity assessment
+   - Synthesis of critical insights
+3. Save final output to `Memo.md` with:
+   - Comprehensive situation summary
+   - Synthesis of critical information
+   - Expert insights on potential impacts
+   - Up to 7 important questions for consideration, each with:
+     - Importance rating (1-9)
+     - Brief explanation of relevance
+     - Connection to synthesized information
