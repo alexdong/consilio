@@ -6,6 +6,13 @@ ruff
 mypy
 pyright
 
+# Testing
+pytest 
+pytest-asyncio
+pytest-cov
+pytest-mock
+freezegun
+
 # AI tools
 llm
 llm-claude-3
