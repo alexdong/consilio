@@ -5,7 +5,7 @@ from typing import Optional
 
 from config import load_context
 from cloud import init_cloud
-from workflow import WorkflowState
+from workflow import WorkflowState, run_observation
 from storage import create_decision_dir
 
 @click.command()
@@ -28,7 +28,7 @@ def main(context: Optional[Path]) -> None:
         stage="observe"
     )
     
-    asyncio.run(workflow.run_observation(state))
+    asyncio.run(run_observation(state))
 
 if __name__ == "__main__":
     main()
