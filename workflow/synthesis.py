@@ -27,7 +27,7 @@ def run_synthesis(
     })
     
     # Query Claude
-    response = await query_claude(
+    response = query_claude(
         system_prompt=system_prompt,
         user_prompt=user_prompt,
         api_key=cloud_config["claude_key"]
