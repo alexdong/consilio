@@ -67,8 +67,27 @@ the decision-making process.
 
 ## 3. Workflow
 
+### 3.0 Define Context
+Create a new `.consilio.yml` file in the root directory with the following
+structure:
+
+```yaml
+domain:"a NZ-based B2C iOS app startup that are pre-product-market-fit"
+consilio_role:"an bootstrapped B2C founder, who successfully navigated pre-PMF phase with limited capital. , living outside of US but your main market is US."
+user_role:"Solo Founder"
+```
+
 ### 3.1 Problem Definition
-1. Create new decision directory: `Decisions/YYYYMMDD-{decision}/`
+
+The yaml settings can be overridden by the user at the start of the session.
+
+```bash
+$ consilio --decision-type financial
+> Please enter the title of the decision: Bank Loan
+
+```
+
+1. Create new decision directory: `Decisions/YYYYMMDD-{decision_title|slug}/`
 2. Open `Statement.md` in vim with template:
 
 ```markdown
@@ -96,6 +115,7 @@ the decision-making process.
 2. Load prompts from `1-Observe/`
 3. Send to Claude
 4. Save response to `Observation.xml`:
+
 ```xml
 <observation>
     <summary>
