@@ -2,8 +2,7 @@ import pytest
 from workflow.synthesis import run_synthesis
 from workflow.state import WorkflowState, Stage
 
-@pytest.mark.asyncio
-async def test_run_synthesis(
+def test_run_synthesis(
     mock_decision_dir,
     mock_context,
     mock_cloud_config,
@@ -22,7 +21,7 @@ async def test_run_synthesis(
         stage=Stage.ADVISE
     )
     
-    result = await run_synthesis(state, mock_cloud_config)
+    result = run_synthesis(state, mock_cloud_config)
     
     assert result == "# Test Synthesis"
     assert (mock_decision_dir / "Memo.md").exists()

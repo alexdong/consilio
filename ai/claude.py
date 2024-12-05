@@ -7,7 +7,7 @@ class ClaudeResponse:
     content: str
     raw: Dict  # Store raw API response
 
-async def query_claude(
+def query_claude(
     system_prompt: str,
     user_prompt: str,
     api_key: str,

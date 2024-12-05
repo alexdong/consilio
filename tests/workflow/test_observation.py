@@ -2,8 +2,7 @@ import pytest
 from workflow.observation import run_observation
 from workflow.state import WorkflowState, Stage
 
-@pytest.mark.asyncio
-async def test_run_observation(
+def test_run_observation(
     mock_decision_dir,
     mock_context,
     mock_cloud_config,
@@ -18,7 +17,7 @@ async def test_run_observation(
         stage=Stage.OBSERVE
     )
     
-    result = await run_observation(state, mock_cloud_config)
+    result = run_observation(state, mock_cloud_config)
     
     assert result == "<test>response</test>"
     assert (mock_decision_dir / "Observation.xml").exists()

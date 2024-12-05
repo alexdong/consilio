@@ -5,7 +5,7 @@ from .state import WorkflowState
 from ai.prompts import load_prompt_template, format_prompt
 from ai.claude import query_claude
 
-async def run_synthesis(
+def run_synthesis(
     state: WorkflowState,
     cloud_config: Dict
 ) -> str:

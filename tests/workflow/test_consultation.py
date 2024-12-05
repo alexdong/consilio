@@ -17,8 +17,7 @@ def test_extract_perspectives():
     assert perspectives[0]["title"] == "Test Title"
     assert perspectives[0]["question"] == "Test Question"
 
-@pytest.mark.asyncio
-async def test_run_consultation(
+def test_run_consultation(
     mock_decision_dir,
     mock_context,
     mock_cloud_config,
@@ -44,7 +43,7 @@ async def test_run_consultation(
         stage=Stage.CONSULT
     )
     
-    results = await run_consultation(state, mock_cloud_config)
+    results = run_consultation(state, mock_cloud_config)
     
     assert len(results) == 1
     assert results[0] == "<response>test</response>"

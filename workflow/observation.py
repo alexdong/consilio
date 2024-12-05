@@ -6,7 +6,7 @@ from .state import WorkflowState
 from ai.prompts import load_prompt_template, format_prompt
 from ai.claude import query_claude
 
-async def run_observation(
+def run_observation(
     state: WorkflowState,
     cloud_config: Dict
 ) -> str:

@@ -19,7 +19,7 @@ def extract_perspectives(xml_content: str) -> List[Dict[str, str]]:
     
     return perspectives
 
-async def run_consultation(
+def run_consultation(
     state: WorkflowState,
     cloud_config: Dict
 ) -> List[str]:
