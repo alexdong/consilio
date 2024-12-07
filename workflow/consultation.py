@@ -19,16 +19,16 @@ def consult(doc: Path, assembly_instruction: str, context: Dict[str, str]) -> st
 
     responses = []
     for perspective in perspectives:
-        # Extract structured data from perspective XML
-        title = perspective.find('title').text.strip()
-        relevance = perspective.find('relevance').text.strip()
-        questions = [q.text.strip() for q in perspective.findall('.//question')]
-        
+        # Extract structured data from perspective XML. We know the XML is well-formed so no need to check for None. ai!
+        title = perspective.find("title").text.strip()
+        relevance = perspective.find("relevance").text.strip()
+        questions = [q.text.strip() for q in perspective.findall(".//question")]
+
         # Build perspective context
         perspective_context = {
             "title": title,
             "relevance": relevance,
-            "questions": "\n".join(f"- {q}" for q in questions)
+            "questions": "\n".join(f"- {q}" for q in questions),
         }
         user_context = {"DECISION": statement}
         user_context.update(context)
@@ -41,7 +41,7 @@ def consult(doc: Path, assembly_instruction: str, context: Dict[str, str]) -> st
             assistant="<opinions>",
             temperature=0.8,
         )
-        print(f"[🔍] Consulted on perspective: {perspective_text}: {response}")
+        print(f"[🔍] Opinion from perspective: {title}\n{response}")
 
     print("[✅] Consultation complete")
     return "<opinions>" + response.content
