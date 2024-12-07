@@ -7,11 +7,11 @@
 > strategic thinking and prudent decision-making, emphasizing the use of good
 > judgment, experience, and advice.
 
-## 0. Overview
+## Overview
 
-Consilio helps you make better decisions by taking you through a 3-step
-deliberation process.  It's a writing assistant, a thought partner. It helps by
-asking you questions like "Have you thought about ...",  "What if ...", "Let's
+Consilio helps you make better decisions by having LLM asking
+independent and multi-perspective questions. Think of it as a vast
+support network of advisors.  It asks you questions like "Have you thought about ...",  "What if ...", "Let's
 stress test it this way ...".  The kind of questions you often pay your
 advisors or boards for.
 
@@ -31,8 +31,6 @@ It can be "slow, tedious, lumbering, laborious but invincible".
 > that's the end of the nice guy," and you crank up the formal scientific
 > method.”
 
-## 1. Shape Up
-
 Consilio is intentionally minimal. It is designed to be used
 in a command-line environment with a text editor (e.g., vim).
 
@@ -45,7 +43,7 @@ directory, creating a detailed record of the decision-making process. This
 allows for both immediate reference and retrospective review of how important
 decisions were made.
 
-## 2. The Decision Making Process
+## The Decision Making Process
 
 1. **Observe**: understand the situation by asking clarifying questions and explore alternatives
 
