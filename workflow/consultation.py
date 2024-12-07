@@ -20,7 +20,7 @@ def consult(doc: Path, assembly_instruction: str, context: Dict[str, str]) -> st
 
     responses = []
     for perspective in perspectives:
-        # Extract structured data from perspective XML. We know the XML is well-formed so no need to check for None. ai!
+        # Extract structured data from perspective XML
         title = perspective.find("title").text.strip()
         relevance = perspective.find("relevance").text.strip()
         questions = [q.text.strip() for q in perspective.findall(".//question")]
