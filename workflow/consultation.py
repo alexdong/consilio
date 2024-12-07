@@ -5,7 +5,6 @@ import xml.etree.ElementTree as ET
 from ai.prompts import load_prompt_template, render_prompt
 from ai.claude import query_claude
 from utils import escape_xml_string
-from utils.xml_to_markdown import xml_to_markdown
 
 
 def consult(doc: Path, assembly_instruction: str, context: Dict[str, str]) -> str:
@@ -14,27 +13,25 @@ def consult(doc: Path, assembly_instruction: str, context: Dict[str, str]) -> st
     # Parse assembly instruction XML
     root = ET.fromstring(assembly_instruction)
     perspectives = root.findall(".//perspective")
-    
+
     statement = doc.read_text()
     prompts = load_prompt_template("Consult")
-    
+
     responses = []
     for perspective in perspectives:
-        # Extract perspective content and create context
+        # Extract `perspective.title`, `perspective.relevance` and `perspective.questions[] from AI!
         perspective_text = "".join(perspective.itertext()).strip()
-        user_context = {
-            "DECISION": statement,
-            "perspective": perspective_text
-        }
-    user_context.update(context)
-    user_prompt = render_prompt(prompts.user, user_context)
+        user_context = {"DECISION": statement, "perspective": perspective_text}
+        user_context.update(context)
+        user_prompt = render_prompt(prompts.user, user_context)
 
-    # Query Claude
-    response = query_claude(
-        user_prompt=user_prompt,
-        assistant="<opinions>",
-        temperature=0.8,
-    )
+        # Query Claude
+        response = query_claude(
+            user_prompt=user_prompt,
+            assistant="<opinions>",
+            temperature=0.8,
+        )
+        print(f"[🔍] Consulted on perspective: {perspective_text}: {response}")
 
     print("[✅] Consultation complete")
     return "<opinions>" + response.content
