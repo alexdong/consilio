@@ -19,10 +19,20 @@ def consult(doc: Path, assembly_instruction: str, context: Dict[str, str]) -> st
 
     responses = []
     for perspective in perspectives:
-        # Extract `perspective.title`, `perspective.relevance` and `perspective.questions[] from AI!
-        perspective_text = "".join(perspective.itertext()).strip()
-        user_context = {"DECISION": statement, "perspective": perspective_text}
+        # Extract structured data from perspective XML
+        title = perspective.find('title').text.strip()
+        relevance = perspective.find('relevance').text.strip()
+        questions = [q.text.strip() for q in perspective.findall('.//question')]
+        
+        # Build perspective context
+        perspective_context = {
+            "title": title,
+            "relevance": relevance,
+            "questions": "\n".join(f"- {q}" for q in questions)
+        }
+        user_context = {"DECISION": statement}
         user_context.update(context)
+        user_context.update(perspective_context)
         user_prompt = render_prompt(prompts.user, user_context)
 
         # Query Claude
