@@ -9,6 +9,7 @@ from utils import escape_xml_string
 
 def consult(doc: Path, assembly_instruction: str, context: Dict[str, str]) -> str:
     print("[👀] Starting consultation phase...")
+    print(f"assembly_instruction: {assembly_instruction}")
 
     # Parse assembly instruction XML
     root = ET.fromstring(assembly_instruction)
@@ -37,9 +38,9 @@ def consult(doc: Path, assembly_instruction: str, context: Dict[str, str]) -> st
 
         # Build perspective context
         perspective_context = {
-            "title": title,
-            "relevance": relevance,
-            "questions": "\n".join(f"- {q}" for q in questions),
+            "perspective.title": title,
+            "perspective.relevance": relevance,
+            "perspective.questions": "\n".join(f"- {q}" for q in questions),
         }
         user_context = {"DECISION": statement}
         user_context.update(context)
@@ -66,8 +67,9 @@ if __name__ == "__main__":
         "decision_type": "Financial",
         "perspective": "bootstrapped founder, who successfully navigated pre-PMF phase with limited capital with a successful exit",
     }
-    doc_path = Path(__file__).parent.parent / "Decisions/BankLoan.md"
-    assembly_instruction = """
+    doc_path = Path(__file__).parent / "Decisions/BankLoan.md"
+    assembly_instruction = escape_xml_string(
+        """
         <perspectives>
             <perspective>
                 <title>Exit-Experienced M&A Advisor specializing in small business sales</title>
@@ -80,6 +82,8 @@ if __name__ == "__main__":
             </perspective>
         </perspectives>
     """
+    )
+    print(f"instruction: {assembly_instruction}")
     response = consult(
         doc=doc_path, assembly_instruction=assembly_instruction, context=context
     )

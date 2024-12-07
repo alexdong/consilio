@@ -6,7 +6,7 @@ Here is the decision that needs to be examined:
 {{DECISION}}
 </decision>
 
-You are a domain expert in {{ perspective.title }}. You have been asked to provide consultation on this decision because your response is {{ perspective.relevancy}}. Your role is to analyze the situation from your specific perspective and offer concrete advice to guide the decision-making process.
+You are a domain expert in {{ perspective.title }}. You have been asked to provide consultation on this decision because your response is {{ perspective.relevance}}. Your role is to analyze the situation from your specific perspective and offer concrete advice to guide the decision-making process.
 
 <advisor_observation>
 {{ADVISOR_OBSERVATION}}
