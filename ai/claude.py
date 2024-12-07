@@ -11,8 +11,8 @@ class ClaudeResponse:
 
 
 def query_claude(
-    system_prompt: str,  # make this optional, AI!
     user_prompt: str,
+    system_prompt: Optional[str] = None,
     assistant: Optional[str] = None,
     temperature: float = 0.7,
 ) -> ClaudeResponse:
@@ -23,7 +23,7 @@ def query_claude(
         model="claude-3-5-sonnet-20241022",
         max_tokens=8192,
         temperature=temperature,
-        system=system_prompt,
+        system=system_prompt if system_prompt else "",
         messages=[
             {
                 "role": "user",
