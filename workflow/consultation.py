@@ -5,7 +5,6 @@ import xml.etree.ElementTree as ET
 from ai.prompts import load_prompt_template, render_prompt
 from ai.claude import query_claude
 from utils import escape_xml_string
-from utils.xml_to_markdown import xml_to_markdown
 
 
 def consult(doc: Path, assembly_instruction: str, context: Dict[str, str]) -> str:
@@ -24,11 +23,17 @@ def consult(doc: Path, assembly_instruction: str, context: Dict[str, str]) -> st
         title_elem = perspective.find("title")
         relevance_elem = perspective.find("relevance")
         assert title_elem is not None and title_elem.text is not None, "Missing title"
-        assert relevance_elem is not None and relevance_elem.text is not None, "Missing relevance"
-        
+        assert (
+            relevance_elem is not None and relevance_elem.text is not None
+        ), "Missing relevance"
+
         title = title_elem.text.strip()
         relevance = relevance_elem.text.strip()
-        questions = [q.text.strip() for q in perspective.findall(".//question") if q.text is not None]
+        questions = [
+            q.text.strip()
+            for q in perspective.findall(".//question")
+            if q.text is not None
+        ]
 
         # Build perspective context
         perspective_context = {
@@ -44,13 +49,14 @@ def consult(doc: Path, assembly_instruction: str, context: Dict[str, str]) -> st
         # Query Claude
         response = query_claude(
             user_prompt=user_prompt,
-            assistant="<opinions>",
+            assistant="<opinion>",
             temperature=0.8,
         )
         print(f"[🔍] Opinion from perspective: {title}\n{response}")
+        responses.append("<opinion>" + response.content)
 
     print("[✅] Consultation complete")
-    return "<opinions>" + response.content
+    return "<opinions>" + "".join(responses) + "</opinions>"
 
 
 if __name__ == "__main__":
@@ -61,9 +67,23 @@ if __name__ == "__main__":
         "perspective": "bootstrapped founder, who successfully navigated pre-PMF phase with limited capital with a successful exit",
     }
     doc_path = Path(__file__).parent.parent / "Decisions/BankLoan.md"
-    response = consult(doc=doc_path, context=context)
+    assembly_instruction = """
+        <perspectives>
+            <perspective>
+                <title>Exit-Experienced M&A Advisor specializing in small business sales</title>
+                <relevance>Critical for validating the feasibility and timeline of the traditional business unit sale, which directly impacts the need for and risk of the loan</relevance>
+                <questions>
+                    <question>Based on current market conditions, how realistic are the broker valuations, and what factors could extend the sale timeline beyond 6 months?</question>
+                    <question>What specific preparation steps could accelerate the sale process while maintaining optimal valuation?</question>
+                    <question>How might using the business as loan collateral impact potential buyers' interest or the sale process?</question>
+                </questions>
+            </perspective>
+        </perspectives>
+    """
+    response = consult(
+        doc=doc_path, assembly_instruction=assembly_instruction, context=context
+    )
     print(response)
-    print(xml_to_markdown(escape_xml_string(response)))
 
 #     response = escape_xml_string(
 #         """

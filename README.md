@@ -16,7 +16,7 @@ stress test it this way ...".  The kind of questions you often pay your
 advisors or boards for.
 
 Think of Consilio as the "formal scientific method" described by Robert Pirsig.
-It can be "slow, tedious, lumbering, laborious but invincible". 
+It can be "slow, tedious, lumbering, laborious but invincible".
 
 > “Actually I've never seen a cycle-maintenance problem complex enough really
 > to require full-scale formal scientific method. Repair problems are not that
@@ -38,12 +38,12 @@ in a command-line environment with a text editor (e.g., vim).
 
 The core artefact Consilio works around is a single `DECISION.md` document. As
 you go through the thinking process, you will revise this document by answering
-the questions posed by Consilio. 
+the questions posed by Consilio.
 
 All intermediate steps are preserved in structured format within a date-stamped
 directory, creating a detailed record of the decision-making process. This
 allows for both immediate reference and retrospective review of how important
-decisions were made. 
+decisions were made.
 
 ## 2. The Decision Making Process
 
@@ -52,28 +52,28 @@ decisions were made.
    You start by providing a document that captures the decision context,
    available options, and current considerations in a structured format;
 
-   Consilio reviews this information, asking clarifying questions. You may want 
-   to go back and address these questions by revising your initial document. 
-   
-   When you feel that the clarifying questions coming from Consilio is no longer 
+   Consilio reviews this information, asking clarifying questions. You may want
+   to go back and address these questions by revising your initial document.
+
+   When you feel that the clarifying questions coming from Consilio is no longer
    adding much value. You are ready to proceed to the next step.
 
-2. **Assemble**: 
+2. **Assemble**:
 
    At this step, you work with Consilio to identify the additional perspectives
-   to bring to the table. 
+   to bring to the table.
 
    Consilio will suggest a list of perspectives, followed by questions for each
    of them and explains why the answer matters.
 
 3. **Consult**: systematically examines the options from multiple perspectives and weight the evidence
 
-   Consilio will pass the observation and the questions to each perspective to 
+   Consilio will pass the observation and the questions to each perspective to
    allow in-depth exploration from each perspective.
 
-   You may want to go back to the previous two steps based on the questions 
-   asked in these discussions. 
-   
+   You may want to go back to the previous two steps based on the questions
+   asked in these discussions.
+
 ## 3. Under the Hood
 
 ### 3.0 Define Context
@@ -137,23 +137,23 @@ $ consilio
    - Identifies relevant perspectives to consult
 4. Save response to `Observation.xml`:
 
-```xml
-<analysis>
-    [Detailed analysis of situation including:]
-    - Key elements breakdown
-    - Potential risks and opportunities 
-    - Alternative approaches
-    - Key stakeholders
-    - Short/long-term implications
-</analysis>
-<consult>
-    <perspective>
-        <title>[Perspective description]</title>
-        <question>[Information seeking details]</question>
-    </perspective>
-    [Additional perspectives...]
-</consult>
-```
+   ```xml
+   <analysis>
+      [Detailed analysis of situation including:]
+      - Key elements breakdown
+      - Potential risks and opportunities 
+      - Alternative approaches
+      - Key stakeholders
+      - Short/long-term implications
+   </analysis>
+   <consult>
+      <perspective>
+         <title>[Perspective description]</title>
+         <question>[Information seeking details]</question>
+      </perspective>
+      [Additional perspectives...]
+   </consult>
+   ```
 
 5. User reviews and can either:
    - Edit `Statement.md` and retry
@@ -168,21 +168,21 @@ $ consilio
    - Include original situation, advisor observations, and specific questions
 3. Save responses to `Perspectives.xml`:
 
-```xml
-<perspectives>
-    <perspective>
-        <thought_process>
-            - Key points summary
-            - Potential solutions analysis
-            - Reasoning explanation
-        </thought_process>
-        <answer>
-            [Concrete, actionable answers to questions]
-        </answer>
-    </perspective>
-    [Additional perspectives...]
-</perspectives>
-```
+   ```xml
+   <perspectives>
+      <perspective>
+         <thought_process>
+               - Key points summary
+               - Potential solutions analysis
+               - Reasoning explanation
+         </thought_process>
+         <answer>
+               [Concrete, actionable answers to questions]
+         </answer>
+      </perspective>
+      [Additional perspectives...]
+   </perspectives>
+   ```
 
 4. User reviews and can either:
    - Edit `Statement.md` and restart

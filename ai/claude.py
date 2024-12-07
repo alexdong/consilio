@@ -42,8 +42,8 @@ def query_claude(
 
 if __name__ == "__main__":
     response = query_claude(
-        user_prompt="My name is Alice.",
         system_prompt="Hello, I'm a bot. What's your name?",
+        user_prompt="My name is Alice.",
         assistant="It's good",
         temperature=0.9,
     )

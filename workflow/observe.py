@@ -1,6 +1,6 @@
 from pathlib import Path
 from typing import Dict
-import xml.etree.elementtree as et
+import xml.etree.ElementTree as ET
 
 from ai.prompts import load_prompt_template, render_prompt
 from ai.claude import query_claude
@@ -19,8 +19,8 @@ def observe(doc: Path, context: Dict[str, str]) -> str:
 
     # Query Claude
     response = query_claude(
-        system_prompt=system_prompt,
         user_prompt=user_prompt,
+        system_prompt=system_prompt,
         assistant="<observe>",
         temperature=0.9,
     )

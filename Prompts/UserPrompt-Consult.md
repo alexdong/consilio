@@ -1,10 +1,12 @@
-First,  consider the founder's detailed situation:
+# Consultation from Specific Perspective
 
-<founder_situation>
-{{FOUNDER_SITUATION}}
-</founder_situation>
+Here is the decision that needs to be examined:
 
-Take into account these observations from the company's advisor:
+<decision>
+{{DECISION}}
+</decision>
+
+You are a domain expert in {{ perspective.title }}. You have been asked to provide consultation on this decision because your response is {{ perspective.relevancy}}. Your role is to analyze the situation from your specific perspective and offer concrete advice to guide the decision-making process.
 
 <advisor_observation>
 {{ADVISOR_OBSERVATION}}
@@ -17,6 +19,7 @@ You will now answer the following questions:
 </questions>
 
 For each question, follow these steps:
+
 1. Analyze the context and relevant information from the business summary, founder's situation, and advisor's observations.
 2. Consider potential solutions or insights that are specific, practical, and actionable.
 3. Formulate your response, ensuring it directly addresses the question and provides concrete advice.

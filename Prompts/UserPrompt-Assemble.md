@@ -1,3 +1,5 @@
+# Assemble Decision Perspectives
+
 Here is the decision that needs to be examined:
 
 <decision>
@@ -54,12 +56,13 @@ Based on your analysis, present your final recommendations using the following s
 </perspectives>
 
 Remember:
+
 - Ensure that each perspective is clearly defined and distinct from the others.
 - Provide exactly 3 questions for each perspective.
 - For every question, include a clear explanation of how the answer will impact the decision-making process.
 - The goal is to identify perspectives that will provide a comprehensive understanding of the situation, potential consequences, and alternative approaches that may not have been initially considered.
 
-DO NOT output the analysis. 
+DO NOT output the analysis.
 DO respond with the <perspectives></perspectives>.
 
 Please proceed with your analysis and recommendations.
