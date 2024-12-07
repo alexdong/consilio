@@ -2,9 +2,8 @@ from pathlib import Path
 from typing import Dict
 import xml.etree.ElementTree as ET
 
-from ai.prompts import load_prompt_template, render_prompt
-from ai.claude import query_claude
-from utils import escape_xml_string
+from prompts import load_prompt_template, render_prompt
+from claude import query_claude
 
 
 def consult(doc: Path, assembly_instruction: str, context: Dict[str, str]) -> str:

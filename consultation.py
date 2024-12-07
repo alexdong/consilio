@@ -1,4 +1,3 @@
-from dataclasses import dataclass
 from pathlib import Path
 from typing import Dict
 import xml.etree.ElementTree as ET
@@ -8,62 +7,56 @@ from claude import query_claude
 from utils import escape_xml_string
 
 
-def assemble(doc: Path, context: Dict[str, str]) -> str:
-    print("[👀] Starting assemble phase...")
+def consult(doc: Path, assembly_instruction: str, context: Dict[str, str]) -> str:
+    print("[👀] Starting consultation phase...")
+
+    # Parse assembly instruction XML
+    root = ET.fromstring(assembly_instruction)
+    perspectives = root.findall(".//perspective")
 
     statement = doc.read_text()
-    prompts = load_prompt_template("Assemble")
-    system_prompt = render_prompt(prompts.system, context)
-    user_context = {"DECISION": statement}
-    user_context.update(context)
-    user_prompt = render_prompt(prompts.user, user_context)
+    prompts = load_prompt_template("Consult")
 
-    # Query Claude
-    response = query_claude(
-        user_prompt=user_prompt,
-        system_prompt=system_prompt,
-        assistant="<perspectives>",
-        temperature=0.8,
-    )
+    responses = []
+    for perspective in perspectives:
+        # Extract structured data from perspective XML
+        title_elem = perspective.find("title")
+        relevance_elem = perspective.find("relevance")
+        assert title_elem is not None and title_elem.text is not None, "Missing title"
+        assert (
+            relevance_elem is not None and relevance_elem.text is not None
+        ), "Missing relevance"
 
-    print("[✅] Assemble complete")
-    return "<perspectives>" + response.content
+        title = title_elem.text.strip()
+        relevance = relevance_elem.text.strip()
+        questions = [
+            q.text.strip()
+            for q in perspective.findall(".//question")
+            if q.text is not None
+        ]
 
+        # Build perspective context
+        perspective_context = {
+            "title": title,
+            "relevance": relevance,
+            "questions": "\n".join(f"- {q}" for q in questions),
+        }
+        user_context = {"DECISION": statement}
+        user_context.update(context)
+        user_context.update(perspective_context)
+        user_prompt = render_prompt(prompts.user, user_context)
 
-def xml_to_markdown(xml_string: str) -> str:
-    """Convert XML document to markdown format."""
-    # Parse XML
-    root = ET.fromstring(xml_string)
-
-    # Initialize markdown output
-    markdown = []
-
-    # Process each perspective
-    for perspective in root.findall("perspective"):
-        # Add title as h2
-        title_element = perspective.find("title")
-        title = title_element.text if title_element is not None else "No Title"
-        markdown.append(f"## {title}\n")
-
-        # Add relevance as italicized text
-        relevance_element = perspective.find("relevance")
-        relevance = (
-            relevance_element.text if relevance_element is not None else "No Relevance"
+        # Query Claude
+        response = query_claude(
+            user_prompt=user_prompt,
+            assistant="<opinion>",
+            temperature=0.8,
         )
-        markdown.append(f"*{relevance}*\n")
+        print(f"[🔍] Opinion from perspective: {title}\n{response}")
+        responses.append("<opinion>" + response.content)
 
-        # Process questions
-        questions = perspective.find("questions")
-        if questions is not None:
-            markdown.append("\n**Key Questions:**\n")
-            for question in questions.findall("question"):
-                markdown.append(f"- {question.text}\n")
-
-        # Add spacing between perspectives
-        markdown.append("\n")
-
-    # Join all lines and return
-    return "".join(markdown)
+    print("[✅] Consultation complete")
+    return "<opinions>" + "".join(responses) + "</opinions>"
 
 
 if __name__ == "__main__":
@@ -74,9 +67,23 @@ if __name__ == "__main__":
         "perspective": "bootstrapped founder, who successfully navigated pre-PMF phase with limited capital with a successful exit",
     }
     doc_path = Path(__file__).parent.parent / "Decisions/BankLoan.md"
-    response = assemble(doc=doc_path, context=context)
+    assembly_instruction = """
+        <perspectives>
+            <perspective>
+                <title>Exit-Experienced M&A Advisor specializing in small business sales</title>
+                <relevance>Critical for validating the feasibility and timeline of the traditional business unit sale, which directly impacts the need for and risk of the loan</relevance>
+                <questions>
+                    <question>Based on current market conditions, how realistic are the broker valuations, and what factors could extend the sale timeline beyond 6 months?</question>
+                    <question>What specific preparation steps could accelerate the sale process while maintaining optimal valuation?</question>
+                    <question>How might using the business as loan collateral impact potential buyers' interest or the sale process?</question>
+                </questions>
+            </perspective>
+        </perspectives>
+    """
+    response = consult(
+        doc=doc_path, assembly_instruction=assembly_instruction, context=context
+    )
     print(response)
-    print(xml_to_markdown(escape_xml_string(response)))
 
 #     response = escape_xml_string(
 #         """
