@@ -10,10 +10,21 @@ from utils import escape_xml_string
 def consult(doc: Path, assembly_instruction: str, context: Dict[str, str]) -> str:
     print("[👀] Starting consultation phase...")
 
-    # Load `assembly_instruction` as XML and look through each <perspective> under the <perspectives> element, pass its content into context["perspective"], AI!
+    # Parse assembly instruction XML
+    root = ET.fromstring(assembly_instruction)
+    perspectives = root.findall(".//perspective")
+    
     statement = doc.read_text()
     prompts = load_prompt_template("Consult")
-    user_context = {"DECISION": statement}
+    
+    responses = []
+    for perspective in perspectives:
+        # Extract perspective content and create context
+        perspective_text = "".join(perspective.itertext()).strip()
+        user_context = {
+            "DECISION": statement,
+            "perspective": perspective_text
+        }
     user_context.update(context)
     user_prompt = render_prompt(prompts.user, user_context)
 
