@@ -11,7 +11,7 @@ class ClaudeResponse:
 
 
 def query_claude(
-    system_prompt: str,
+    system_prompt: str,  # make this optional, AI!
     user_prompt: str,
     assistant: Optional[str] = None,
     temperature: float = 0.7,
