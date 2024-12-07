@@ -21,9 +21,14 @@ def consult(doc: Path, assembly_instruction: str, context: Dict[str, str]) -> st
     responses = []
     for perspective in perspectives:
         # Extract structured data from perspective XML
-        title = perspective.find("title").text.strip()
-        relevance = perspective.find("relevance").text.strip()
-        questions = [q.text.strip() for q in perspective.findall(".//question")]
+        title_elem = perspective.find("title")
+        relevance_elem = perspective.find("relevance")
+        assert title_elem is not None and title_elem.text is not None, "Missing title"
+        assert relevance_elem is not None and relevance_elem.text is not None, "Missing relevance"
+        
+        title = title_elem.text.strip()
+        relevance = relevance_elem.text.strip()
+        questions = [q.text.strip() for q in perspective.findall(".//question") if q.text is not None]
 
         # Build perspective context
         perspective_context = {
