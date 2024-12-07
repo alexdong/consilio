@@ -5,6 +5,7 @@ import xml.etree.ElementTree as ET
 from ai.prompts import load_prompt_template, render_prompt
 from ai.claude import query_claude
 from utils import escape_xml_string
+from utils.xml_to_markdown import xml_to_markdown
 
 
 def consult(doc: Path, assembly_instruction: str, context: Dict[str, str]) -> str:
