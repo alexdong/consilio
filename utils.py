@@ -208,5 +208,23 @@ def get_random_decision_quote():
     return f'"{quote}" - {author}'
 
 
+from datetime import datetime
+
+def generate_interaction_filename(action: str, perspective: str = None) -> str:
+    """Generate timestamped filename for saving interactions
+    
+    Args:
+        action: The action performed (observe, assemble, consult)
+        perspective: Optional perspective title for consult actions
+    """
+    # Use underscore within timestamp, but hyphen between timestamp and action
+    timestamp = datetime.now().strftime('%y%m%d_%H%M%S')
+    if perspective:
+        # Replace spaces and special chars with underscores for perspective
+        perspective_slug = perspective.replace(' ', '_').replace('-', '_')
+        return f"{timestamp}-consult_{perspective_slug}.md"
+    else:
+        return f"{timestamp}-{action}.md"
+
 # Example usage:
 # print(get_random_decision_quote())
