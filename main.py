@@ -1,6 +1,7 @@
 import sys
 from pathlib import Path
 from prompt_toolkit import PromptSession
+from prompt_toolkit.completion import WordCompleter
 from prompt_toolkit.shortcuts import clear
 from typing import Optional
 
@@ -20,17 +21,29 @@ def display_welcome():
 
 def run_repl(state: State):
     """Run the interactive REPL"""
-    session = PromptSession()
+    # Define valid commands and their completions
+    commands = {
+        'o': 'observe',
+        'c': 'consult'
+    }
+    
+    # Create completer with both short and full forms
+    command_completer = WordCompleter(['observe', 'consult', 'o', 'c'], ignore_case=True)
+    session = PromptSession(completer=command_completer)
     
     while True:
         try:
-            command = session.prompt("\nEnter command (observe/consult) or Ctrl+C to exit: ")
+            command = session.prompt("\nEnter command (O/C) or Ctrl+C to exit: ").lower()
             
-            if command == "observe":
+            # Normalize command - convert single letter to full command
+            if command in commands:
+                command = commands[command]
+            
+            if command in ['o', 'observe']:
                 result = observe.observe(state.doc_path, state.context)
                 print(observe.xml_to_markdown(result))
                 
-            elif command == "consult":
+            elif command in ['c', 'consult']:
                 # Step 1: Run assembly to get perspectives
                 assembly_result = assemble.assemble(state.doc_path, state.context)
                 print("\nHere are the perspectives identified:")
@@ -46,7 +59,7 @@ def run_repl(state: State):
                 print(result)  # This will show opinions from each perspective
                 
             else:
-                print("Invalid command. Please use 'observe' or 'consult'")
+                print("Invalid command. Please use 'O' or 'C' (or 'observe'/'consult')")
                 
         except KeyboardInterrupt:
             print("\nExiting Consilio...")
