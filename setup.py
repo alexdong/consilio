@@ -10,5 +10,6 @@ setup(
         'prompt-toolkit>=3.0.0',
         'PyYAML>=6.0.1',
         'Jinja2>=3.1.0',
+        'python-slugify>=8.0.1',
     ],
 )
