@@ -1,5 +1,8 @@
 better-exceptions
 prompt-toolkit
+Jinja2
+PyYAML
+python-slugify
 
 # Development tools
 ruff
@@ -10,14 +13,4 @@ pyright
 llm
 llm-claude-3
 aider-chat[playwright]
-anthropicanthropic>=0.8.0
-better-exceptions>=0.3.3
-prompt-toolkit>=3.0.0
-PyYAML>=6.0.1
-Jinja2>=3.1.0
-anthropic>=0.8.0
-better-exceptions>=0.3.3
-prompt-toolkit>=3.0.0
-PyYAML>=6.0.1
-Jinja2>=3.1.0
-python-slugify>=8.0.1
+anthropic
