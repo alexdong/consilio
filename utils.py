@@ -1,12 +1,13 @@
 import os
-from pathlib import Path
 import random
-from typing import Dict, Optional
+from datetime import datetime
+from functools import wraps
+from pathlib import Path
+from typing import Callable, Dict, Optional
 
 import yaml
 from dataclasses import dataclass
 from jinja2 import Template
-
 import anthropic
 
 
@@ -208,10 +209,6 @@ def get_random_decision_quote():
     return f'"{quote}" - {author}'
 
 
-from datetime import datetime
-from functools import wraps
-from pathlib import Path
-from typing import Callable, Optional
 
 def save_interaction(action: str):
     """Decorator to save interaction details to file
