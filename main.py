@@ -3,7 +3,7 @@ import click
 from pathlib import Path
 from typing import Optional
 
-from config import load_context
+from utils import load_context
 from cloud import init_cloud
 from workflow import WorkflowState, observe
 from storage import create_decision_dir

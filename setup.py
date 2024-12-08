@@ -8,5 +8,7 @@ setup(
         'better-exceptions',
         'prompt-toolkit',
         'anthropic',
+        'pyyaml',
+        'jinja2',
     ],
 )
