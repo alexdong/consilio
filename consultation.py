@@ -7,12 +7,11 @@ from claude import query_claude
 from utils import escape_xml_string
 
 
-def consult(doc: Path, assembly_instruction: str, context: Dict[str, str]) -> str:
+def consult(doc: Path, consult_instruction: str, context: Dict[str, str]) -> str:
     print("[👀] Starting consultation phase...")
-    print(f"assembly_instruction: {assembly_instruction}")
 
     # Parse assembly instruction XML
-    root = ET.fromstring(assembly_instruction)
+    root = ET.fromstring(consult_instruction)
     perspectives = root.findall(".//perspective")
 
     statement = doc.read_text()
@@ -38,9 +37,9 @@ def consult(doc: Path, assembly_instruction: str, context: Dict[str, str]) -> st
 
         # Build perspective context
         perspective_context = {
-            "perspective.title": title,
-            "perspective.relevance": relevance,
-            "perspective.questions": "\n".join(f"- {q}" for q in questions),
+            "perspective_title": title,
+            "perspective_relevance": relevance,
+            "perspective_questions": "\n".join(f"- {q}" for q in questions),
         }
         user_context = {"DECISION": statement}
         user_context.update(context)
@@ -50,7 +49,7 @@ def consult(doc: Path, assembly_instruction: str, context: Dict[str, str]) -> st
         # Query Claude
         response = query_claude(
             user_prompt=user_prompt,
-            assistant="<opinion>",
+            assistant=f"As an expert in {perspective_context['perspective_title']}, I'll",
             temperature=0.8,
         )
         print(f"[🔍] Opinion from perspective: {title}\n{response}")
@@ -68,7 +67,7 @@ if __name__ == "__main__":
         "perspective": "bootstrapped founder, who successfully navigated pre-PMF phase with limited capital with a successful exit",
     }
     doc_path = Path(__file__).parent / "Decisions/BankLoan.md"
-    assembly_instruction = escape_xml_string(
+    consult_instruction = escape_xml_string(
         """
         <perspectives>
             <perspective>
@@ -83,9 +82,9 @@ if __name__ == "__main__":
         </perspectives>
     """
     )
-    print(f"instruction: {assembly_instruction}")
+    print(f"instruction: {consult_instruction}")
     response = consult(
-        doc=doc_path, assembly_instruction=assembly_instruction, context=context
+        doc=doc_path, consult_instruction=consult_instruction, context=context
     )
     print(response)
 
