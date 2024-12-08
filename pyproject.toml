@@ -16,10 +16,21 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
+dependencies = [
+    "anthropic>=0.8.0",
+    "better-exceptions>=0.3.3",
+    "prompt-toolkit>=3.0.0",
+    "PyYAML>=6.0.1",
+    "Jinja2>=3.1.0",
+    "python-slugify>=8.0.1",
+]
 
 [project.urls]
 "Homepage" = "https://github.com/yourusername/consilio"
 "Bug Tracker" = "https://github.com/yourusername/consilio/issues"
 
 [project.scripts]
-consilio = "main:main"
+consilio = "consilio.main:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
