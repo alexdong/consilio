@@ -209,6 +209,54 @@ def get_random_decision_quote():
 
 
 from datetime import datetime
+from functools import wraps
+from pathlib import Path
+from typing import Callable, Optional
+
+def save_interaction(action: str):
+    """Decorator to save interaction details to file
+    
+    Args:
+        action: The type of interaction (observe, assemble, consult)
+    """
+    def decorator(func: Callable):
+        @wraps(func)
+        def wrapper(doc: Path, *args, **kwargs):
+            # Get perspective from kwargs if it exists (for consult)
+            perspective = kwargs.get('perspective_title') if 'perspective_title' in kwargs else None
+            
+            # Call the original function
+            response = func(doc, *args, **kwargs)
+            
+            # Generate filename and ensure directory exists
+            filename = generate_interaction_filename(action, perspective)
+            interaction_path = doc.parent / doc.stem / filename
+            interaction_path.parent.mkdir(parents=True, exist_ok=True)
+            
+            # Format the interaction content
+            interaction_content = f"""# {action.title()} Request
+"""
+            # Add perspective title for consult
+            if perspective:
+                interaction_content += f"\n## Perspective: {perspective}\n"
+
+            # Add prompts if they exist in kwargs
+            if 'system_prompt' in kwargs:
+                interaction_content += f"\n## System Prompt\n{kwargs['system_prompt']}\n"
+            if 'user_prompt' in kwargs:
+                interaction_content += f"\n## User Prompt\n{kwargs['user_prompt']}\n"
+            if 'assistant' in kwargs:
+                interaction_content += f"\n## Assistant Prefix\n{kwargs['assistant']}\n"
+
+            # Add response
+            interaction_content += f"\n# Response\n{response.content if hasattr(response, 'content') else response}\n"
+            
+            # Save to file
+            interaction_path.write_text(interaction_content)
+            
+            return response
+        return wrapper
+    return decorator
 
 def generate_interaction_filename(action: str, perspective: str = None) -> str:
     """Generate timestamped filename for saving interactions

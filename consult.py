@@ -6,6 +6,16 @@ from utils import load_prompt_template, render_prompt, query_claude
 from utils import escape_xml_string
 
 
+@save_interaction("consult")
+def get_perspective_opinion(doc: Path, title: str, user_prompt: str, assistant_prefix: str, perspective_title: str) -> str:
+    """Get opinion from a single perspective"""
+    response = query_claude(
+        user_prompt=user_prompt,
+        assistant=assistant_prefix,
+        temperature=0.8,
+    )
+    return response.content
+
 def consult(doc: Path, assembly_output: str, context: Dict[str, str]) -> str:
     print("[👀] Starting consultation phase...")
 
@@ -45,14 +55,16 @@ def consult(doc: Path, assembly_output: str, context: Dict[str, str]) -> str:
         user_context.update(perspective_context)
         user_prompt = render_prompt(prompts.user, user_context)
 
-        # Query Claude
-        response = query_claude(
+        # Get perspective opinion
+        response = get_perspective_opinion(
+            doc=doc,
+            title=title,
             user_prompt=user_prompt,
-            assistant=f"As an expert in {perspective_context['perspective_title']}, I'll",
-            temperature=0.8,
+            assistant_prefix=f"As an expert in {title}, I'll",
+            perspective_title=title
         )
         print(f"[🔍] Opinion from perspective: {title}\n{response}")
-        responses.append("<opinion>" + response.content)
+        responses.append("<opinion>" + response)
 
     print("[✅] Consultation complete")
     return "<opinions>" + "".join(responses) + "</opinions>"

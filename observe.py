@@ -5,6 +5,7 @@ import xml.etree.ElementTree as ET
 from utils import load_prompt_template, render_prompt, query_claude
 
 
+@save_interaction("observe")
 def observe(doc: Path, context: Dict[str, str]) -> str:
     """Run initial observation stage"""
     print("[👀] Starting observation phase...")

@@ -6,6 +6,7 @@ from utils import load_prompt_template, render_prompt, query_claude
 from utils import escape_xml_string
 
 
+@save_interaction("assemble")
 def assemble(doc: Path, context: Dict[str, str]) -> str:
     print("[👀] Starting assemble phase...")
 
