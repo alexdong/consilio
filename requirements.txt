@@ -6,18 +6,8 @@ ruff
 mypy
 pyright
 
-# Testing
-pytest 
-pytest-cov
-pytest-mock
-freezegun
-
 # AI tools
 llm
 llm-claude-3
 aider-chat[playwright]
 anthropic
-
-# Audio recording and transcription
-pyaudio
-openai
