@@ -7,11 +7,11 @@ from claude import query_claude
 from utils import escape_xml_string
 
 
-def consult(doc: Path, consult_instruction: str, context: Dict[str, str]) -> str:
+def consult(doc: Path, assembly_output: str, context: Dict[str, str]) -> str:
     print("[👀] Starting consultation phase...")
 
     # Parse assembly instruction XML
-    root = ET.fromstring(consult_instruction)
+    root = ET.fromstring(assembly_output)
     perspectives = root.findall(".//perspective")
 
     statement = doc.read_text()
@@ -67,7 +67,7 @@ if __name__ == "__main__":
         "perspective": "bootstrapped founder, who successfully navigated pre-PMF phase with limited capital with a successful exit",
     }
     doc_path = Path(__file__).parent / "Decisions/BankLoan.md"
-    consult_instruction = escape_xml_string(
+    assembly_output = escape_xml_string(
         """
         <perspectives>
             <perspective>
@@ -82,10 +82,8 @@ if __name__ == "__main__":
         </perspectives>
     """
     )
-    print(f"instruction: {consult_instruction}")
-    response = consult(
-        doc=doc_path, consult_instruction=consult_instruction, context=context
-    )
+    print(f"instruction: {assembly_output}")
+    response = consult(doc=doc_path, assembly_output=assembly_output, context=context)
     print(response)
 
 #     response = escape_xml_string(
