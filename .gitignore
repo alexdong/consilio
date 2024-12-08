@@ -1,6 +1,7 @@
 *.swp
 .DS_Store
 Decisions/
+.consilio_history.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
