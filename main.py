@@ -1,16 +1,15 @@
-import better_exceptions
 from dataclasses import dataclass
-from pathlib import Path
-from prompt_toolkit import PromptSession
-better_exceptions.hook()
-from prompt_toolkit.completion import WordCompleter
-from prompt_toolkit.shortcuts import clear
 import sys
 from typing import Dict, Optional
 
+import better_exceptions
+from pathlib import Path
+from prompt_toolkit import PromptSession
+from prompt_toolkit.completion import WordCompleter
+from prompt_toolkit.shortcuts import clear
+
 from utils import (
     load_context,
-    get_random_decision_quote,
     create_decision_dir,
     load_last_doc_path,
     save_last_doc_path,
@@ -18,6 +17,8 @@ from utils import (
 import observe
 import consult
 import assemble
+
+better_exceptions.hook()
 
 
 @dataclass
@@ -53,7 +54,7 @@ def run_repl(state: State):
     while True:
         try:
             command = session.prompt(
-                "\nEnter command O(bserve), C(onsult) or Ctrl+C to exit."
+                "\nEnter command O(bserve), C(onsult) or Ctrl+C to exit.\n> "
             ).lower()
 
             # Normalize command - convert single letter to full command
