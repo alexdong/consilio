@@ -90,7 +90,9 @@ def run_repl(state: State):
             print("\nExiting Consilio...")
             sys.exit(0)
         except Exception as e:
-            print(f"\nError: {str(e)}")
+            import traceback
+            print("\nError occurred:")
+            traceback.print_exc()
 
 
 def main(context_path: Optional[Path] = None, doc_path: Optional[Path] = None):
