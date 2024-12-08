@@ -2,16 +2,22 @@ from pathlib import Path
 from typing import Dict
 import xml.etree.ElementTree as ET
 
-from utils import load_prompt_template, render_prompt, query_claude, save_interaction, escape_xml_string
+from utils import (
+    load_prompt_template,
+    render_prompt,
+    query_claude,
+    save_interaction,
+    escape_xml_string,
+)
 
 
 @save_interaction("observe")
 def observe(doc: Path, context: Dict[str, str]) -> str:
     """Run initial observation stage"""
-    print("[👀] Starting observation phase...")
+    print("[👀] Analyse and prepare clarification questions ...")
 
     statement = doc.read_text()
-    prompts = load_prompt_template("Assemble")
+    prompts = load_prompt_template("Observe")
     system_prompt = render_prompt(prompts.system, context)
     user_prompt_data = {"DECISION": statement}
     user_prompt_data.update(context)
@@ -26,13 +32,11 @@ def observe(doc: Path, context: Dict[str, str]) -> str:
     )
 
     print("[✅] Observation complete")
-    escaped_content = escape_xml_string(response.content)
-    # Ensure we have valid XML by wrapping the content and removing any trailing whitespace
-    return "<observe>" + escaped_content.strip() + "</observe>"
+    return "<observe>" + response.content
 
 
 def xml_to_markdown(xml_string):
-    root = ET.fromstring(xml_string)
+    root = ET.fromstring(escape_xml_string(xml_string))
     markdown = ""
 
     # Process observations
