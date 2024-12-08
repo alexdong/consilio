@@ -91,7 +91,12 @@ def main(context_path: Optional[Path] = None, doc_path: Optional[Path] = None):
     context = load_context(context_path)
 
     if doc_path is None or not isinstance(doc_path, Path):
-        doc_path = Path(input("Enter path to decision document: "))
+        last_path = load_last_doc_path()
+        prompt = f"Enter path to decision document [{last_path}]: " if last_path else "Enter path to decision document: "
+        input_path = input(prompt)
+        doc_path = Path(input_path) if input_path else last_path
+        if doc_path:
+            save_last_doc_path(doc_path)
 
     # Create decision directory
     decision_dir = create_decision_dir(doc_path.stem)

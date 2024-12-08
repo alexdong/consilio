@@ -4,6 +4,7 @@ from datetime import datetime
 from functools import wraps
 from pathlib import Path
 from typing import Callable, Dict, Optional
+import json
 
 import yaml
 from dataclasses import dataclass
@@ -306,6 +307,22 @@ def generate_interaction_filename(action: str, perspective: str = None) -> str:
     else:
         return f"{timestamp}-{action}.md"
 
+
+def save_last_doc_path(path: Path) -> None:
+    """Save the last used document path"""
+    config = Path(".consilio_history.json")
+    data = {"last_doc_path": str(path)}
+    with open(config, "w") as f:
+        json.dump(data, f)
+
+def load_last_doc_path() -> Optional[Path]:
+    """Load the last used document path"""
+    config = Path(".consilio_history.json")
+    if config.exists():
+        with open(config) as f:
+            data = json.load(f)
+            return Path(data.get("last_doc_path"))
+    return None
 
 def create_decision_dir(decision_name: str) -> Path:
     """Create a directory for storing decision-related files
