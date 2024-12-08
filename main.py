@@ -15,8 +15,9 @@ def main(context: Optional[Path]) -> None:
     """Main entry point for Consilio"""
     print("[🤔] Initializing Consilio...")
 
-    ctx = load_context(context)
-    cloud_cfg = init_cloud()
+    # Initialize context and cloud config
+    load_context(context)
+    init_cloud()
 
     decision_type = click.prompt("Decision type", type=str)
     title = click.prompt("Decision title", type=str)
