@@ -1,6 +1,8 @@
+import better_exceptions
 from dataclasses import dataclass
 from pathlib import Path
 from prompt_toolkit import PromptSession
+better_exceptions.hook()
 from prompt_toolkit.completion import WordCompleter
 from prompt_toolkit.shortcuts import clear
 import sys
