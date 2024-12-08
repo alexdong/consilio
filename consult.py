@@ -7,7 +7,13 @@ from utils import escape_xml_string, save_interaction
 
 
 @save_interaction("consult")
-def get_perspective_opinion(doc: Path, title: str, user_prompt: str, assistant_prefix: str, perspective_title: str) -> str:
+def get_perspective_opinion(
+    doc: Path,
+    title: str,
+    user_prompt: str,
+    assistant_prefix: str,
+    perspective_title: str,
+) -> str:
     """Get opinion from a single perspective"""
     response = query_claude(
         user_prompt=user_prompt,
@@ -15,6 +21,7 @@ def get_perspective_opinion(doc: Path, title: str, user_prompt: str, assistant_p
         temperature=0.8,
     )
     return response.content
+
 
 def consult(doc: Path, assembly_output: str, context: Dict[str, str]) -> str:
     print("[👀] Starting consultation phase...")
@@ -61,7 +68,7 @@ def consult(doc: Path, assembly_output: str, context: Dict[str, str]) -> str:
             title=title,
             user_prompt=user_prompt,
             assistant_prefix=f"As an expert in {title}, I'll",
-            perspective_title=title
+            perspective_title=title,
         )
         print(f"[🔍] Opinion from perspective: {title}\n{response}")
         responses.append("<opinion>" + response)
@@ -73,8 +80,7 @@ def consult(doc: Path, assembly_output: str, context: Dict[str, str]) -> str:
 if __name__ == "__main__":
     context = {
         "domain": "NZ-based B2C iOS app startup that are pre-product-market-fit",
-        "user_role": "Founder",
-        "decision_type": "Financial",
+        "user_role": "Solo Founder",
         "perspective": "bootstrapped founder, who successfully navigated pre-PMF phase with limited capital with a successful exit",
     }
     doc_path = Path(__file__).parent / "Decisions/BankLoan.md"

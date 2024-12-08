@@ -36,7 +36,7 @@ def query_claude(
     user_prompt: str,
     system_prompt: Optional[str] = None,
     assistant: Optional[str] = None,
-    temperature: float = 0.7,
+    temperature: float = 0.8,
 ) -> ClaudeResponse:
     """Send query to Claude and get response"""
     client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
@@ -81,21 +81,25 @@ def load_context(config_path: Optional[Path] = None) -> Context:
     else:
         # Prompt user for context information
         print("\nNo context file found. Please provide the following information:")
-        domain = input("\nWhat is your domain? (e.g., 'NZ-based B2C iOS app startup that are pre-product-market-fit')\n> ")
-        user_role = input("\nWhat is your role? (e.g., 'Founder', 'CEO', 'Product Manager')\n> ")
-        perspective = input("\nWhat type of advisor perspective would be most valuable? (e.g., 'bootstrapped founder with successful exit')\n> ")
-        
+        domain = input(
+            "\nWhat is your domain? (e.g., 'NZ-based B2C iOS app startup that is pre product-market-fit')\n> "
+        )
+        user_role = input(
+            "\nWhat is your role? (e.g., 'Solo Founder', 'CEO', 'Product Manager, Marketer in a Startup')\n> "
+        )
+        perspective = input(
+            "\nWhat type of advisor perspective would be most valuable? (e.g., 'bootstrapped founder, who successfully navigated pre-PMF phase with limited capital with a successful exit')\n> "
+        )
+
         # Create data dictionary
-        data = {
-            "domain": domain,
-            "user_role": user_role,
-            "perspective": perspective
-        }
-        
+        data = {"domain": domain, "user_role": user_role, "perspective": perspective}
+
         # Ask if user wants to save this context
-        save = input("\nWould you like to save this context for future use? (y/N): ").lower()
-        if save in ['y', 'yes']:
-            with open(config_path, 'w') as f:
+        save = input(
+            "\nWould you like to save this context for future use? (y/N): "
+        ).lower()
+        if save in ["y", "yes"]:
+            with open(config_path, "w") as f:
                 yaml.dump(data, f)
             print(f"\nContext saved to {config_path}")
 
@@ -231,27 +235,31 @@ def get_random_decision_quote():
     return f'"{quote}" - {author}'
 
 
-
 def save_interaction(action: str):
     """Decorator to save interaction details to file
-    
+
     Args:
         action: The type of interaction (observe, assemble, consult)
     """
+
     def decorator(func: Callable):
         @wraps(func)
         def wrapper(doc: Path, *args, **kwargs):
             # Get perspective from kwargs if it exists (for consult)
-            perspective = kwargs.get('perspective_title') if 'perspective_title' in kwargs else None
-            
+            perspective = (
+                kwargs.get("perspective_title")
+                if "perspective_title" in kwargs
+                else None
+            )
+
             # Call the original function
             response = func(doc, *args, **kwargs)
-            
+
             # Generate filename and ensure directory exists
             filename = generate_interaction_filename(action, perspective)
             interaction_path = doc.parent / doc.stem / filename
             interaction_path.parent.mkdir(parents=True, exist_ok=True)
-            
+
             # Format the interaction content
             interaction_content = f"""# {action.title()} Request
 """
@@ -260,57 +268,64 @@ def save_interaction(action: str):
                 interaction_content += f"\n## Perspective: {perspective}\n"
 
             # Add prompts if they exist in kwargs
-            if 'system_prompt' in kwargs:
-                interaction_content += f"\n## System Prompt\n{kwargs['system_prompt']}\n"
-            if 'user_prompt' in kwargs:
+            if "system_prompt" in kwargs:
+                interaction_content += (
+                    f"\n## System Prompt\n{kwargs['system_prompt']}\n"
+                )
+            if "user_prompt" in kwargs:
                 interaction_content += f"\n## User Prompt\n{kwargs['user_prompt']}\n"
-            if 'assistant' in kwargs:
+            if "assistant" in kwargs:
                 interaction_content += f"\n## Assistant Prefix\n{kwargs['assistant']}\n"
 
             # Add response
             interaction_content += f"\n# Response\n{response.content if hasattr(response, 'content') else response}\n"
-            
+
             # Save to file
             interaction_path.write_text(interaction_content)
-            
+
             return response
+
         return wrapper
+
     return decorator
+
 
 def generate_interaction_filename(action: str, perspective: str = None) -> str:
     """Generate timestamped filename for saving interactions
-    
+
     Args:
         action: The action performed (observe, assemble, consult)
         perspective: Optional perspective title for consult actions
     """
     # Use underscore within timestamp, but hyphen between timestamp and action
-    timestamp = datetime.now().strftime('%y%m%d_%H%M%S')
+    timestamp = datetime.now().strftime("%y%m%d_%H%M%S")
     if perspective:
         # Replace spaces and special chars with underscores for perspective
-        perspective_slug = perspective.replace(' ', '_').replace('-', '_')
+        perspective_slug = perspective.replace(" ", "_").replace("-", "_")
         return f"{timestamp}-consult_{perspective_slug}.md"
     else:
         return f"{timestamp}-{action}.md"
 
+
 def create_decision_dir(decision_name: str) -> Path:
     """Create a directory for storing decision-related files
-    
+
     Args:
         decision_name: Name of the decision (usually from the markdown filename)
-        
+
     Returns:
         Path to the created directory
     """
     # Create base decisions directory if it doesn't exist
     decisions_dir = Path("Decisions")
     decisions_dir.mkdir(exist_ok=True)
-    
+
     # Create specific decision directory
     decision_dir = decisions_dir / decision_name
     decision_dir.mkdir(exist_ok=True)
-    
+
     return decision_dir
+
 
 # Example usage:
 # print(get_random_decision_quote())

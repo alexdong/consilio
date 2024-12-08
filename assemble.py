@@ -68,8 +68,7 @@ def xml_to_markdown(xml_string: str) -> str:
 if __name__ == "__main__":
     context = {
         "domain": "NZ-based B2C iOS app startup that are pre-product-market-fit",
-        "user_role": "Founder",
-        "decision_type": "Financial",
+        "user_role": "Solo Founder",
         "perspective": "bootstrapped founder, who successfully navigated pre-PMF phase with limited capital with a successful exit",
     }
     doc_path = Path(__file__).parent.parent / "Decisions/BankLoan.md"
