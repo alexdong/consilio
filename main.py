@@ -89,8 +89,9 @@ def run_repl(state: State):
         except KeyboardInterrupt:
             print("\nExiting Consilio...")
             sys.exit(0)
-        except Exception as e:
+        except Exception:
             import traceback
+
             print("\nError occurred:")
             traceback.print_exc()
 
@@ -105,7 +106,7 @@ def main(context_path: Optional[Path] = None, doc_path: Optional[Path] = None):
     if doc_path is None or not isinstance(doc_path, Path):
         last_path = load_last_doc_path()
         prompt = (
-            f"Enter path to decision document [{last_path}]: "
+            f"Enter path to decision document [{last_path}]: \n>"
             if last_path
             else "Enter path to decision document: "
         )
