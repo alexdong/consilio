@@ -1,5 +1,4 @@
-The detailed situation, including goals, context, options, and considerations have been provided. 
-
+The detailed situation, including goals, context, options, and considerations have been provided.
 
 <decision>
 {{DECISION}}
@@ -16,12 +15,12 @@ questions. Please follow these steps:
    - Identify potential risks, opportunities, and assumptions in the plan
    - Evaluate short-term and long-term implications of the decision
    - Wrap your analysis process inside <observations></observations> tags.  
-    
+
     <observations>
         <observation>[summary of the observation]</observation>
         [More observations]
     </observations>
- 
+
 3. Brainstorm 7-10 questions that explores and clarify information that is
 critical to the decision but is absent in the <situation></situation>.
 Prioritize areas where your questions could have the most significant impact
@@ -40,9 +39,8 @@ context and rationale behind asking it.
         [More questions]
     </questions>
 
-
 Remember, your goal at this step is not to provide answers, but to gain a
-comprehensive understanding of the context. 
+comprehensive understanding of the context.
 
 Provide deep, insightful clarification questions that challenge assumptions and
 explore potential issues the founder may not have considered. Prioritize depth
