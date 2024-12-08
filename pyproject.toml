@@ -17,6 +17,7 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
+    "anthropic>=0.8.0",
     "better-exceptions>=0.3.3",
     "prompt-toolkit>=3.0.0",
     "PyYAML>=6.0.1",
@@ -25,9 +26,6 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-ai = [
-    "anthropic>=0.8.0",
-]
 dev = [
     "ruff>=0.1.9",
     "twine>=4.0.2",

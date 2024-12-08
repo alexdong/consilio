@@ -30,10 +30,27 @@ decisions were made.
 
 Think of Consilio as the "formal scientific method".  It can be "slow, tedious, lumbering, laborious but invincible".
 
-## Get Started
+## Installation
 
 ```bash
-$ consilio Decisions/BankLoan.md
+pip install consilio
+```
+
+For development installation:
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/consilio.git
+cd consilio
+
+# Install in development mode with all dependencies
+pip install -e ".[dev]"
+```
+
+## Usage
+
+```bash
+# Create a new decision document
+consilio path/to/your/DECISION.md
 Welcome to Consilio. 
 
 May you make wise decisions.
@@ -83,3 +100,63 @@ consilio --context marketing.consilio.yml
 ```
 
 Further, the yaml settings can be overridden by the user at the start of the session.
+
+## Contributing
+
+Contributions are welcome! Here's how you can help:
+
+### Development Setup
+
+1. Fork the repository
+2. Clone your fork:
+   ```bash
+   git clone https://github.com/your-username/consilio.git
+   cd consilio
+   ```
+3. Install development dependencies:
+   ```bash
+   pip install -e ".[dev]"
+   ```
+
+### Development Workflow
+
+1. Create a new branch:
+   ```bash
+   git checkout -b feature-name
+   ```
+2. Make your changes
+3. Run the linter:
+   ```bash
+   make lint
+   ```
+4. Run the test suite:
+   ```bash
+   python -m pytest
+   ```
+5. Commit your changes:
+   ```bash
+   git commit -m "feat: Add new feature"
+   ```
+6. Push to your fork:
+   ```bash
+   git push origin feature-name
+   ```
+7. Open a Pull Request
+
+### Code Style
+
+- We use `ruff` for code formatting and linting
+- Follow PEP 8 guidelines
+- Write meaningful commit messages following [Conventional Commits](https://www.conventionalcommits.org/)
+
+### Running Tests
+
+```bash
+# Run the full test suite
+python -m pytest
+
+# Run with coverage report
+python -m pytest --cov=consilio tests/
+```
+
+Note: Test suite is currently under development.
