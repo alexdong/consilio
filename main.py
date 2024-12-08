@@ -5,10 +5,8 @@ from prompt_toolkit.completion import WordCompleter
 from prompt_toolkit.shortcuts import clear
 from typing import Optional
 
-from utils import load_context, get_random_decision_quote
+from utils import load_context, get_random_decision_quote, create_decision_dir
 from workflow import State
-from storage import create_decision_dir
-from storage import create_decision_dir
 import observe
 import consult
 import assemble

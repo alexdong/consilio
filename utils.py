@@ -293,5 +293,24 @@ def generate_interaction_filename(action: str, perspective: str = None) -> str:
     else:
         return f"{timestamp}-{action}.md"
 
+def create_decision_dir(decision_name: str) -> Path:
+    """Create a directory for storing decision-related files
+    
+    Args:
+        decision_name: Name of the decision (usually from the markdown filename)
+        
+    Returns:
+        Path to the created directory
+    """
+    # Create base decisions directory if it doesn't exist
+    decisions_dir = Path("Decisions")
+    decisions_dir.mkdir(exist_ok=True)
+    
+    # Create specific decision directory
+    decision_dir = decisions_dir / decision_name
+    decision_dir.mkdir(exist_ok=True)
+    
+    return decision_dir
+
 # Example usage:
 # print(get_random_decision_quote())
