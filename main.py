@@ -6,7 +6,13 @@ from prompt_toolkit.shortcuts import clear
 import sys
 from typing import Dict, Optional
 
-from utils import load_context, get_random_decision_quote, create_decision_dir
+from utils import (
+    load_context, 
+    get_random_decision_quote, 
+    create_decision_dir,
+    load_last_doc_path,
+    save_last_doc_path,
+)
 import observe
 import consult
 import assemble
