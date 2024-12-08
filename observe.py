@@ -27,7 +27,8 @@ def observe(doc: Path, context: Dict[str, str]) -> str:
 
     print("[✅] Observation complete")
     escaped_content = escape_xml_string(response.content)
-    return "<observe>" + escaped_content
+    # Ensure we have valid XML by wrapping the content and removing any trailing whitespace
+    return "<observe>" + escaped_content.strip() + "</observe>"
 
 
 def xml_to_markdown(xml_string):
