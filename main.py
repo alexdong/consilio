@@ -7,8 +7,8 @@ import sys
 from typing import Dict, Optional
 
 from utils import (
-    load_context, 
-    get_random_decision_quote, 
+    load_context,
+    get_random_decision_quote,
     create_decision_dir,
     load_last_doc_path,
     save_last_doc_path,
@@ -31,9 +31,10 @@ class State:
 def display_welcome():
     """Display welcome message and random quote"""
     clear()
-    print("Welcome to Consilio.\n")
-    print(get_random_decision_quote())
-    print("\nMay you make wise decisions.\n")
+    print("Welcome to Consilio.")
+    print("May you make wise decisions.")
+    print("=========================================\n")
+    # print(get_random_decision_quote())
 
 
 def run_repl(state: State):
@@ -98,7 +99,11 @@ def main(context_path: Optional[Path] = None, doc_path: Optional[Path] = None):
 
     if doc_path is None or not isinstance(doc_path, Path):
         last_path = load_last_doc_path()
-        prompt = f"Enter path to decision document [{last_path}]: " if last_path else "Enter path to decision document: "
+        prompt = (
+            f"Enter path to decision document [{last_path}]: "
+            if last_path
+            else "Enter path to decision document: "
+        )
         input_path = input(prompt)
         doc_path = Path(input_path) if input_path else last_path
         if doc_path:
