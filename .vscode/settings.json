@@ -5,7 +5,9 @@
     "consilium",
     "elem",
     "Jinja",
+    "pipx",
     "Pirsig",
+    "pytest",
     "Sowell"
   ]
 }

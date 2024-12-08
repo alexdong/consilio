@@ -33,17 +33,9 @@ Think of Consilio as the "formal scientific method".  It can be "slow, tedious, 
 ## Installation
 
 ```bash
-pip install consilio
-```
-
-For development installation:
-```bash
-# Clone the repository
-git clone https://github.com/yourusername/consilio.git
-cd consilio
-
-# Install in development mode with all dependencies
-pip install -e ".[dev]"
+pipx install consilio
+# or, if you prefer `uv`
+uv install consilio
 ```
 
 ## Usage
@@ -109,11 +101,14 @@ Contributions are welcome! Here's how you can help:
 
 1. Fork the repository
 2. Clone your fork:
+
    ```bash
    git clone https://github.com/your-username/consilio.git
    cd consilio
    ```
+
 3. Install development dependencies:
+
    ```bash
    pip install -e ".[dev]"
    ```
@@ -121,42 +116,38 @@ Contributions are welcome! Here's how you can help:
 ### Development Workflow
 
 1. Create a new branch:
+
    ```bash
    git checkout -b feature-name
    ```
+
 2. Make your changes
 3. Run the linter:
+
    ```bash
    make lint
    ```
+
 4. Run the test suite:
+
    ```bash
-   python -m pytest
+   make test
    ```
+
 5. Commit your changes:
+
    ```bash
    git commit -m "feat: Add new feature"
    ```
+
 6. Push to your fork:
+
    ```bash
    git push origin feature-name
    ```
+
 7. Open a Pull Request
 
 ### Code Style
 
-- We use `ruff` for code formatting and linting
-- Follow PEP 8 guidelines
-- Write meaningful commit messages following [Conventional Commits](https://www.conventionalcommits.org/)
-
-### Running Tests
-
-```bash
-# Run the full test suite
-python -m pytest
-
-# Run with coverage report
-python -m pytest --cov=consilio tests/
-```
-
-Note: Test suite is currently under development.
+Please refer to the [Python.md](Python.md) document for the coding style guide.
