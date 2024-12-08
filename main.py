@@ -9,6 +9,7 @@ from workflow import State
 from storage import create_decision_dir
 import observe
 import consult
+import assemble
 
 def display_welcome():
     """Display welcome message and random quote"""
@@ -27,10 +28,23 @@ def run_repl(state: State):
             
             if command == "observe":
                 result = observe.observe(state.doc_path, state.context)
-                print(result)
-            elif command == "consult": 
-                result = consult.consult(state.doc_path, "", state.context)
-                print(result)
+                print(observe.xml_to_markdown(result))
+                
+            elif command == "consult":
+                # Step 1: Run assembly to get perspectives
+                assembly_result = assemble.assemble(state.doc_path, state.context)
+                print("\nHere are the perspectives identified:")
+                print(assemble.xml_to_markdown(assembly_result))
+                
+                # Step 2: Ask for user confirmation
+                proceed = session.prompt("\nReady to proceed with consultation? (Y/n): ")
+                if proceed.lower() not in ['y', 'yes', '']:
+                    continue
+                
+                # Step 3: Run consultation with assembled perspectives
+                result = consult.consult(state.doc_path, assembly_result, state.context)
+                print(result)  # This will show opinions from each perspective
+                
             else:
                 print("Invalid command. Please use 'observe' or 'consult'")
                 
