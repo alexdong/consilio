@@ -2,7 +2,7 @@ from pathlib import Path
 from typing import Dict
 import xml.etree.ElementTree as ET
 
-from utils import load_prompt_template, render_prompt, query_claude, save_interaction
+from utils import load_prompt_template, render_prompt, query_claude, save_interaction, escape_xml_string
 
 
 @save_interaction("observe")
@@ -26,7 +26,8 @@ def observe(doc: Path, context: Dict[str, str]) -> str:
     )
 
     print("[✅] Observation complete")
-    return "<observe>" + response.content
+    escaped_content = escape_xml_string(response.content)
+    return "<observe>" + escaped_content
 
 
 def xml_to_markdown(xml_string):
