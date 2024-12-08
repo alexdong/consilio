@@ -70,12 +70,34 @@ class Context:
 
 
 def load_context(config_path: Optional[Path] = None) -> Context:
-    """Load context from yaml file"""
+    """Load context from yaml file or prompt user for input if file doesn't exist"""
     if not config_path:
         config_path = Path(".consilio.yml")
 
-    with open(config_path) as f:
-        data = yaml.safe_load(f)
+    # If config file exists, load it
+    if config_path.exists():
+        with open(config_path) as f:
+            data = yaml.safe_load(f)
+    else:
+        # Prompt user for context information
+        print("\nNo context file found. Please provide the following information:")
+        domain = input("\nWhat is your domain? (e.g., 'NZ-based B2C iOS app startup that are pre-product-market-fit')\n> ")
+        user_role = input("\nWhat is your role? (e.g., 'Founder', 'CEO', 'Product Manager')\n> ")
+        perspective = input("\nWhat type of advisor perspective would be most valuable? (e.g., 'bootstrapped founder with successful exit')\n> ")
+        
+        # Create data dictionary
+        data = {
+            "domain": domain,
+            "user_role": user_role,
+            "perspective": perspective
+        }
+        
+        # Ask if user wants to save this context
+        save = input("\nWould you like to save this context for future use? (y/N): ").lower()
+        if save in ['y', 'yes']:
+            with open(config_path, 'w') as f:
+                yaml.dump(data, f)
+            print(f"\nContext saved to {config_path}")
 
     return Context(**data)
 
