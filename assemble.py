@@ -8,7 +8,7 @@ from utils import escape_xml_string, save_interaction
 
 @save_interaction("assemble")
 def assemble(doc: Path, context: Dict[str, str]) -> str:
-    print("[👀] Starting assemble phase...")
+    print("[👀] Preparing an assembly of different perspectives ...")
 
     statement = doc.read_text()
     prompts = load_prompt_template("Assemble")
@@ -24,8 +24,6 @@ def assemble(doc: Path, context: Dict[str, str]) -> str:
         assistant="<perspectives>",
         temperature=0.8,
     )
-
-    print("[✅] Assemble complete")
     return "<perspectives>" + response.content
 
 
