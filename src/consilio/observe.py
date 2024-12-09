@@ -30,7 +30,6 @@ def observe(doc: Path, context: Dict[str, str]) -> str:
         assistant="<observe>",
         temperature=0.9,
     )
-
     print("[✅] Observation complete")
     return "<observe>" + response.content
 
