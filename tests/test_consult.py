@@ -44,10 +44,19 @@ def test_get_perspective_opinion(mock_query, mock_doc, mock_context):
     assert call_args["assistant"] == "test prefix"
     assert call_args["temperature"] == 0.8
 
-def test_consult(mock_doc, mock_context):
+@patch('consilio.consult.query_claude')
+def test_consult(mock_query, mock_doc, mock_context):
+    # Configure mock
+    mock_response = Mock()
+    mock_response.content = "Test opinion content"
+    mock_query.return_value = mock_response
+    
     result = consult(mock_doc, SAMPLE_XML, mock_context)
     
     # Verify result structure
     assert result.startswith("<opinions>")
     assert result.endswith("</opinions>")
     assert "<opinion>" in result
+    
+    # Verify Claude was called correctly
+    assert mock_query.call_count == 1  # One call per perspective in SAMPLE_XML
