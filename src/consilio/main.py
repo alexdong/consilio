@@ -14,9 +14,9 @@ from consilio.utils import (
     load_last_doc_path,
     save_last_doc_path,
 )
-import observe
-import consult
-import assemble
+from consilio import observe
+from consilio import consult
+from consilio import assemble
 
 better_exceptions.hook()
 
