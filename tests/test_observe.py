@@ -34,7 +34,8 @@ def test_observe(mock_query, mock_doc, mock_context):
     # Verify Claude was called correctly
     mock_query.assert_called_once()
     call_args = mock_query.call_args[1]
-    assert "test-domain" in call_args["user_prompt"]
+    assert "DECISION" in call_args["user_prompt"]
+    assert mock_context["domain"] in call_args["system_prompt"]
     assert call_args["temperature"] == 0.9
 
 def test_xml_to_markdown():
