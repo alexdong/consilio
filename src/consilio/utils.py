@@ -59,9 +59,9 @@ def query_claude(
         ],
     )
     content = "".join(
-        block.text 
-        for block in message.content 
-        if hasattr(block, 'type') and block.type == "text"
+        block.text
+        for block in message.content
+        if hasattr(block, "type") and block.type == "text"
     )
     return ClaudeResponse(content=content, raw=message.model_dump())
 
@@ -319,6 +319,7 @@ def save_last_doc_path(path: Path) -> None:
     with open(config, "w") as f:
         json.dump(data, f)
 
+
 def load_last_doc_path() -> Optional[Path]:
     """Load the last used document path"""
     config = Path(".consilio_history.json")
@@ -327,6 +328,7 @@ def load_last_doc_path() -> Optional[Path]:
             data = json.load(f)
             return Path(data.get("last_doc_path"))
     return None
+
 
 def create_decision_dir(decision_name: str) -> Path:
     """Create a directory for storing decision-related files
