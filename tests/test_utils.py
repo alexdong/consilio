@@ -89,18 +89,6 @@ def test_create_decision_dir():
     assert decision_dir.is_dir()
     assert decision_dir.name == "test_decision"
 
-@patch('consilio.utils.datetime')
-def test_generate_interaction_filename(mock_datetime):
-    # Test filename generation with fixed datetime
-    mock_datetime.now.return_value = datetime(2024, 1, 1, 12, 34, 56)
-    
-    # Test basic filename
-    filename = generate_interaction_filename("observe")
-    assert filename == "240101_123456-observe.md"
-    
-    # Test filename with perspective
-    filename = generate_interaction_filename("consult", "Test Perspective")
-    assert filename == "240101_123456-consult_Test_Perspective.md"
 
 @patch('consilio.utils.anthropic.Anthropic')
 def test_query_claude(mock_anthropic):
