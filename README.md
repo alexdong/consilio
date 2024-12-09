@@ -20,6 +20,11 @@ Consilio helps you make better decisions by focusing on two key actions:
 
 2. **Consult**: Assembling a group of relevant perspectives and seeking detailed, targeted opinions from them. Think of it as a vast support network of advisors.
 
+Consilio is designed to help you make better decisions by providing a structured way to think through important decisions.
+Here is a typical session where on the left on the screen, I am updating the decision document and on the right, I am interacting with Consilio.
+
+## Decision.md File
+
 To get started, create a **decision document**. This document captures:
 
 - The context of the decision
