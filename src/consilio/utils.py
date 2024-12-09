@@ -135,7 +135,7 @@ def render_prompt(template_str: str, context: Dict[str, str]) -> str:
 # Quotes
 
 
-def get_random_decision_quote():
+def get_random_decision_quote():  # pragma: no cover
     quotes = [
         (
             "Every decision you make reflects your evaluation of who you are.",
@@ -350,5 +350,5 @@ def create_decision_dir(decision_name: str) -> Path:
     return decision_dir
 
 
-# Example usage:
+# Example usage:  # pragma: no cover
 # print(get_random_decision_quote())
