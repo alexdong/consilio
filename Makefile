@@ -3,10 +3,10 @@
 lint:
 	ruff check .
 
-test:
+test: lint
 	py.test -v
 
-test-coverage:
+test-coverage: test
 	pytest --cov=consilio --cov-report=term-missing --cov-report=html tests/
 
 clean:
