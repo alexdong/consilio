@@ -1,10 +1,13 @@
-.PHONY: lint clean build release
+.PHONY: lint clean build release test test-coverage
 
 lint:
 	ruff check .
 
 test:
 	py.test -v
+
+test-coverage:
+	pytest --cov=consilio --cov-report=term-missing --cov-report=html tests/
 
 clean:
 	rm -rf build/ dist/ *.egg-info
