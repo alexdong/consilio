@@ -9,7 +9,8 @@
 
 ## Overview
 
-Consilio helps you make better decisions by focusing on two key actions:
+Consilio is designed to help you make better decisions by providing a structured way to think through important decisions.
+Consilio focuses on two key actions:
 
 1. **Clarify**: Asking independent questions like:
    - "Have you thought about ...?"
@@ -20,8 +21,8 @@ Consilio helps you make better decisions by focusing on two key actions:
 
 2. **Consult**: Assembling a group of relevant perspectives and seeking detailed, targeted opinions from them. Think of it as a vast support network of advisors.
 
-Consilio is designed to help you make better decisions by providing a structured way to think through important decisions.
 Here is a typical session where on the left on the screen, I am updating the decision document and on the right, I am interacting with Consilio.
+![Screenshot of a typical session with the decision document on the left and the consilio on the right](screenshot.jpg)
 
 ## Decision.md File
 
@@ -115,3 +116,11 @@ decisions were made.
 
 Please refer to the [CONTRIBUTING.md](CONTRIBUTING.md) document for the contribution guidelines.
 Please refer to the [Python.md](Python.md) document for the coding style guide.
+
+## Sponsor
+
+This project is sponsored by [Keepers](https://links.keepers.photos/crl9se).
+Are you a parent? Do you take a lot of photos of your kids?
+Then you should check out Keepers.
+
+Keepers is a free, privacy-first iOS app that uses AI to help parents organize their family photos.
