@@ -1,4 +1,3 @@
-import pytest
 import yaml
 from datetime import datetime
 from pathlib import Path
