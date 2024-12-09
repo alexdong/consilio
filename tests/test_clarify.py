@@ -67,7 +67,7 @@ def test_observe_main(mock_query, mock_doc, mock_context, monkeypatch):
     mock_path.read_text = lambda: "Test Content"
     
     # Run the main block
-    with patch("consilio.observe.Path") as mock_path_cls:
+    with patch("consilio.clarify.Path") as mock_path_cls:
         mock_path_cls.return_value = mock_path
         import consilio.clarify
         if hasattr(consilio.clarify, "__main__"):

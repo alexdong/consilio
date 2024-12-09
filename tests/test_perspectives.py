@@ -77,7 +77,7 @@ def test_consult_main(mock_query, mock_doc, mock_context, monkeypatch):
     mock_path.read_text = lambda: "Test Content"
     
     # Run the main block
-    with patch("consilio.consult.Path") as mock_path_cls:
+    with patch("consilio.perspectives.Path") as mock_path_cls:
         mock_path_cls.return_value = mock_path
         import consilio.perspectives
         if hasattr(consilio.perspectives, "__main__"):
