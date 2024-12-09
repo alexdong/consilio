@@ -135,17 +135,11 @@ Contributions are welcome! Here's how you can help:
    make lint
    ```
 
-4. Run the test suite with coverage:
+4. Run the test suite with coverage and make sure you have 100% coverage:
 
    ```bash
-   # Run tests with coverage report
-   pytest --cov=consilio --cov-report=term-missing
-
-   # Generate HTML coverage report
-   pytest --cov=consilio --cov-report=html
+   make test-coverage
    ```
-
-   The HTML report will be generated in the `htmlcov` directory. Open `htmlcov/index.html` in your browser to view detailed coverage information.
 
 5. Commit your changes:
 
