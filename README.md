@@ -9,43 +9,33 @@
 
 ## Overview
 
-Consilio helps you make better decisions but it does not make decisions for you. As Thomas Sowell said: “It is hard to imagine a more stupid or more dangerous way of making decisions than by putting those decisions in the hands of people who pay no price for being wrong.”
+Consilio helps you make better decisions by doing two things:
 
-Consilio leverages LLM by asking independent questions and seek out opinions from multiple perspectives. Think of it as a vast
-support network of advisors.  It asks you questions like "Have you thought about ...",  "What if ...", "Let's
-stress test it this way ...".  The kind of questions you often pay your
-advisors or boards for.
+1. clarify: asking independent questions like "Have you thought about ...",  "What if ...", "Let's
+   stress test it this way ...".  The kind of questions you often pay your advisors or boards for.
 
-Consilio is intentionally minimal. It is designed to be used
-in a command-line environment with a text editor (e.g., vim).
+2. consult: assemble a group of relevant perspectives and seek out
+   detailed, targeted opinions from them. Think of it as a vast
+   support network of advisors.  
 
-The core artefact Consilio works around is a single `DECISION.md` document. As
-you go through the thinking process, you will revise this document by answering
-the questions posed by Consilio.
+To get started, you need to create a decision document. This document
+captures the context of the decision, the questions you need to answer, and the
+opinions you gather and any other relevant information. This is a structured way to think through important decisions, with consilio or not.
 
-All intermediate steps are preserved in structured format within a date-stamped
-directory, creating a detailed record of the decision-making process. This
-allows for both immediate reference and retrospective review of how important
-decisions were made.
+As you interact with consilio, you will keep coming back to this document by addressing
+the questions posed by Consilio as well as giving feedback to the opinions gathered.
+I strongly recommend checking this file into your version control system so you have a
+record of the decision-making process.
 
-Think of Consilio as the "formal scientific method".  It can be "slow, tedious, lumbering, laborious but invincible".
+## Demo Session
 
-## Installation
-
-```bash
-pipx install consilio
-# or, if you prefer `uv`
-uv install consilio
-```
-
-## Usage
+Following is an example session:
 
 ```bash
 # Create a new decision document
-consilio path/to/your/DECISION.md
-Welcome to Consilio. 
-
-May you make wise decisions.
+$ consilio Decisions/BankLoan.md
+Welcome to Consilio
+-------------------
 
 Decision document: Decisions/BankLoan.md
 Domain: "a NZ-based B2C iOS app startup that are pre-product-market-fit"
@@ -57,7 +47,7 @@ CTRL+C to exit.
 
 > observe
 [Response in Markdown format]
-{You noticed that you need to provide more context. You update the document in your editor. Now, let's try again.}
+{You noticed that you need to provide more context. You update the document in your editor.  Now, let's try again.}
 > observe
 [...]
 {You are happy with the quality of the questions and decide to proceed.}
@@ -74,7 +64,19 @@ Are you ready to proceed to the consult step? (Y/n) Y
 CTRL+C received.  Exiting.
 ```
 
-### 3.0 Define Context
+## Get Started
+
+### Install
+
+```bash
+# Using `pipx` ... 
+pipx install consilio
+
+# or, if you prefer `uv`
+uv install consilio
+```
+
+### Configuration
 
 Create a new `.consilio.yml` file in the root directory with the following
 structure:
@@ -91,7 +93,12 @@ Consilio can load different context through the command line option.
 consilio --context marketing.consilio.yml
 ```
 
-Further, the yaml settings can be overridden by the user at the start of the session.
+### Paper Trail
+
+All intermediate steps are preserved in structured format within a date-stamped
+directory, creating a detailed record of the decision-making process. This
+allows for both immediate reference and retrospective review of how important
+decisions were made.
 
 ## Contributing
 

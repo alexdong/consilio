@@ -12,7 +12,7 @@ test-coverage:
 clean:
 	rm -rf build/ dist/ *.egg-info
 
-build: clean
+build: clean lint test
 	python -m build
 
 release: build

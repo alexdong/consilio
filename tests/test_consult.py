@@ -1,4 +1,3 @@
-import pytest
 from pathlib import Path
 from unittest.mock import Mock, patch
 from consilio.consult import consult, get_perspective_opinion

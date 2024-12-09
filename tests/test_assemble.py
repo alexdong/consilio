@@ -1,4 +1,3 @@
-import pytest
 from pathlib import Path
 from unittest.mock import Mock, patch
 from consilio.assemble import assemble, xml_to_markdown
