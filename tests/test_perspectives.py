@@ -43,7 +43,7 @@ def test_get_perspective_opinion(mock_query, mock_doc, mock_context):
     assert call_args["assistant"] == "test prefix"
     assert call_args["temperature"] == 0.8
 
-@patch('consilio.consult.query_claude')
+@patch('consilio.perspectives.query_claude')
 def test_perspectives(mock_query, mock_doc, mock_context):
     # Configure mock
     mock_response = Mock()

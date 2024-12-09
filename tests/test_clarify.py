@@ -50,7 +50,7 @@ def test_xml_to_markdown():
     assert "1. Test question 1?" in markdown
     assert "2. Test question 2?" in markdown
 
-@patch("consilio.observe.query_claude")
+@patch("consilio.clarify.query_claude")
 def test_observe_main(mock_query, mock_doc, mock_context, monkeypatch):
     # Mock Path.parent and Path.__truediv__
     mock_path = Mock()
