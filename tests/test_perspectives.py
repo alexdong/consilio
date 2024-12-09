@@ -17,7 +17,7 @@ SAMPLE_XML = """
 
 SAMPLE_OPINION = "This is a test opinion from the perspective."
 
-@patch('consilio.consult.query_claude')
+@patch('consilio.perspectives.query_claude')
 def test_get_perspective_opinion(mock_query, mock_doc, mock_context):
     # Configure mock
     mock_response = Mock()
@@ -79,6 +79,6 @@ def test_consult_main(mock_query, mock_doc, mock_context, monkeypatch):
     # Run the main block
     with patch("consilio.consult.Path") as mock_path_cls:
         mock_path_cls.return_value = mock_path
-        import consilio.consult
-        if hasattr(consilio.consult, "__main__"):
-            exec(consilio.consult.__main__)
+        import consilio.perspectives
+        if hasattr(consilio.perspectives, "__main__"):
+            exec(consilio.perspectives.__main__)

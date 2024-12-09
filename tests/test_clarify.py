@@ -16,7 +16,7 @@ SAMPLE_XML = """
 """
 
 
-@patch("consilio.observe.query_claude")
+@patch("consilio.clarify.query_claude")
 def test_clarify(mock_query, mock_doc, mock_context):
     # Configure mock
     mock_response = Mock()
@@ -69,6 +69,6 @@ def test_observe_main(mock_query, mock_doc, mock_context, monkeypatch):
     # Run the main block
     with patch("consilio.observe.Path") as mock_path_cls:
         mock_path_cls.return_value = mock_path
-        import consilio.observe
-        if hasattr(consilio.observe, "__main__"):
-            exec(consilio.observe.__main__)
+        import consilio.clarify
+        if hasattr(consilio.clarify, "__main__"):
+            exec(consilio.clarify.__main__)
