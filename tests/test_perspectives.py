@@ -60,8 +60,8 @@ def test_perspectives(mock_query, mock_doc, mock_context):
     # Verify Claude was called correctly
     assert mock_query.call_count == 1  # One call per perspective in SAMPLE_XML
 
-@patch('consilio.consult.query_claude')
-def test_consult_main(mock_query, mock_doc, mock_context, monkeypatch):
+@patch('consilio.perspectives.query_claude')
+def test_perspectives_main(mock_query, mock_doc, mock_context, monkeypatch):
     # Mock Path.parent and Path.__truediv__
     mock_path = Mock()
     mock_path.parent = mock_path
