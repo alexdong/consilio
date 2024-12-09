@@ -1,13 +1,15 @@
 import pytest
 from pathlib import Path
 
+
 @pytest.fixture
 def mock_context():
     return {
         "domain": "test-domain",
         "user_role": "test-role",
-        "perspective": "test-perspective"
+        "perspective": "test-perspective",
     }
+
 
 @pytest.fixture
 def mock_doc(tmp_path):

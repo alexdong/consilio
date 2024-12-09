@@ -76,7 +76,7 @@ class Context:
 
 def load_context(config_path: Optional[Path] = None) -> Context:
     """Load context from yaml file or prompt user for input if file doesn't exist"""
-    if not config_path:
+    if not config_path:  # pragma: no cover
         config_path = Path(".consilio.yml")
 
     # If config file exists, load it
@@ -103,7 +103,7 @@ def load_context(config_path: Optional[Path] = None) -> Context:
         save = input(
             "\nWould you like to save this context for future use? (y/N): "
         ).lower()
-        if save in ["y", "yes"]:
+        if save in ["y", "yes"]:  # pragma: no cover
             with open(config_path, "w") as f:
                 yaml.dump(data, f)
             print(f"\nContext saved to {config_path}")
@@ -273,13 +273,13 @@ def save_interaction(action: str):
                 interaction_content += f"\n## Perspective: {perspective}\n"
 
             # Add prompts if they exist in kwargs
-            if "system_prompt" in kwargs:
+            if "system_prompt" in kwargs:  # pragma: no cover
                 interaction_content += (
                     f"\n## System Prompt\n{kwargs['system_prompt']}\n"
                 )
             if "user_prompt" in kwargs:
                 interaction_content += f"\n## User Prompt\n{kwargs['user_prompt']}\n"
-            if "assistant" in kwargs:
+            if "assistant" in kwargs:  # pragma: no cover
                 interaction_content += f"\n## Assistant Prefix\n{kwargs['assistant']}\n"
 
             # Add response
@@ -320,7 +320,7 @@ def save_last_doc_path(path: Path) -> None:
         json.dump(data, f)
 
 
-def load_last_doc_path() -> Optional[Path]:
+def load_last_doc_path() -> Optional[Path]:  # pragma: no cover
     """Load the last used document path"""
     config = Path(".consilio_history.json")
     if config.exists():

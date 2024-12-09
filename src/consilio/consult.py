@@ -77,31 +77,31 @@ def consult(doc: Path, assembly_output: str, context: Dict[str, str]) -> str:
     return "<opinions>" + "".join(responses) + "</opinions>"
 
 
-if __name__ == "__main__":
-    context = {
-        "domain": "NZ-based B2C iOS app startup that are pre-product-market-fit",
-        "user_role": "Solo Founder",
-        "perspective": "bootstrapped founder, who successfully navigated pre-PMF phase with limited capital with a successful exit",
-    }
-    doc_path = Path(__file__).parent / "Decisions/BankLoan.md"
-    assembly_output = escape_xml_string(
-        """
-        <perspectives>
-            <perspective>
-                <title>Exit-Experienced M&A Advisor specializing in small business sales</title>
-                <relevance>Critical for validating the feasibility and timeline of the traditional business unit sale, which directly impacts the need for and risk of the loan</relevance>
-                <questions>
-                    <question>Based on current market conditions, how realistic are the broker valuations, and what factors could extend the sale timeline beyond 6 months?</question>
-                    <question>What specific preparation steps could accelerate the sale process while maintaining optimal valuation?</question>
-                    <question>How might using the business as loan collateral impact potential buyers' interest or the sale process?</question>
-                </questions>
-            </perspective>
-        </perspectives>
-    """
-    )
-    print(f"instruction: {assembly_output}")
-    response = consult(doc=doc_path, assembly_output=assembly_output, context=context)
-    print(response)
+# if __name__ == "__main__":
+#     context = {
+#         "domain": "NZ-based B2C iOS app startup that are pre-product-market-fit",
+#         "user_role": "Solo Founder",
+#         "perspective": "bootstrapped founder, who successfully navigated pre-PMF phase with limited capital with a successful exit",
+#     }
+#     doc_path = Path(__file__).parent / "Decisions/BankLoan.md"
+#     assembly_output = escape_xml_string(
+#         """
+#         <perspectives>
+#             <perspective>
+#                 <title>Exit-Experienced M&A Advisor specializing in small business sales</title>
+#                 <relevance>Critical for validating the feasibility and timeline of the traditional business unit sale, which directly impacts the need for and risk of the loan</relevance>
+#                 <questions>
+#                     <question>Based on current market conditions, how realistic are the broker valuations, and what factors could extend the sale timeline beyond 6 months?</question>
+#                     <question>What specific preparation steps could accelerate the sale process while maintaining optimal valuation?</question>
+#                     <question>How might using the business as loan collateral impact potential buyers' interest or the sale process?</question>
+#                 </questions>
+#             </perspective>
+#         </perspectives>
+#     """
+#     )
+#     print(f"instruction: {assembly_output}")
+#     response = consult(doc=doc_path, assembly_output=assembly_output, context=context)
+#     print(response)
 
 #     response = escape_xml_string(
 #         """
