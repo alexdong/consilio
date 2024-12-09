@@ -1,6 +1,6 @@
 from pathlib import Path
 from unittest.mock import Mock, patch
-from consilio.consult import perspectives, get_perspective_opinion
+from consilio.perspectives import perspectives, get_perspective_opinion
 
 SAMPLE_XML = """
 <perspectives>

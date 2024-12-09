@@ -14,8 +14,8 @@ from consilio.utils import (
     load_last_doc_path,
     save_last_doc_path,
 )
-from consilio import observe
-from consilio import consult
+from consilio import clarify
+from consilio import perspectives
 from consilio import assemble
 
 better_exceptions.hook()
@@ -62,8 +62,8 @@ def run_repl(state: State):
                 command = commands[command]
 
             if command in ["c", "clarify"]:
-                result = observe.clarify(state.doc_path, state.context)
-                print(observe.xml_to_markdown(result))
+                result = clarify.clarify(state.doc_path, state.context)
+                print(clarify.xml_to_markdown(result))
 
             elif command in ["p", "perspectives"]:
                 # Step 1: Run assembly to get perspectives
@@ -80,7 +80,7 @@ def run_repl(state: State):
 
                 # Step 3: Run consultation with assembled perspectives
                 assert state.doc_path is not None
-                result = consult.consult(state.doc_path, assembly_result, state.context)
+                result = perspectives.perspectives(state.doc_path, assembly_result, state.context)
                 print(result)  # This will show opinions from each perspective
 
             else:

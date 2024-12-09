@@ -1,6 +1,6 @@
 from pathlib import Path
 from unittest.mock import Mock, patch
-from consilio.observe import clarify, xml_to_markdown
+from consilio.clarify import clarify, xml_to_markdown
 
 SAMPLE_XML = """
 <observe>
