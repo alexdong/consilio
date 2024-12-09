@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "consilio"
-version = "0.1"
+version = "0.1.1"
 authors = [
     { name="Alex Dong", email="me@alexdong.com" },  
 ]
