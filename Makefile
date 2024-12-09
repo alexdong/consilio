@@ -4,7 +4,7 @@ lint:
 	ruff check .
 
 test:
-	pytest
+	py.test -v
 
 clean:
 	rm -rf build/ dist/ *.egg-info
