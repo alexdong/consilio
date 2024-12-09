@@ -108,8 +108,8 @@ def test_query_claude(mock_anthropic):
     # Test Claude API interaction
     mock_client = Mock()
     mock_response = Mock()
-    mock_response.content = [{"type": "text", "text": "test response"}]
-    mock_response.model_dump.return_value = {"content": "test response"}
+    mock_response.content = [Mock(type="text", text="test response")]
+    mock_response.model_dump.return_value = {"content": [{"type": "text", "text": "test response"}]}
     mock_client.messages.create.return_value = mock_response
     mock_anthropic.return_value = mock_client
 

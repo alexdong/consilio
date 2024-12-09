@@ -58,7 +58,11 @@ def query_claude(
             },
         ],
     )
-    content = "".join(block.text for block in message.content if block.type == "text")
+    content = "".join(
+        block.text 
+        for block in message.content 
+        if hasattr(block, 'type') and block.type == "text"
+    )
     return ClaudeResponse(content=content, raw=message.model_dump())
 
 
