@@ -60,3 +60,26 @@ def test_consult(mock_query, mock_doc, mock_context):
     
     # Verify Claude was called correctly
     assert mock_query.call_count == 1  # One call per perspective in SAMPLE_XML
+
+@patch('consilio.consult.query_claude')
+def test_consult_main(mock_query, mock_doc, mock_context, monkeypatch):
+    # Mock Path.parent and Path.__truediv__
+    mock_path = Mock()
+    mock_path.parent = mock_path
+    mock_path.__truediv__ = lambda self, x: mock_path
+    monkeypatch.setattr(Path, "__new__", lambda cls, *args, **kwargs: mock_path)
+    
+    # Configure mock response
+    mock_response = Mock()
+    mock_response.content = "Test opinion content"
+    mock_query.return_value = mock_response
+    
+    # Mock read_text
+    mock_path.read_text = lambda: "Test Content"
+    
+    # Run the main block
+    with patch("consilio.consult.Path") as mock_path_cls:
+        mock_path_cls.return_value = mock_path
+        import consilio.consult
+        if hasattr(consilio.consult, "__main__"):
+            exec(consilio.consult.__main__)

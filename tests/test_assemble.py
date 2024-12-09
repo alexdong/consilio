@@ -48,3 +48,26 @@ def test_xml_to_markdown():
     assert "*Test relevance*" in markdown
     assert "- Test question 1?" in markdown
     assert "- Test question 2?" in markdown
+
+@patch("consilio.assemble.query_claude")
+def test_assemble_main(mock_query, mock_doc, mock_context, monkeypatch):
+    # Mock Path.parent and Path.__truediv__
+    mock_path = Mock()
+    mock_path.parent = mock_path
+    mock_path.__truediv__ = lambda self, x: mock_path
+    monkeypatch.setattr(Path, "__new__", lambda cls, *args, **kwargs: mock_path)
+    
+    # Configure mock response
+    mock_response = Mock()
+    mock_response.content = SAMPLE_XML
+    mock_query.return_value = mock_response
+    
+    # Mock read_text
+    mock_path.read_text = lambda: "Test Content"
+    
+    # Run the main block
+    with patch("consilio.assemble.Path") as mock_path_cls:
+        mock_path_cls.return_value = mock_path
+        import consilio.assemble
+        if hasattr(consilio.assemble, "__main__"):
+            exec(consilio.assemble.__main__)
