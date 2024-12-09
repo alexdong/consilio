@@ -2,8 +2,8 @@ from pathlib import Path
 from typing import Dict
 import xml.etree.ElementTree as ET
 
-from utils import load_prompt_template, render_prompt, query_claude
-from utils import escape_xml_string, save_interaction
+from consilio.utils import load_prompt_template, render_prompt, query_claude
+from consilio.utils import escape_xml_string, save_interaction
 
 
 @save_interaction("consult")

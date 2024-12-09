@@ -2,7 +2,7 @@ from pathlib import Path
 from typing import Dict
 import xml.etree.ElementTree as ET
 
-from utils import (
+from consilio.utils import (
     load_prompt_template,
     render_prompt,
     query_claude,
