@@ -8,7 +8,7 @@ from prompt_toolkit import PromptSession
 from prompt_toolkit.completion import WordCompleter
 from prompt_toolkit.shortcuts import clear
 
-from utils import (
+from consilio.utils import (
     load_context,
     create_decision_dir,
     load_last_doc_path,
