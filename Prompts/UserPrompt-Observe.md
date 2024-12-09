@@ -46,35 +46,19 @@ Provide deep, insightful clarification questions that challenge assumptions and
 explore potential issues the founder may not have considered. Prioritize depth
 and potential impact over surface-level inquiries.
 
-Please produce your response to conform to the following schema:
+Please produce your response to the following structure:
 
 ```md
-<?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
-    <!-- Define the root element -->
-    <xs:element name="observe">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="observations" type="observationsType"/>
-                <xs:element name="questions" type="questionsType"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-    
-    <!-- Define the observations section -->
-    <xs:complexType name="observationsType">
-        <xs:sequence>
-            <xs:element name="observation" type="xs:string" maxOccurs="unbounded"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <!-- Define the questions section -->
-    <xs:complexType name="questionsType">
-        <xs:sequence>
-            <xs:element name="question" type="xs:string" maxOccurs="unbounded"/>
-        </xs:sequence>
-    </xs:complexType>
-</xs:schema>
+<observe>
+    <observations>
+        <observation>Test observation 1</observation>
+        <observation>Test observation 2</observation>
+    </observations>
+    <questions>
+        <question>Test question 1?</question>
+        <question>Test question 2?</question>
+    </questions>
+</observe>
 ```
 
 Please proceed with your observations.
