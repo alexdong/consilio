@@ -17,14 +17,14 @@ SAMPLE_XML = """
 
 
 @patch("consilio.observe.query_claude")
-def test_observe(mock_query, mock_doc, mock_context):
+def test_clarify(mock_query, mock_doc, mock_context):
     # Configure mock
     mock_response = Mock()
     mock_response.content = SAMPLE_XML
     mock_query.return_value = mock_response
 
     # Call function
-    result = observe(mock_doc, mock_context)
+    result = clarify(mock_doc, mock_context)
 
     # Verify result
     assert result.startswith("<observe>")

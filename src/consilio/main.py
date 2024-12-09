@@ -43,29 +43,29 @@ def display_welcome():
 def run_repl(state: State):
     """Run the interactive REPL"""
     # Define valid commands and their completions
-    commands = {"o": "observe", "c": "consult"}
+    commands = {"c": "clarify", "p": "perspectives"}
 
     # Create completer with both short and full forms
     command_completer = WordCompleter(
-        ["observe", "consult", "o", "c"], ignore_case=True
+        ["clarify", "perspectives", "c", "p"], ignore_case=True
     )
     session: PromptSession = PromptSession(completer=command_completer)
 
     while True:
         try:
             command = session.prompt(
-                "\nEnter command O(bserve), C(onsult) or Ctrl+C to exit.\n> "
+                "\nEnter command C(larify), P(erspectives) or Ctrl+C to exit.\n> "
             ).lower()
 
             # Normalize command - convert single letter to full command
             if command in commands:
                 command = commands[command]
 
-            if command in ["o", "observe"]:
-                result = observe.observe(state.doc_path, state.context)
+            if command in ["c", "clarify"]:
+                result = observe.clarify(state.doc_path, state.context)
                 print(observe.xml_to_markdown(result))
 
-            elif command in ["c", "consult"]:
+            elif command in ["p", "perspectives"]:
                 # Step 1: Run assembly to get perspectives
                 assembly_result = assemble.assemble(state.doc_path, state.context)
                 print("\nHere are the perspectives identified:")

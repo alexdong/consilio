@@ -11,10 +11,10 @@ from consilio.utils import (
 )
 
 
-@save_interaction("observe")
-def observe(doc: Path, context: Dict[str, str]) -> str:
-    """Run initial observation stage"""
-    print("[👀] Analyse and prepare clarification questions ...")
+@save_interaction("clarify")
+def clarify(doc: Path, context: Dict[str, str]) -> str:
+    """Run initial clarification stage"""
+    print("[👀] Analyzing and preparing clarification questions ...")
 
     statement = doc.read_text()
     prompts = load_prompt_template("Observe")

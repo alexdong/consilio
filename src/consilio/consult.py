@@ -23,8 +23,8 @@ def get_perspective_opinion(
     return response.content
 
 
-def consult(doc: Path, assembly_output: str, context: Dict[str, str]) -> str:
-    print("[👀] Starting consultation phase...")
+def perspectives(doc: Path, assembly_output: str, context: Dict[str, str]) -> str:
+    print("[👀] Starting perspectives analysis...")
 
     # Parse assembly instruction XML
     root = ET.fromstring(assembly_output)

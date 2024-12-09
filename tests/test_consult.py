@@ -44,13 +44,13 @@ def test_get_perspective_opinion(mock_query, mock_doc, mock_context):
     assert call_args["temperature"] == 0.8
 
 @patch('consilio.consult.query_claude')
-def test_consult(mock_query, mock_doc, mock_context):
+def test_perspectives(mock_query, mock_doc, mock_context):
     # Configure mock
     mock_response = Mock()
     mock_response.content = "Test opinion content"
     mock_query.return_value = mock_response
     
-    result = consult(mock_doc, SAMPLE_XML, mock_context)
+    result = perspectives(mock_doc, SAMPLE_XML, mock_context)
     
     # Verify result structure
     assert result.startswith("<opinions>")

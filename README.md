@@ -42,16 +42,16 @@ Domain: "a NZ-based B2C iOS app startup that are pre-product-market-fit"
 Advisor Perspective: "an bootstrapped B2C founder, who successfully navigated pre-PMF phase with limited capital. , living outside of US but your main market is US."
 User Role:"Solo Founder"
 
-Get get started, please select one of the following actions: observe, consult.
+Get get started, please select one of the following actions: clarify, perspectives.
 CTRL+C to exit.
 
-> observe
+> clarify
 [Response in Markdown format]
 {You noticed that you need to provide more context. You update the document in your editor.  Now, let's try again.}
 > observe
 [...]
 {You are happy with the quality of the questions and decide to proceed.}
-> consult
+> perspectives
 [Response from the assembly step]
 Are you ready to proceed to the consult step? (Y/n) Y
 [Opinions from each perspectives]
