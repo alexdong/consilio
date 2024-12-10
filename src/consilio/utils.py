@@ -59,7 +59,7 @@ def query_claude(
         ],
     )
     content = "".join(
-        block.text
+        escape_xml_string(block.text)
         for block in message.content
         if hasattr(block, "type") and block.type == "text"
     )

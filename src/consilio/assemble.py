@@ -54,7 +54,7 @@ def xml_to_markdown(xml_string: str) -> str:
         if questions is not None:
             markdown.append("\n**Key Questions:**\n")
             for question in questions.findall("question"):
-                markdown.append(f"- {question.text}\n")
+                markdown.append(f"- {question.text.strip()}\n")
 
         # Add spacing between perspectives
         markdown.append("\n")

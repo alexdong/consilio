@@ -32,4 +32,8 @@ c. Explain the reasoning behind the chosen solution or advice.
 [Your concrete, actionable answer to the question]
 </answer>
 
+<recommendation>
+[Imagine you have already run a monte carlo simulation, what's your expected betting odds to each option presented. ]
+</recommendation>
+
 Remember to maintain the perspective of a "{{perspective_title}}" throughout your analysis and answers. Begin your response by acknowledging your role and the task at hand.

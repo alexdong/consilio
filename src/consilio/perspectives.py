@@ -70,8 +70,7 @@ def perspectives(doc: Path, assembly_output: str, context: Dict[str, str]) -> st
             assistant_prefix=f"As an expert in {title}, I'll",
             perspective_title=title,
         )
-        print(f"[🔍] Opinion from perspective: {title}\n{response}")
-        responses.append("<opinion>" + response)
+        responses.append(f"\n\n<opinion role='{title}'>" + response + "\n")
 
     print("[✅] Consultation complete")
     return "<opinions>" + "".join(responses) + "</opinions>"
