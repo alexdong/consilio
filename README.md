@@ -1,4 +1,4 @@
-# Consilio: A Personal Decision Making Tool
+# Consilio: AI assistant for Type-1 Decisions
 
 > "Consilio" is a Latin term that embodies concepts such as counsel,
 > deliberation, and wisdom. In ancient times, "consilium" referred to a group
@@ -9,8 +9,7 @@
 
 ## Overview
 
-Consilio is designed to help you make better decisions by providing a structured way to think through important decisions.
-Consilio focuses on two key actions:
+Consilio helps you make better decisions. It focuses on three key aspects of decision-making:
 
 1. **Clarify**: Asking independent questions like:
    - "Have you thought about ...?"
@@ -19,23 +18,33 @@ Consilio focuses on two key actions:
 
    These are the kinds of questions you might expect from trusted advisors or boards.
 
-2. **Consult**: Assembling a group of relevant perspectives and seeking detailed, targeted opinions from them. Think of it as a vast support network of advisors.
+2. **Assemble**: Gather opposing perspectives from a diverse group of angles. For example:
+    - For "Early-stage VC", an opposite perspective might be "Growth-stage VC" and "Bootstrapped founder".
+    - For "Mental health and wellbeing specialist", an opposite perspective might be "Personal Growth and Resilience Coach".
+    
+3. **Consult**: Pose detailed, targeted questions to each pair of opposing perspectives to get opinions. 
 
 Here is a typical session where on the left on the screen, I am updating the decision document and on the right, I am interacting with Consilio.
 ![Screenshot of a typical session with the decision document on the left and the consilio on the right](screenshot.jpg)
 
-## Decision.md File
+## Decision Document
 
-To get started, create a **decision document**. This document captures:
+Consilio is a database free program. Every interaction is saved as 
+a markdown file. Use your unix power tools to review responses and search
+for discussions from past decisions.
+
+At the center is a **Decision Document**, which captures
 
 - The context of the decision
 - The questions you need to answer
 - The opinions you gather
 - Any other relevant information
 
-It provides a structured way to think through important decisions, with or without Consilio.
+Think of the decision document as an Amazon 6-page memo. As you interact with
+Consilio, you will refine this document by addressing the questions it poses
+and giving feedback on the gathered opinions. 
 
-As you interact with Consilio, you will refine this document by addressing the questions it poses and giving feedback on the gathered opinions.  
+Think of consilio as your pair-programming buddy who helps you write the memo.
 **Tip**: Check this document into your version control system to maintain a record of your decision-making process.
 
 ## Demo Session
@@ -43,34 +52,101 @@ As you interact with Consilio, you will refine this document by addressing the q
 Following is an example session:
 
 ```bash
-# Create a new decision document
-$ consilio Decisions/BankLoan.md
-Welcome to Consilio
--------------------
+$ cons init
 
-Decision document: Decisions/BankLoan.md
-Domain: "a NZ-based B2C iOS app startup that are pre-product-market-fit"
-Advisor Perspective: "an bootstrapped B2C founder, who successfully navigated pre-PMF phase with limited capital. , living outside of US but your main market is US."
-User Role:"Solo Founder"
+Creating configuration file at ./consilio.json
 
-Enter command C(larify), P(erspectives) or Ctrl+C to exit.
-> C
-[Response in Markdown format]
-{You noticed that you need to provide more context. You update the document in your editor.  Now, let's try again.}
-> C
-[...]
-{You are happy with the quality of the questions and decide to proceed.}
-> P
-[Response from the assembly step]
-Are you ready to proceed to the consult step? (Y/n) Y
-[Opinions from each perspectives]
-{You noticed a gap in the information and decide to go back to the observe step.}
-> C
-[...]
+* Please describe the user role: Solo Founder
+* Please describe the decision domain: a NZ-based B2C iOS app startup that are pre-product-market-fit
+* Please describe the facilitator role: an bootstrapped B2C founder, who successfully navigated pre-PMF phase with limited capital. Living outside of US with the main market as US.
 
-{When you gut feel tells you that you have enough information to make a decision. }
+Consilio is ready to help you make better decisions. You can edit the ./consilio.json file to update the configuration.
 
-CTRL+C received.  Exiting.
+Next steps:
+- `cons discuss` - Select an individual perspective to interview.
+- `cons meeting` - Refresh the perspective pairs.
+- `cons debate` - Pose detailed, targeted questions to all perspectives.
+
+
+$ cons edit
+Opening ./consilio.md in your $EDITOR
+...
+
+
+$ cons perspectives 
+* Please specify the number of perspectives: 5
+
+Defining Perspectives ...
+
+1. The Skeptical Investor (Risk-Averse & Bottom-Line Focused)
+2. The Competitor's Advocate (Competitive Analysis & Differentiation Focused)
+3. The Customer-Centric Advisor (Market Validation & User Focus)
+4. The "Future of the Space" Visionary (Long-Term Growth Potential)
+5. The "Devil's Advocate" (Every Assumption Challenged)
+
+
+$ cons clarify
+Available perspective pairs:
+1. The Skeptical Investor (Risk-Averse & Bottom-Line Focused)
+2. The Competitor's Advocate (Competitive Analysis & Differentiation Focused)
+3. The Customer-Centric Advisor (Market Validation & User Focus)
+4. The "Future of the Space" Visionary (Long-Term Growth Potential)
+5. The "Devil's Advocate" (Every Assumption Challenged)
+
+Please select the perspective pair: 2
+Please enter the number of questions you would like to ask: 5
+
+Getting clarification questions for perspective pair ...
+
+Questions:
+
+  - Have you thought about the potential risks of this decision? 
+
+    This question is designed to help you think about the potential downsides
+    of the decision you are considering. It is important to consider the risks
+    associated with any decision you make, as these risks can have a
+    significant impact on the outcome of your decision.
+
+  - What are the key metrics you would use to evaluate the success of this
+    decision?
+
+    This question is designed to help you think about the key metrics you would
+    use to evaluate the success of the decision you are considering. It is
+    important to have clear metrics in place to measure the impact of your
+    decision and determine whether it has been successful.
+
+  - What are the potential challenges you foresee in implementing this decision?
+
+    This question is designed to help you think about the potential challenges
+    you may face in implementing the decision you are considering. It is
+    important to anticipate and plan for these challenges in order to increase
+    the likelihood of success.
+
+  - What are the potential opportunities you see in this decision?
+
+    This question is designed to help you think about the potential
+    opportunities that may arise from the decision you are considering. It is
+    important to identify and capitalize on these opportunities in order to
+    maximize the benefits of your decision.
+
+  - What are the potential risks of not making this decision?
+
+    This question is designed to help you think about the potential risks of
+    not making the decision you are considering. It is important to consider
+    the consequences of inaction and the risks associated with not making a
+    decision in order to make an informed choice.
+
+
+$ cons meeting
+Please describe the meeting agenda: 
+
+$ cons consult
+
+Please select the perspective pair: 2
+Please enter the question: What's the top risk that have not been addressed?
+
+Consulting perspectives ...
+
 ```
 
 ## Get Started
