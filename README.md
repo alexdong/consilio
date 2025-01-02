@@ -1,4 +1,4 @@
-# Consilio: AI assistant for Type-1 Decisions
+# Consilio: AI Faciliatated Panel Discussion
 
 > "Consilio" is a Latin term that embodies concepts such as counsel,
 > deliberation, and wisdom. In ancient times, "consilium" referred to a group
@@ -7,29 +7,345 @@
 > strategic thinking and prudent decision-making, emphasizing the use of good
 > judgment, experience, and advice.
 
-## Overview
+## Demo Session
 
-Consilio helps you make better decisions. It focuses on three key aspects of decision-making:
+Following is an example session. 
 
-1. **Clarify**: Asking independent questions like:
-   - "Have you thought about ...?"
-   - "What if ...?"
-   - "Let's stress test it this way ..."
+* $ is the shell prompt
+* >>> is the consilio prompt
+* > is the response
 
-   These are the kinds of questions you might expect from trusted advisors or boards.
+```bash
+$ cons
+Please enter the topic you'd like to discuss** (Press E to edit the topic in your default editor):
+>>>
+My daughter is 10 years old. She has a very busy schedule:
 
-2. **Assemble**: Gather opposing perspectives from a diverse group of angles. For example:
-    - For "Early-stage VC", an opposite perspective might be "Growth-stage VC" and "Bootstrapped founder".
-    - For "Mental health and wellbeing specialist", an opposite perspective might be "Personal Growth and Resilience Coach".
-    
-3. **Consult**: Pose detailed, targeted questions to each pair of opposing perspectives to get opinions. 
+Ballet on Monday 4:30-5:30 and Thursday 4:00-5:00; 
+Jazz on Friday 4:00-5:00; 
+Karate on Wednesday 6:00-8:00 and Friday same time.
+Violin on Saturday morning 10:30 - 11:30.
 
-Here is a typical session where on the left on the screen, I am updating the decision document and on the right, I am interacting with Consilio.
-![Screenshot of a typical session with the decision document on the left and the consilio on the right](screenshot.jpg)
+She just earned her Junior Black Belt in Karate and she is Grade 3 in Ballet
+with a distinction. She will go to intermediate school and she has decided to
+add Fencing to her schedule on Monday from 3:30-4:30.  
 
-## Decision Document
+On the personal note, My wife has been doing karate with her since she was 5.
+They spent a lot of time together. I'm a fencer and I am really excited about
+her starting fencing. 
 
-Consilio is a database free program. Every interaction is saved as 
+However, she was very tired towards the end of this year and started to get
+tired and sick more often. Her academic performance has also dropped.
+
+Both my wife and I think she is doing too much and we are looking for advices
+on how to handle this. We are both worried about her overcrowded schedule and
+the impact it is having on her health and academic performance.
+<<<
+
+CTRL+C received. The file is saved as ~/.consilio/2024-12-25-My-daughter-schedule/decision.md. 
+
+Next step: 
+* `cons` again to generate perspectives based on the topic.
+
+
+
+$ cons
+Please enter the number of perspectives you would like to include (1-10):
+>>> 5
+
+Generating perspectives based on the topic ...
+
+> 1. The Pediatric Exercise Physiologist
+>    - Expertise: The science of how exercise and physical activity affect
+>      children's growth, development, and overall health. This includes
+>      understanding energy expenditure, recovery, and the impact of intense
+>      training on young bodies.
+>    - Goal: To optimize your daughter's physical activity schedule to ensure
+>      it supports her health, well-being, and long-term athletic development
+>      without causing burnout or injury.
+>    - Role: To analyze your daughter's current activity load, considering the
+>      intensity, duration, and frequency of each activity. They would assess
+>      the potential for overtraining, recommend strategies for recovery and
+>      rest, and advise on how to balance her physical activities with her
+>      developmental needs and energy levels.
+> 
+> 2. The Child Educational Psychologist
+>     - Expertise: The study of how children learn, develop cognitively, and
+>       navigate the social and emotional aspects of schooling. They understand
+>       the impact of stress, fatigue, and extracurricular activities on
+>       academic performance and mental well-being.
+>     - Goal: To optimize your daughter's overall schedule to support her
+>       academic success, cognitive development, and emotional well-being,
+>       ensuring a healthy balance between schoolwork, extracurriculars, and
+>       rest.
+>     - Role: To assess the impact of your daughter's busy schedule on her
+>       academic performance, attention span, and motivation. They would
+>       provide recommendations on time management strategies, stress reduction
+>       techniques, and how to create a more supportive and balanced learning
+>       environment at home. They might also consider the social and emotional
+>       implications of her commitments.
+> 
+> 3. The Youth Sports Coach (Generalist)
+>     - Expertise: Experience in coaching and developing young athletes across
+>       various disciplines. They understand the importance of fun, skill
+>       development, and fostering a love for movement while also recognizing
+>       the signs of burnout and the need for a balanced approach.
+>     - Goal: To help your daughter maintain her enjoyment of her activities
+>       and continue to develop her skills and passions without sacrificing her
+>       health or well-being.
+>     - Role: To provide a perspective on the overall volume and intensity of
+>       your daughter's activities. They would likely advocate for open
+>       communication with your daughter about her enjoyment levels and suggest
+>       considering her personal preferences and intrinsic motivation as key
+>       factors in her schedule. They might also emphasize the importance of
+>       unstructured play and free time.
+> 
+> 4. The Family Wellness Consultant
+>     - Expertise: Understanding the dynamics of family well-being and the
+>       importance of creating a supportive and healthy home environment. They
+>       focus on the interplay between individual needs and family harmony.
+>     - Goal: To help your family create a schedule that supports not only your
+>       daughter's individual interests but also the overall well-being and
+>       balance of the entire family unit, including parental needs and time
+>       for connection.
+>     - Role: To facilitate discussions about family priorities and values.
+>       They might help you identify areas where the schedule is creating
+>       stress for everyone and guide you in making decisions that prioritize
+>       your daughter's health and well-being while also considering the impact
+>       on family time and dynamics. They might encourage a collaborative
+>       approach to adjusting the schedule.
+> 
+> 5. The Child Sleep Specialist
+>     - Expertise: The science of sleep in children, understanding its crucial
+>       role in physical and cognitive development, mood regulation, and
+>       overall health. They can assess sleep patterns and the impact of
+>       external factors on sleep quality.
+>     - Goal: To ensure your daughter is getting adequate and high-quality
+>       sleep to support her physical recovery, academic performance, and
+>       emotional well-being.
+>     - Role: To analyze your daughter's sleep schedule in relation to her
+>       activities. They would assess the potential for sleep deprivation and
+>       its contribution to her tiredness and increased susceptibility to
+>       illness. They would provide recommendations for optimizing her sleep
+>       environment, establishing healthy sleep routines, and potentially
+>       adjusting her activity schedule to prioritize sufficient sleep.
+
+
+The file is saved as ~/.consilio/2024-12-25-My-daughter-schedule/perspectives.md.
+
+Next step: 
+* `cons` again to start the first round of discussions.
+* `cons perspectives edit` to edit the perspectives file.
+* `cons edit` to edit the discussion file if you want to add more context or clarifications.
+* `cons perspectives refresh` to generate a new set of perspectives based on the topic.
+
+
+$ cons
+Please provide guidance for the discussion. (Answer questions from the previous round of discussions, or specify a particular area you'd like to focus on next. CTRL+D when you finish.)
+>>>
+Starting discussions (Round #1) ...
+
+> ## Round 1: Team Meeting - Addressing the Overcrowded Schedule
+> 
+> Here's how each perspective might contribute to the first round of the
+> meeting:
+> 
+> **1. The Pediatric Exercise Physiologist:**
+> 
+> *   **Presentation:** "My primary concern is the potential for physical
+>     overtraining and insufficient recovery. With ballet, jazz, karate, and
+>     now fencing, she's engaging in a significant amount of structured
+>     physical activity. Each discipline requires specific muscle groups and
+>     has its own demands. The reported tiredness and increased sickness are
+>     red flags from a physiological standpoint. We need to consider the
+>     intensity and duration of each activity. For example, Karate twice a week
+>     for two hours each time, especially after earning her black belt, likely
+>     involves high-intensity training."
+> *   **Guiding Question:** "Can we get a sense of the intensity level of each
+>     activity?  Is the karate focused on drills and sparring, or more on
+>     technique?  How much active time is involved in each session, versus
+>     downtime?"
+> *   **Addressing Others:** "I agree with the Sleep Specialist that inadequate
+>     sleep exacerbates the physical stress. The body repairs and recovers
+>     during sleep, and with this level of activity, it's crucial."
+> 
+> **2. The Child Educational Psychologist:**
+> 
+> *   **Presentation:** "From an academic and cognitive perspective, chronic
+>     fatigue significantly impacts concentration, memory, and motivation. The
+>     drop in academic performance is a direct consequence we often see with
+>     overloaded schedules. The cognitive load of switching between different
+>     activities, combined with potential sleep deprivation, can be
+>     overwhelming for a 10-year-old. The transition to intermediate school
+>     will also add new academic pressures."
+> *   **Guiding Question:** "Has there been any noticeable change in her
+>     engagement with schoolwork or her attitude towards learning?  Are there
+>     specific subjects where the decline is more pronounced?"
+> *   **Addressing Others:** "The Family Wellness Consultant's point about
+>     family dynamics is important. Stress and tiredness can affect her
+>     interactions at home, and it's vital to create a supportive environment
+>     that prioritizes well-being over constant achievement."
+> 
+> **3. The Youth Sports Coach (Generalist):**
+> 
+> *   **Presentation:** "While it's fantastic that she's passionate and
+>     talented, enjoyment is key at this age. Burnout is a real risk when kids
+>     feel pressured or lose the fun aspect of their activities. The fact that
+>     she's getting tired and sick more often suggests the balance has tipped
+>     too far towards obligation rather than pure enjoyment. We need to ensure
+>     she still has time for unstructured play and simply being a kid."
+> *   **Guiding Question:** "Does she express excitement about going to all
+>     these activities, or are there any signs of reluctance or resistance? Has
+>     she ever mentioned wanting to cut back on anything?"
+> *   **Addressing Others:** "I appreciate the Pediatric Exercise
+>     Physiologist's focus on physical strain, but we also need to consider the
+>     emotional toll of constantly being on the go. Even activities she loves
+>     can become stressors if there's no downtime."
+> 
+> **4. The Family Wellness Consultant:**
+> 
+> *   **Presentation:** "My concern lies in the overall family system. An
+>     overloaded child often means an overloaded family. Parents become taxi
+>     drivers and schedulers, and family time can become fragmented and focused
+>     solely on the child's commitments. We need to consider the impact on
+>     family meals, quality time together, and the parents' well-being as well.
+>     The excitement about fencing is understandable, but we need to assess if
+>     adding another commitment is sustainable for everyone."
+> *   **Guiding Question:** "How is this schedule impacting family routines and
+>     the time you spend together as a family unit?  Are there moments of
+>     stress or conflict related to managing the schedule?"
+> *   **Addressing Others:** "The Educational Psychologist's point about the
+>     transition to intermediate school is crucial. That in itself will be a
+>     significant adjustment, and adding more to her plate might be
+>     counterproductive to her success in that new environment."
+> 
+> **5. The Child Sleep Specialist:**
+> 
+> *   **Presentation:** "Adequate sleep is the foundation for a child's
+>     physical and cognitive health. With this level of activity, sufficient
+>     sleep is non-negotiable. Tiredness and increased susceptibility to
+>     illness are classic signs of sleep deprivation. The brain needs time to
+>     consolidate learning and the body needs time to repair. A 10-year-old
+>     generally needs 9-11 hours of sleep per night. With her current schedule,
+>     I'm concerned about whether she's consistently achieving that."
+> *   **Guiding Question:** "What is her typical bedtime and wake-up time on
+>     school nights and weekends?  Are there any difficulties falling asleep or
+>     staying asleep?"
+> *   **Addressing Others:** "I agree with the Youth Sports Coach that burnout
+>     is a risk, and lack of sleep significantly contributes to it. When a
+>     child is sleep-deprived, even enjoyable activities can feel like a
+>     burden."
+> 
+> **Synthesis and Summary of Round 1:**
+> 
+> The initial round of discussion reveals a consensus that the daughter's
+> current schedule is likely unsustainable and negatively impacting her health,
+> academic performance, and potentially her overall well-being. Key themes
+> emerging include:
+> 
+> *   **Physical Overtraining and Insufficient Recovery:** The sheer volume and
+>     intensity of her activities raise concerns about physical strain and the
+>     body's ability to recover adequately.
+> *   **Cognitive Overload and Academic Impact:**  Fatigue and a busy schedule
+>     are likely contributing to the observed decline in academic performance
+>     and engagement.
+> *   **Risk of Burnout and Loss of Enjoyment:**  While passion is positive,
+>     the current schedule might be pushing her past the point of genuine
+>     enjoyment into a realm of obligation and stress.
+> *   **Impact on Family Dynamics:** The demands of the schedule are likely
+>     affecting family routines, quality time, and potentially creating stress
+>     for the parents as well.
+> *   **Potential Sleep Deprivation:** There's a strong indication that she
+>     might not be getting enough sleep, which exacerbates all the other
+>     concerns.
+> 
+> The guiding questions raised by each expert highlight the need to gather more
+> specific information about the intensity of each activity, her personal
+> feelings about the schedule, its impact on family life, and her sleep
+> patterns. The team agrees that a re-evaluation of the schedule is necessary,
+> with a focus on finding a healthier balance that prioritizes her well-being
+> while still allowing her to pursue her passions.
+
+The file is saved as ~/.consilio/2024-12-25-My-daughter-schedule/round-1.md.
+
+Next step:
+* `cons` to start the next round of discussions.
+
+$ cons
+Please provide guidance for the discussion. (Answer questions from the previous round of discussions, or specify a particular area you'd like to focus on next. CTRL+D when you finish.)
+>>> We have had discussions with her for a few times. She is not willing to give up any of her activities. How do we approach this?
+Starting discussions (Round #2) ...
+
+> ## Round 2: Team Meeting - Addressing Resistance to Change 
+> 
+> ...
+> ...
+```
+
+## Features
+
+`$ cons` will start the discussion process. It's the main command that you will use to interact with Consilio. It delegates to subcommands depends on the state of the project directory.
+
+- Equivalent to `$ cons new`. If there is no `project_name` in the configuration file or there is no `decision.md` file in the project directory, you will be prompted to describe the topic of the discussion. A slug will be generated from the topic and the file is saved as `~/.consilio/YYYY-MM-DD-{Topic-Slug}/decision.md`.
+
+- Equivalent to `$ cons perspectives load`. If there is a `decision.md` file in the project directory but no `perspectives.md` file, you will be prompted to enter the number of perspectives you would like to include in the discussion. Consilio will then generate a list of perspectives based on the topic and save it as `~/.consilio/YYYY-MM-DD-{Topic-Slug}/perspectives.md`. You can reload the perspectives or open up this file to add or remove perspectives.
+
+- Equivalent to `$ cons discuss`. If both the `decision.md` and `perspectives.md` files exist, Consilio will start the discussion process. Each round of discussion will be saved as `~/.consilio/YYYY-MM-DD-{Topic-Slug}/round-{n}.md`.
+
+### `new`
+
+$ cons new
+
+This command will prompt you to enter the topic you'd like to discuss. The topic will be saved as `decision.md` in the project directory. You can use this command to start a new discussion or to switch to a different topic.
+
+### `edit`
+
+$ cons edit
+
+This command will open current `decision.md` as defined in the `config.toml` file in the default editor. You can use this to add more context or clarifications to the discussion document.
+
+Once you are done editing, save and close the file. Consilio will provide you with the next steps.
+
+Next step:
+* `cons perspectives refresh` to generate a new set of perspectives based on the topic.
+* `cons` to start the first round of discussions.
+
+
+### `perspectives`
+
+$ cons perspectives [commands]
+
+* `edit`: Open the perspectives.md file in the default editor
+* `load`: Reload available perspectives. This will delete the existing `perspectives.md` file in the project directory and request a new set of perspectives. I find this useful after a couple of rounds of discussions when I want to update the discussion document or want to focus on a particular area.
+
+### `discuss`
+
+$ cons discuss
+
+This command will start the discussion process. You will be prompted to provide guidance for the discussion. You can answer questions from the previous round of discussions or specify a particular area you'd like to focus on next.
+
+### `config`
+
+$ cons config [command]
+
+Commands
+
+* `set <option> <value>`: Set a value for the specified configuration option
+* `edit`: Open the configuration file in the default editor
+
+
+All configuration options are stored in a TOML file located at `~/.config/consilio/config.toml`
+Currently, only the following options are available:
+
+```toml
+project_name= "~/.consilio/YYYY-MM-DD-{Topic-Slug}"
+key_bindings = "vi" # Default is "emacs" as provided by the python prompt_toolkit package.
+```
+
+
+## Decision Philosophy
+
+Consilio is a file-centric program. Every interaction is saved as 
 a markdown file. Use your unix power tools to review responses and search
 for discussions from past decisions.
 
@@ -47,107 +363,11 @@ and giving feedback on the gathered opinions.
 Think of consilio as your pair-programming buddy who helps you write the memo.
 **Tip**: Check this document into your version control system to maintain a record of your decision-making process.
 
-## Demo Session
 
-Following is an example session:
-
-```bash
-$ cons init
-
-Creating configuration file at ./consilio.json
-
-* Please describe the user role: Solo Founder
-* Please describe the decision domain: a NZ-based B2C iOS app startup that are pre-product-market-fit
-* Please describe the facilitator role: an bootstrapped B2C founder, who successfully navigated pre-PMF phase with limited capital. Living outside of US with the main market as US.
-
-Consilio is ready to help you make better decisions. You can edit the ./consilio.json file to update the configuration.
-
-Next steps:
-- `cons discuss` - Select an individual perspective to interview.
-- `cons meeting` - Refresh the perspective pairs.
-- `cons debate` - Pose detailed, targeted questions to all perspectives.
-
-
-$ cons edit
-Opening ./consilio.md in your $EDITOR
-...
-
-
-$ cons perspectives 
-* Please specify the number of perspectives: 5
-
-Defining Perspectives ...
-
-1. The Skeptical Investor (Risk-Averse & Bottom-Line Focused)
-2. The Competitor's Advocate (Competitive Analysis & Differentiation Focused)
-3. The Customer-Centric Advisor (Market Validation & User Focus)
-4. The "Future of the Space" Visionary (Long-Term Growth Potential)
-5. The "Devil's Advocate" (Every Assumption Challenged)
-
-
-$ cons clarify
-Available perspective pairs:
-1. The Skeptical Investor (Risk-Averse & Bottom-Line Focused)
-2. The Competitor's Advocate (Competitive Analysis & Differentiation Focused)
-3. The Customer-Centric Advisor (Market Validation & User Focus)
-4. The "Future of the Space" Visionary (Long-Term Growth Potential)
-5. The "Devil's Advocate" (Every Assumption Challenged)
-
-Please select the perspective pair: 2
-Please enter the number of questions you would like to ask: 5
-
-Getting clarification questions for perspective pair ...
-
-Questions:
-
-  - Have you thought about the potential risks of this decision? 
-
-    This question is designed to help you think about the potential downsides
-    of the decision you are considering. It is important to consider the risks
-    associated with any decision you make, as these risks can have a
-    significant impact on the outcome of your decision.
-
-  - What are the key metrics you would use to evaluate the success of this
-    decision?
-
-    This question is designed to help you think about the key metrics you would
-    use to evaluate the success of the decision you are considering. It is
-    important to have clear metrics in place to measure the impact of your
-    decision and determine whether it has been successful.
-
-  - What are the potential challenges you foresee in implementing this decision?
-
-    This question is designed to help you think about the potential challenges
-    you may face in implementing the decision you are considering. It is
-    important to anticipate and plan for these challenges in order to increase
-    the likelihood of success.
-
-  - What are the potential opportunities you see in this decision?
-
-    This question is designed to help you think about the potential
-    opportunities that may arise from the decision you are considering. It is
-    important to identify and capitalize on these opportunities in order to
-    maximize the benefits of your decision.
-
-  - What are the potential risks of not making this decision?
-
-    This question is designed to help you think about the potential risks of
-    not making the decision you are considering. It is important to consider
-    the consequences of inaction and the risks associated with not making a
-    decision in order to make an informed choice.
-
-
-$ cons meeting
-Please describe the meeting agenda: 
-
-$ cons consult
-
-Please select the perspective pair: 2
-Please enter the question: What's the top risk that have not been addressed?
-
-Consulting perspectives ...
-
-```
+All intermediate steps are preserved in structured format within a date-stamped
+directory, creating a detailed record of the decision-making process. This
+allows for both immediate reference and retrospective review of how important
+decisions were made.
 
 ## Get Started
 
@@ -161,42 +381,9 @@ pipx install consilio
 uv install consilio
 ```
 
-### Configuration
-
-Create a new `.consilio.yml` file in the root directory with the following
-structure:
-
-```yaml
-domain:"a NZ-based B2C iOS app startup that are pre-product-market-fit"
-perspective:"an bootstrapped B2C founder, who successfully navigated pre-PMF phase with limited capital. , living outside of US but your main market is US."
-user_role:"Solo Founder"
-```
-
-If you don't have a `.consilio.yml` file, Consilio will create one for you
-when you run the command.
-
-If you have multiple contexts, you can create a separate context file and load it through the command line option.
-
-```bash
-consilio --context marketing.consilio.yml
-```
-
-### Paper Trail
-
-All intermediate steps are preserved in structured format within a date-stamped
-directory, creating a detailed record of the decision-making process. This
-allows for both immediate reference and retrospective review of how important
-decisions were made.
+## Related Projects
 
 ## Contributing Guide
 
 Please refer to the [CONTRIBUTING.md](CONTRIBUTING.md) document for the contribution guidelines.
 Please refer to the [Python.md](Python.md) document for the coding style guide.
-
-## Sponsor
-
-This project is sponsored by [Keepers](https://links.keepers.photos/crl9se).
-Are you a parent? Do you take a lot of photos of your kids?
-Then you should check out Keepers.
-
-Keepers is a free, privacy-first iOS app that uses AI to help parents organize their family photos.
