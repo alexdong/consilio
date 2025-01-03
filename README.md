@@ -1,6 +1,6 @@
 # Consilio: AI-Facilitated Decision Making Assistant
 
-Consilio is a command-line tool that helps you make better decisions by simulating panel discussions with AI-generated expert perspectives. It's particularly useful for:
+Consilio[^1] is a command-line tool that helps you make better decisions by simulating panel discussions with AI-generated expert perspectives. It's particularly useful for:
 - Complex decisions requiring multiple viewpoints
 - Brainstorming solutions to challenging problems
 - Strategic planning and analysis
@@ -65,7 +65,7 @@ See detailed command options below.
 
 ## Demo Session
 
-The main command is `cons` [^1]. 
+The main command is `cons` [^2]. 
 
 Following is a session where 
 
@@ -405,9 +405,6 @@ topic= "~/.consilio/YYYY-MM-DD-{Topic-Slug}"
 key_bindings = "vi" # Default is "emacs" as provided by the python prompt_toolkit package.
 ```
 
-### `completion`
-
-
 ### Misc
 
 * `cons completion [shell]` to generate shell completion scripts. Supported shells are `bash` and `zsh`.
@@ -439,5 +436,6 @@ decisions were made.
 * [Python.md](Python.md) document for the coding style guide.
 * [Issues](https://github.com/alexdong/consilio/issues) for the list of issues and feature requests.
 
-[^1]: The name `cons` is a shortcut for `consilio`. It's called `cons` because just like LISP's `cons`, it constructs structures that you can manipulate, shape and transform. This is what I envision Consilio to be - a tool that helps you construct your thoughts, opinions, and decisions in a structured manner.
+[^1]: Consilio is a Latin term that embodies concepts such as counsel, deliberation, and wisdom. In ancient times, "consilium" referred to a group of advisors or a council that deliberated on important decisions, reflecting a process of careful consideration and planning. The term is associated with strategic thinking and prudent decision-making, emphasizing the use of good judgment, experience, and advice.
+[^2]: The name `cons` is a shortcut for `consilio`. It's called `cons` because just like LISP's `cons`, it constructs structures that you can manipulate, shape and transform. This is what I envision Consilio to be - a tool that helps you construct your thoughts, opinions, and decisions in a structured manner.
 
