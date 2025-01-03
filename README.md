@@ -24,10 +24,12 @@ cons
 ## Installation
 
 ### Prerequisites
+
 - Python 3.8 or higher
 - pipx or uv package manager
 
 ### Install Steps
+
 ```bash
 # Using pipx (recommended)
 pipx install consilio
@@ -48,6 +50,7 @@ All interactions are automatically saved as markdown files for future reference.
 ## Features
 
 ### Core Capabilities
+
 - Generate diverse expert perspectives on your topic
 - Facilitate structured multi-round discussions
 - Save all interactions for review and reference
@@ -55,6 +58,7 @@ All interactions are automatically saved as markdown files for future reference.
 - Switch between multiple ongoing discussions
 
 ### Key Commands
+
 - `cons` - Start or continue a discussion
 - `cons topics` - Manage discussion topics
 - `cons perspectives` - Generate or edit expert perspectives
@@ -390,7 +394,6 @@ Flags:
 * `-e`, `--edit [round number]`: Open the specified round of discussions in the default editor. You can use this to add more context or clarifications to the discussion document. Once you are done editing, save and close the file. Consilio will provide you with the next steps.
 * `-r`, `--round [round number]`: Restart the discussion from the specified round number. This is useful if you want to revisit a previous round of discussions or if you have saved the discussion document and want to continue from where you left off.
 
-
 ### `config`
 
 $ cons config 
@@ -407,7 +410,7 @@ key_bindings = "vi" # Default is "emacs" as provided by the python prompt_toolki
 
 ### Misc
 
-* `cons completion [shell]` to generate shell completion scripts. Supported shells are `bash` and `zsh`.
+* `cons completion [shell]` to generate shell completion scripts. Supported shells are `bash`, `zsh` and `fish`.
 * `cons --version` to get the version of the program.
 * `cons --help` to get the help message.
 

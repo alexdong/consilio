@@ -19,6 +19,7 @@ classifiers = [
 dependencies = [
     "anthropic>=0.8.0",
     "better-exceptions>=0.3.3",
+    "click>=8.1.8",
     "prompt-toolkit>=3.0.0",
     "PyYAML>=6.0.1",
     "Jinja2>=3.1.0",
@@ -33,11 +34,11 @@ dev = [
 ]
 
 [project.urls]
-"Homepage" = "https://github.com/yourusername/consilio"
-"Bug Tracker" = "https://github.com/yourusername/consilio/issues"
+"Homepage" = "https://github.com/alexdong/consilio"
+"Bug Tracker" = "https://github.com/alexdong/consilio/issues"
 
 [project.scripts]
-cons = "consilio.main:main"
+cons = "consilio.main:cli"
 
 [tool.setuptools.packages.find]
 where = ["src"]
