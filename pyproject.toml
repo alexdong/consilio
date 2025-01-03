@@ -43,7 +43,9 @@ cons = "consilio.main:cli"
 [tool.setuptools.packages.find]
 where = ["src"]
 
- [tool.mypy]
- packages = ["consilio"]
- namespace_packages = false
- explicit_package_bases = true
+[tool.mypy]
+packages = ["consilio"]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
