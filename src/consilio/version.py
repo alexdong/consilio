@@ -1,3 +1,4 @@
 """Version information for Consilio"""
+from importlib.metadata import version
 
-__version__ = "0.1.0"
+__version__ = version("consilio")
