@@ -34,6 +34,7 @@ def topics(list: bool, topic_number: Optional[int], open: bool):
 def perspectives(edit: bool, list_flag: bool):
     """Manage and generate discussion perspectives"""
     from .perspectives import handle_perspectives_command
+
     handle_perspectives_command(edit, list_flag)
 
 
@@ -43,6 +44,7 @@ def perspectives(edit: bool, list_flag: bool):
 def discuss(edit: Optional[int], round: Optional[int]):
     """Start or continue discussion rounds"""
     from .discuss import handle_discuss_command
+
     handle_discuss_command(edit, round)
 
 
@@ -75,6 +77,7 @@ def completion(shell: Optional[str]):
 def interview(perspective_index: int, round: Optional[int]):
     """Interview a specific perspective"""
     from .interview import handle_interview_command
+
     handle_interview_command(perspective_index, round)
 
 
@@ -82,6 +85,7 @@ def interview(perspective_index: int, round: Optional[int]):
 def config():
     """Configure Consilio settings"""
     from .config import handle_config_command
+
     handle_config_command()
 
 
