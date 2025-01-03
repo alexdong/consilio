@@ -1,4 +1,6 @@
 import click
+import json
+import subprocess
 from pathlib import Path
 from typing import Optional
 from .models import Config, Topic
