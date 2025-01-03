@@ -1,6 +1,7 @@
-# Consilio: AI-Facilitated Decision Making Assistant
+# Consilio: AI-Facilitated Panel Discussions
 
 Consilio[^1] is a command-line tool that helps you make better decisions by simulating panel discussions with AI-generated expert perspectives. It's particularly useful for:
+
 - Complex decisions requiring multiple viewpoints
 - Brainstorming solutions to challenging problems
 - Strategic planning and analysis
@@ -69,13 +70,13 @@ See detailed command options below.
 
 ## Demo Session
 
-The main command is `cons` [^2]. 
+The main command is `cons` [^2].
 
-Following is a session where 
+Following is a session where:
 
-* `$` is the shell prompt
-* `>>>` is the consilio prompt
-* `>` is the response
+- `$` is the shell prompt
+- `>>>` is the consilio prompt
+- `>` is the response
 
 ```bash
 $ cons
@@ -366,9 +367,9 @@ The topic directory will be set as `topic` in the config.toml file through the `
 
 Flags:
 
-* `-l`, `--list`: List all the topic directories in the `~/.consilio` directory. 
-* `-t`, `--topic-number <number in the list>`: Switch to a different topic. This will update the `topic` in the config file.
-* `-o`, `--open`: Open the topic directory in the default file explorer.
+- `-l`, `--list`: List all the topic directories in the `~/.consilio` directory. 
+- `-t`, `--topic-number <number in the list>`: Switch to a different topic. This will update the `topic` in the config file.
+- `-o`, `--open`: Open the topic directory in the default file explorer.
 
 
 ### `perspectives`
@@ -381,7 +382,7 @@ I find this useful after a couple of rounds of discussions when I want to update
 
 Flags:
 
-* `-e`, `--edit`: Open the perspectives.md file in the default editor
+- `-e`, `--edit`: Open the perspectives.md file in the default editor
 
 ### `discuss`
 
@@ -391,8 +392,8 @@ Start a new round of discussion. You will be prompted to provide guidance for th
 
 Flags:
 
-* `-e`, `--edit [round number]`: Open the specified round of discussions in the default editor. You can use this to add more context or clarifications to the discussion document. Once you are done editing, save and close the file. Consilio will provide you with the next steps.
-* `-r`, `--round [round number]`: Restart the discussion from the specified round number. This is useful if you want to revisit a previous round of discussions or if you have saved the discussion document and want to continue from where you left off.
+- `-e`, `--edit [round number]`: Open the specified round of discussions in the default editor. You can use this to add more context or clarifications to the discussion document. Once you are done editing, save and close the file. Consilio will provide you with the next steps.
+- `-r`, `--round [round number]`: Restart the discussion from the specified round number. This is useful if you want to revisit a previous round of discussions or if you have saved the discussion document and want to continue from where you left off.
 
 ### `config`
 
@@ -410,9 +411,9 @@ key_bindings = "vi" # Default is "emacs" as provided by the python prompt_toolki
 
 ### Misc
 
-* `cons completion [shell]` to generate shell completion scripts. Supported shells are `bash`, `zsh` and `fish`.
-* `cons --version` to get the version of the program.
-* `cons --help` to get the help message.
+- `cons completion [shell]` to generate shell completion scripts. Supported shells are `bash`, `zsh` and `fish`.
+- `cons --version` to get the version of the program.
+- `cons --help` to get the help message.
 
 
 ## Decision Philosophy
@@ -435,9 +436,9 @@ decisions were made.
 
 ## See Also
 
-* [CONTRIBUTING.md](CONTRIBUTING.md) document for the contribution guidelines.
-* [Python.md](Python.md) document for the coding style guide.
-* [Issues](https://github.com/alexdong/consilio/issues) for the list of issues and feature requests.
+- [CONTRIBUTING.md](CONTRIBUTING.md) document for the contribution guidelines.
+- [Python.md](Python.md) document for the coding style guide.
+- [Issues](https://github.com/alexdong/consilio/issues) for the list of issues and feature requests.
 
 [^1]: Consilio is a Latin term that embodies concepts such as counsel, deliberation, and wisdom. In ancient times, "consilium" referred to a group of advisors or a council that deliberated on important decisions, reflecting a process of careful consideration and planning. The term is associated with strategic thinking and prudent decision-making, emphasizing the use of good judgment, experience, and advice.
 [^2]: The name `cons` is a shortcut for `consilio`. It's called `cons` because just like LISP's `cons`, it constructs structures that you can manipulate, shape and transform. This is what I envision Consilio to be - a tool that helps you construct your thoughts, opinions, and decisions in a structured manner.
