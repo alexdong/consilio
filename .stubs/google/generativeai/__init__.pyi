@@ -16,4 +16,6 @@ class GenerativeModel:
 
 class types:
     """Type definitions."""
-    class GenerationConfig(GenerationConfig): ...
+    class GenerationConfig:
+        """Configuration for text generation."""
+        def __init__(self, temperature: Optional[float] = None) -> None: ...
