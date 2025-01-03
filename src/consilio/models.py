@@ -106,7 +106,21 @@ class Config:
             self.data = {
                 "topic": None, 
                 "key_bindings": "emacs",
-                "model": "claude-3-sonnet-20240229"
+                "model": "claude-3-sonnet-20240229",
+                "models": {
+                    "anthropic": {
+                        "default": "claude-3-sonnet-20240229",
+                        "models": ["claude-3-opus-20240229", "claude-3-sonnet-20240229"]
+                    },
+                    "openai": {
+                        "default": "gpt-4-turbo-preview",
+                        "models": ["gpt-4-turbo-preview"]
+                    },
+                    "google": {
+                        "default": "gemini-pro",
+                        "models": ["gemini-pro"]
+                    }
+                }
             }
             self._save()
 
