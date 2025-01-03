@@ -23,8 +23,8 @@ def cli():
 )
 def topics(list: bool, topic_number: Optional[int], open: bool):
     """Manage discussion topics"""
-    click.echo("Topics command")
-    # TODO: Implement topics functionality
+    from .topics import handle_topics_command
+    handle_topics_command(list, topic_number, open)
 
 
 @cli.command()
