@@ -105,7 +105,7 @@ on how to handle this. We are both worried about her overcrowded schedule and
 the impact it is having on her health and academic performance.
 <<<
 
-CTRL+C received. The file is saved as ~/.consilio/2024-12-25-My-daughter-schedule/decision.md. 
+CTRL+C received. The file is saved as ~/.consilio/2024-12-25-My-daughter-schedule/discussion.md. 
 
 Next step: 
 * `cons` again to generate perspectives based on the topic.
@@ -351,17 +351,17 @@ Starting discussions (Round #2) ...
 
 Under the hook, it delegates to a set of subcommands depends on the state of the topic directory.
 
-- `cons topics`. If there is no `topic` in the configuration file or there is no `decision.md` file in the topic directory, you will be prompted to describe the topic of the discussion. A slug will be generated from the topic and the file is saved as `~/.consilio/YYYY-MM-DD-{Topic-Slug}/decision.md`.
+- `cons topics`. If there is no `topic` in the configuration file or there is no `discussion.md` file in the topic directory, you will be prompted to describe the topic of the discussion. A slug will be generated from the topic and the file is saved as `~/.consilio/YYYY-MM-DD-{Topic-Slug}/discussion.md`.
 
-- `cons perspectives`. If there is a `decision.md` file in the topic directory but no `perspectives.md` file, you will be prompted to enter the number of perspectives you would like to include in the discussion. Consilio will then generate a list of perspectives based on the topic and save it as `~/.consilio/YYYY-MM-DD-{Topic-Slug}/perspectives.md`. You can reload the perspectives or open up this file to add or remove perspectives.
+- `cons perspectives`. If there is a `discussion.md` file in the topic directory but no `perspectives.md` file, you will be prompted to enter the number of perspectives you would like to include in the discussion. Consilio will then generate a list of perspectives based on the topic and save it as `~/.consilio/YYYY-MM-DD-{Topic-Slug}/perspectives.md`. You can reload the perspectives or open up this file to add or remove perspectives.
 
-- `cons discuss`. If both the `decision.md` and `perspectives.md` files exist, Consilio will start the discussion process. Each round of discussion will be saved as `~/.consilio/YYYY-MM-DD-{Topic-Slug}/round-{n}.md`.
+- `cons discuss`. If both the `discussion.md` and `perspectives.md` files exist, Consilio will start the discussion process. Each round of discussion will be saved as `~/.consilio/YYYY-MM-DD-{Topic-Slug}/round-{n}.md`.
 
 ### `topics`
 
 $ cons topics [flags]
 
-This command will prompt you to enter the topic you'd like to discuss. The topic will be saved as `decision.md` in the topic directory. You can use this command to start a new discussion or to switch to a different topic.
+This command will prompt you to enter the topic you'd like to discuss. The topic will be saved as `discussion.md` in the topic directory. You can use this command to start a new discussion or to switch to a different topic.
 
 The topic directory will be set as `topic` in the config.toml file through the `cons config set topic YYYY-MM-DD-{Topic_Slug}` command. 
 
