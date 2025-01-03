@@ -47,3 +47,4 @@ where = ["src"]
 [tool.mypy]
 packages = ["consilio"]
 python_version = "3.11"
+mypy_path = ".stubs"
