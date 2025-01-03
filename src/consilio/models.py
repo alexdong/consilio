@@ -18,9 +18,17 @@ class Topic:
     created_at: datetime
     description: str
 
+    def __init__(self, slug: str, created_at: datetime, description: str, test_dir: Optional[Path] = None):
+        self.slug = slug
+        self.created_at = created_at
+        self.description = description
+        self._test_dir = test_dir
+
     @property
     def directory(self) -> Path:
         """Get the topic's directory path"""
+        if self._test_dir is not None:
+            return self._test_dir
         return TOPICS_DIR / f"{self.created_at:%Y-%m-%d}-{self.slug}"
 
     @property
