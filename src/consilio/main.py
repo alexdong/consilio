@@ -30,7 +30,8 @@ def topics(list: bool, topic_number: Optional[int], open: bool):
 
 @cli.command()
 @click.option("-e", "--edit", is_flag=True, help="Edit perspectives file")
-def perspectives(edit: bool):
+@click.option("-l", "--list", is_flag=True, help="List all perspectives")
+def perspectives(edit: bool, list: bool):
     """Manage and generate discussion perspectives"""
     from .perspectives import handle_perspectives_command
     handle_perspectives_command(edit)
@@ -66,6 +67,15 @@ def completion(shell: Optional[str]):
         click.echo("_CONS_COMPLETE=fish_source cons | source)")
     else:
         click.echo("Invalid shell specified. Please use 'bash' or 'zsh'.")
+
+
+@cli.command()
+@click.argument("perspective_index", type=int)
+@click.option("-r", "--round", type=int, help="Start from specific round")
+def interview(perspective_index: int, round: Optional[int]):
+    """Interview a specific perspective"""
+    from .interview import handle_interview_command
+    handle_interview_command(perspective_index, round)
 
 
 @cli.command()

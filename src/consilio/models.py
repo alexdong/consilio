@@ -41,6 +41,14 @@ class Topic:
         """Get the path for a specific round's response file"""
         return self.directory / f"round-{round_num}-response.md"
 
+    def interview_input_file(self, round_num: int) -> Path:
+        """Get the path for a specific interview round's input file"""
+        return self.directory / f"interview-{round_num}-input.md"
+        
+    def interview_response_file(self, round_num: int) -> Path:
+        """Get the path for a specific interview round's response file"""
+        return self.directory / f"interview-{round_num}-response.md"
+
     @property
     def latest_round(self) -> int:
         """Get the number of the latest discussion round"""
@@ -48,6 +56,17 @@ class Topic:
         rounds = [
             int(pattern.match(f.name).group(1))
             for f in self.directory.glob("round-*-*.md")
+            if pattern.match(f.name)
+        ]
+        return max(rounds) if rounds else 0
+
+    @property
+    def latest_interview_round(self) -> int:
+        """Get the number of the latest interview round"""
+        pattern = re.compile(r"interview-(\d+)-(?:input|response)\.md")
+        rounds = [
+            int(pattern.match(f.name).group(1))
+            for f in self.directory.glob("interview-*-*.md")
             if pattern.match(f.name)
         ]
         return max(rounds) if rounds else 0

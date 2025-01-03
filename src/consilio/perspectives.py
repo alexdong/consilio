@@ -48,7 +48,21 @@ def edit_perspectives(topic: Topic) -> None:
         click.echo("Failed to open perspectives file in editor")
 
 
-def handle_perspectives_command(edit: bool) -> None:
+def list_perspectives(topic: Topic) -> None:
+    """List all perspectives with their details"""
+    try:
+        perspectives = json.loads(topic.perspectives_file.read_text())
+        click.echo("\nAvailable perspectives:")
+        for i, perspective in enumerate(perspectives):
+            click.echo(f"\n{i}. {perspective.get('Title', 'Unnamed')}")
+            click.echo(f"   Expertise: {perspective.get('Expertise', 'N/A')}")
+            click.echo(f"   Goal: {perspective.get('Goal', 'N/A')}")
+            click.echo(f"   Role: {perspective.get('Role', 'N/A')}")
+    except (json.JSONDecodeError, FileNotFoundError):
+        click.echo("No valid perspectives found. Generate perspectives first.")
+
+
+def handle_perspectives_command(edit: bool, list_flag: bool) -> None:
     """Main handler for the perspectives command"""
     config = Config()
     topic = config.current_topic
@@ -59,7 +73,9 @@ def handle_perspectives_command(edit: bool) -> None:
         )
         return
 
-    if edit:
+    if list_flag:
+        list_perspectives(topic)
+    elif edit:
         edit_perspectives(topic)
     else:
         generate_perspectives(topic)
