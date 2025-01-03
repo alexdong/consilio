@@ -49,27 +49,25 @@ class Topic:
         """Get the path for a specific interview round's response file"""
         return self.directory / f"interview-{round_num}-response.md"
 
-    @property
-    def latest_round(self) -> int:
-        """Get the number of the latest discussion round"""
-        pattern = re.compile(r"round-(\d+)-(?:input|response)\.md")
+    def _get_latest_round_number(self, prefix: str) -> int:
+        """Get the latest round number for a given file prefix (round/interview)"""
+        pattern = re.compile(rf"{prefix}-(\d+)-(?:input|response)\.md")
         rounds = [
             int(pattern.match(f.name).group(1))
-            for f in self.directory.glob("round-*-*.md")
+            for f in self.directory.glob(f"{prefix}-*-*.md")
             if pattern.match(f.name)
         ]
         return max(rounds) if rounds else 0
 
     @property
+    def latest_round(self) -> int:
+        """Get the number of the latest discussion round"""
+        return self._get_latest_round_number("round")
+
+    @property
     def latest_interview_round(self) -> int:
         """Get the number of the latest interview round"""
-        pattern = re.compile(r"interview-(\d+)-(?:input|response)\.md")
-        rounds = [
-            int(pattern.match(f.name).group(1))
-            for f in self.directory.glob("interview-*-*.md")
-            if pattern.match(f.name)
-        ]
-        return max(rounds) if rounds else 0
+        return self._get_latest_round_number("interview")
 
     @classmethod
     def create(cls, description: str) -> "Topic":
