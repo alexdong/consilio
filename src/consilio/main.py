@@ -1,138 +1,59 @@
-from dataclasses import dataclass
-import sys
-from typing import Dict, Optional
-
-import better_exceptions
+import click
 from pathlib import Path
-from prompt_toolkit import PromptSession
-from prompt_toolkit.completion import WordCompleter
-from prompt_toolkit.shortcuts import clear
-
-from consilio.utils import (
-    load_context,
-    create_decision_dir,
-    load_last_doc_path,
-    save_last_doc_path,
-)
-from consilio import clarify
-from consilio import perspectives
-from consilio import assemble
+from typing import Optional
+import better_exceptions
 
 better_exceptions.hook()
 
+CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 
-@dataclass
-class State:
-    """Tracks the current state of the decision-making workflow"""
+@click.group(context_settings=CONTEXT_SETTINGS)
+@click.version_option()
+def cli():
+    """Consilio: AI-Facilitated Decision Making Assistant"""
+    pass
 
-    decision_dir: Path
-    context: Dict[str, str]
-    stage: str
-    doc_path: Optional[Path] = None
+@cli.command()
+@click.option('-l', '--list', is_flag=True, help='List all topic directories')
+@click.option('-t', '--topic-number', type=int, help='Switch to a different topic')
+@click.option('-o', '--open', is_flag=True, help='Open topic directory in file explorer')
+def topics(list: bool, topic_number: Optional[int], open: bool):
+    """Manage discussion topics"""
+    click.echo("Topics command")
+    # TODO: Implement topics functionality
 
+@cli.command()
+@click.option('-e', '--edit', is_flag=True, help='Edit perspectives file')
+def perspectives(edit: bool):
+    """Manage and generate discussion perspectives"""
+    click.echo("Perspectives command")
+    # TODO: Implement perspectives functionality
 
-def display_welcome():
-    """Display welcome message and random quote"""
-    clear()
-    print("Welcome to Consilio.")
-    print("May you make wise decisions.")
-    print("=========================================\n")
-    # print(get_random_decision_quote())
+@cli.command()
+@click.option('-e', '--edit', type=int, help='Edit specific discussion round')
+@click.option('-r', '--round', type=int, help='Restart from specific round')
+def discuss(edit: Optional[int], round: Optional[int]):
+    """Start or continue discussion rounds"""
+    click.echo("Discuss command")
+    # TODO: Implement discuss functionality
 
+@cli.command()
+@click.argument('shell', type=click.Choice(['bash', 'zsh']), required=False)
+def completion(shell: Optional[str]):
+    """Generate shell completion scripts"""
+    click.echo(f"Generating completion for {shell}")
+    # TODO: Implement completion generation
 
-def run_repl(state: State):
-    """Run the interactive REPL"""
-    # Define valid commands and their completions
-    commands = {"c": "clarify", "p": "perspectives"}
-
-    # Create completer with both short and full forms
-    command_completer = WordCompleter(
-        ["clarify", "perspectives", "c", "p"], ignore_case=True
-    )
-    session: PromptSession = PromptSession(completer=command_completer)
-
-    while True:
-        try:
-            command = session.prompt(
-                "\nEnter command C(larify), P(erspectives) or Ctrl+C to exit.\n> "
-            ).lower()
-
-            # Normalize command - convert single letter to full command
-            if command in commands:
-                command = commands[command]
-
-            if command in ["c", "clarify"]:
-                result = clarify.clarify(state.doc_path, state.context)
-                print(clarify.xml_to_markdown(result))
-
-            elif command in ["p", "perspectives"]:
-                # Step 1: Run assembly to get perspectives
-                assembly_result = assemble.assemble(state.doc_path, state.context)
-                print("\nHere are the perspectives identified:")
-                print(assemble.xml_to_markdown(assembly_result))
-
-                # Step 2: Ask for user confirmation
-                proceed = session.prompt(
-                    "\nReady to proceed with consultation? (Y/n): "
-                )
-                if proceed.lower() not in ["y", "yes", ""]:
-                    continue
-
-                # Step 3: Run consultation with assembled perspectives
-                assert state.doc_path is not None
-                result = perspectives.perspectives(state.doc_path, assembly_result, state.context)
-                print(result)  # This will show opinions from each perspective
-
-            else:
-                print("Invalid command. Please use 'O' or 'C' (or 'observe'/'consult')")
-
-        except KeyboardInterrupt:
-            print("\nExiting Consilio...")
-            sys.exit(0)
-        except Exception:
-            import traceback
-
-            print("\nError occurred:")
-            traceback.print_exc()
+@cli.command()
+def config():
+    """Configure Consilio settings"""
+    click.echo("Config command")
+    # TODO: Implement config functionality
 
 
-def main(context_path: Optional[Path] = None, doc_path: Optional[Path] = None):
-    """Main entry point for Consilio"""
-    display_welcome()
-
-    # Load context
-    context = load_context(context_path)
-
-    if doc_path is None or not isinstance(doc_path, Path):
-        last_path = load_last_doc_path()
-        prompt = (
-            f"Enter path to decision document [{last_path}]: \n>"
-            if last_path
-            else "Enter path to decision document: "
-        )
-        input_path = input(prompt)
-        doc_path = Path(input_path) if input_path else last_path
-        if doc_path:
-            save_last_doc_path(doc_path)
-
-    # Create decision directory
-    decision_dir = create_decision_dir(doc_path.stem)
-
-    # Initialize state
-    state = State(
-        decision_dir=decision_dir,
-        context={
-            "domain": context.domain,
-            "user_role": context.user_role,
-            "perspective": context.perspective,
-        },
-        stage="observe",
-        doc_path=doc_path,
-    )
-
-    # Start REPL
-    run_repl(state)
-
+def main():
+    """Entry point for the CLI"""
+    cli()
 
 if __name__ == "__main__":
     main()
