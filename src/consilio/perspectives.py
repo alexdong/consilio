@@ -7,21 +7,7 @@ from .utils import get_llm_response
 
 def generate_perspectives(topic: Topic) -> None:
     """Generate perspectives for a topic using LLM"""
-    prompt = f"""
-    Please give me up to 5 distinct perspectives to discuss the following topic. 
-    <Topic>
-    {topic.description}
-    </Topic>
-
-    For each perspective, give me brief description of the following:
-
-    Title: The name of the agent.
-    Expertise: The scientific expertise the agent has.
-    Goal: The ultimate goal of the agent in the context of the research project.
-    Role: The specific role that the agent will play in the research project.
-
-    Please make sure the response is in json.
-    """
+    prompt = render_template("perspectives.j2", topic=topic)
 
     try:
         perspectives = get_llm_response(prompt)

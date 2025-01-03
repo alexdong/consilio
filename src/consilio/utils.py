@@ -1,11 +1,24 @@
 import os
 import json
+from pathlib import Path
 from typing import Dict, Any, Optional
+from jinja2 import Environment, FileSystemLoader, select_autoescape
 from anthropic import Anthropic
 from openai import OpenAI
 import google.generativeai as genai
 import click
 from .models import Config
+
+
+def render_template(template_name: str, **kwargs: Any) -> str:
+    """Render a Jinja2 template with the given context"""
+    templates_dir = Path(__file__).parent / "prompts"
+    env = Environment(
+        loader=FileSystemLoader(templates_dir),
+        autoescape=select_autoescape()
+    )
+    template = env.get_template(template_name)
+    return template.render(**kwargs)
 
 
 def get_llm_response(

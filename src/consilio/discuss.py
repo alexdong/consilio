@@ -12,20 +12,7 @@ def _build_first_round_prompt(topic: Topic) -> str:
     except (json.JSONDecodeError, FileNotFoundError):
         raise click.ClickException("No valid perspectives found. Generate perspectives first.")
 
-    return f"""
-Topic:
-{topic.description}
-
-Perspectives:
-{json.dumps(perspectives, indent=2)}
-
-Now, let's have a team meeting. All the perspectives above participates in a conversation to address the topic. 
-The meeting will start its first round of meeting.
-
-Each perspective present their thoughts, guiding questions, address statements from others.
-
-At the end of this round, synthesises and summarises the discussion.
-"""
+    return render_template("first_round.j2", topic=topic, perspectives=perspectives)
 
 
 def _build_subsequent_round_prompt(topic: Topic, round_num: int) -> str:
@@ -45,7 +32,8 @@ def _build_subsequent_round_prompt(topic: Topic, round_num: int) -> str:
         except Exception as e:
             click.echo(f"Warning: Error reading round {i}: {str(e)}")
     
-    return "\n".join(history)
+    context = "\n".join(history)
+    return render_template("subsequent_round.j2", context=context, round_num=round_num)
 
 
 def start_discussion_round(topic: Topic, round_num: int, user_input: str) -> None:

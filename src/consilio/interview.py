@@ -33,23 +33,12 @@ def _build_interview_prompt(topic: Topic, perspective: Dict[Any, Any], round_num
         except Exception as e:
             click.echo(f"Warning: Error reading round {i}: {str(e)}")
 
-    # Build the prompt
-    prompt = f"""
-Topic:
-{topic.description}
-
-You are acting as the following expert:
-{json.dumps(perspective, indent=2)}
-
-Previous discussion:
-{'\n'.join(history)}
-
-User Input for Round {round_num}:
-{user_input}
-
-Please respond as this expert would, maintaining their expertise, goals, and role throughout the response.
-"""
-    return prompt
+    return render_template("interview.j2", 
+                         topic=topic,
+                         perspective=perspective,
+                         round_num=round_num,
+                         user_input=user_input,
+                         history=history)
 
 
 def start_interview_round(topic: Topic, perspective_index: int, round_num: int, user_input: str) -> None:
