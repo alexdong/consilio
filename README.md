@@ -1,15 +1,67 @@
-# Consilio: AI Faciliatated Panel Discussion
+# Consilio: AI-Facilitated Decision Making Assistant
 
-Consilio is a command-line tool that facilitates panel discussions with
-AI-generated perspectives. It can be used for brainstorming solutions or assist
-type-I decisions making.
+Consilio is a command-line tool that helps you make better decisions by simulating panel discussions with AI-generated expert perspectives. It's particularly useful for:
+- Complex decisions requiring multiple viewpoints
+- Brainstorming solutions to challenging problems
+- Strategic planning and analysis
+- Getting unstuck when facing difficult choices
 
-> "Consilio" is a Latin term that embodies concepts such as counsel,
-> deliberation, and wisdom. In ancient times, "consilium" referred to a group
-> of advisors or a council that deliberated on important decisions, reflecting
-> a process of careful consideration and planning. The term is associated with
-> strategic thinking and prudent decision-making, emphasizing the use of good
-> judgment, experience, and advice.
+## Quick Start
+
+```bash
+# Install Consilio
+pipx install consilio  # or: uv install consilio
+
+# Start a new discussion
+cons
+
+# Follow the interactive prompts to:
+# 1. Describe your situation
+# 2. Generate expert perspectives
+# 3. Engage in structured discussion rounds
+```
+
+## Installation
+
+### Prerequisites
+- Python 3.8 or higher
+- pipx or uv package manager
+
+### Install Steps
+```bash
+# Using pipx (recommended)
+pipx install consilio
+
+# Or using uv
+uv install consilio
+```
+
+## Basic Usage
+
+1. Start a new discussion with `cons`
+2. Enter your topic or decision when prompted
+3. Choose number of expert perspectives (1-10)
+4. Guide the discussion through multiple rounds
+
+All interactions are automatically saved as markdown files for future reference.
+
+## Features
+
+### Core Capabilities
+- Generate diverse expert perspectives on your topic
+- Facilitate structured multi-round discussions
+- Save all interactions for review and reference
+- Edit and refine discussions using your preferred editor
+- Switch between multiple ongoing discussions
+
+### Key Commands
+- `cons` - Start or continue a discussion
+- `cons topics` - Manage discussion topics
+- `cons perspectives` - Generate or edit expert perspectives
+- `cons discuss` - Start a new discussion round
+- `cons config` - Configure settings
+
+See detailed command options below.
 
 ## Demo Session
 
