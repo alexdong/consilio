@@ -40,9 +40,23 @@ def discuss(edit: Optional[int], round: Optional[int]):
 @cli.command()
 @click.argument('shell', type=click.Choice(['bash', 'zsh']), required=False)
 def completion(shell: Optional[str]):
-    """Generate shell completion scripts"""
-    click.echo(f"Generating completion for {shell}")
-    # TODO: Implement completion generation
+    """Generate shell completion scripts for bash or zsh"""
+    if shell is None:
+        # Print usage if no shell specified
+        ctx = click.get_current_context()
+        click.echo(ctx.get_help())
+        ctx.exit(1)
+        
+    completion_script = None
+    if shell == 'bash':
+        from click.shell_completion import get_bash_completion_script
+        completion_script = get_bash_completion_script('cons', '_CONS_COMPLETE')
+    elif shell == 'zsh':
+        from click.shell_completion import get_zsh_completion_script
+        completion_script = get_zsh_completion_script('cons', '_CONS_COMPLETE')
+        
+    if completion_script:
+        click.echo(completion_script)
 
 @cli.command()
 def config():
