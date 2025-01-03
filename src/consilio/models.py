@@ -95,7 +95,8 @@ class Topic:
 
         # Parse directory name for date and slug
         pattern = re.compile(r"(\d{4}-\d{2}-\d{2})-(.*)")
-        if match := pattern.match(directory.name):
+        match = pattern.match(directory.name)
+        if match:
             date_str, slug = match.groups()
             created_at = datetime.strptime(date_str, "%Y-%m-%d")
             description = (directory / "discussion.md").read_text()
