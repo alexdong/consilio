@@ -1,6 +1,5 @@
 import click
 import subprocess
-from typing import Optional
 from .models import Config
 
 def create_or_edit_config() -> None:

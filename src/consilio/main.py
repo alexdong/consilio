@@ -1,5 +1,4 @@
 import click
-from pathlib import Path
 from typing import Optional
 import better_exceptions
 

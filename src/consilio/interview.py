@@ -1,6 +1,5 @@
 import click
 import json
-from pathlib import Path
 from typing import Optional, Dict, Any
 from .models import Config, Topic
 from .utils import get_llm_response

@@ -1,7 +1,6 @@
 import click
-from pathlib import Path
 import subprocess
-from typing import Optional, List
+from typing import Optional
 from .models import Topic, Config
 
 
