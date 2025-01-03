@@ -47,16 +47,9 @@ def completion(shell: Optional[str]):
         click.echo(ctx.get_help())
         ctx.exit(1)
         
-    completion_script = None
-    if shell == 'bash':
-        from click.shell_completion import get_bash_completion_script
-        completion_script = get_bash_completion_script('cons', '_CONS_COMPLETE')
-    elif shell == 'zsh':
-        from click.shell_completion import get_zsh_completion_script
-        completion_script = get_zsh_completion_script('cons', '_CONS_COMPLETE')
-        
-    if completion_script:
-        click.echo(completion_script)
+    # Get the shell completion script using Click's built-in functionality
+    completion_script = click.get_shell_completion(shell)
+    click.echo(completion_script)
 
 @cli.command()
 def config():
