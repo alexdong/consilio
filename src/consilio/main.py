@@ -71,8 +71,8 @@ def completion(shell: Optional[str]):
 @cli.command()
 def config():
     """Configure Consilio settings"""
-    click.echo("Config command")
-    # TODO: Implement config functionality
+    from .config import handle_config_command
+    handle_config_command()
 
 
 def main():
