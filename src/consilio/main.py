@@ -24,6 +24,7 @@ def cli():
 def topics(list: bool, topic_number: Optional[int], open: bool):
     """Manage discussion topics"""
     from .topics import handle_topics_command
+
     handle_topics_command(list, topic_number, open)
 
 
