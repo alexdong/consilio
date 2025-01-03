@@ -1,7 +1,12 @@
 import click
 from typing import Optional
 import better_exceptions
-from .version import __version__
+from consilio.version import __version__
+from consilio.topics import handle_topics_command
+from consilio.perspectives import handle_perspectives_command
+from consilio.discuss import handle_discuss_command
+from consilio.interview import handle_interview_command
+from consilio.config import handle_config_command
 
 better_exceptions.hook()
 
@@ -23,8 +28,6 @@ def cli():
 )
 def topics(list: bool, topic_number: Optional[int], open: bool):
     """Manage discussion topics"""
-    from .topics import handle_topics_command
-
     handle_topics_command(list, topic_number, open)
 
 
@@ -33,8 +36,6 @@ def topics(list: bool, topic_number: Optional[int], open: bool):
 @click.option("-l", "--list", is_flag=True, help="List all perspectives")
 def perspectives(edit: bool, list_flag: bool):
     """Manage and generate discussion perspectives"""
-    from .perspectives import handle_perspectives_command
-
     handle_perspectives_command(edit, list_flag)
 
 
@@ -43,8 +44,6 @@ def perspectives(edit: bool, list_flag: bool):
 @click.option("-r", "--round", type=int, help="Restart from specific round")
 def discuss(edit: Optional[int], round: Optional[int]):
     """Start or continue discussion rounds"""
-    from .discuss import handle_discuss_command
-
     handle_discuss_command(edit, round)
 
 
@@ -76,16 +75,12 @@ def completion(shell: Optional[str]):
 @click.option("-r", "--round", type=int, help="Start from specific round")
 def interview(perspective_index: int, round: Optional[int]):
     """Interview a specific perspective"""
-    from .interview import handle_interview_command
-
     handle_interview_command(perspective_index, round)
 
 
 @cli.command()
 def config():
     """Configure Consilio settings"""
-    from .config import handle_config_command
-
     handle_config_command()
 
 
