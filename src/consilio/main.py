@@ -41,8 +41,8 @@ def perspectives(edit: bool):
 @click.option("-r", "--round", type=int, help="Restart from specific round")
 def discuss(edit: Optional[int], round: Optional[int]):
     """Start or continue discussion rounds"""
-    click.echo("Discuss command")
-    # TODO: Implement discuss functionality
+    from .discuss import handle_discuss_command
+    handle_discuss_command(edit, round)
 
 
 @cli.command()

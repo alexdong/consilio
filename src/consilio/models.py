@@ -33,17 +33,21 @@ class Topic:
         """Get the perspectives.md file path"""
         return self.directory / "perspectives.md"
 
-    def round_file(self, round_num: int) -> Path:
-        """Get the path for a specific discussion round file"""
-        return self.directory / f"round-{round_num}.md"
+    def round_input_file(self, round_num: int) -> Path:
+        """Get the path for a specific round's input file"""
+        return self.directory / f"round-{round_num}-input.md"
+        
+    def round_response_file(self, round_num: int) -> Path:
+        """Get the path for a specific round's response file"""
+        return self.directory / f"round-{round_num}-response.md"
 
     @property
     def latest_round(self) -> int:
         """Get the number of the latest discussion round"""
-        pattern = re.compile(r"round-(\d+)\.md")
+        pattern = re.compile(r"round-(\d+)-(?:input|response)\.md")
         rounds = [
             int(pattern.match(f.name).group(1))
-            for f in self.directory.glob("round-*.md")
+            for f in self.directory.glob("round-*-*.md")
             if pattern.match(f.name)
         ]
         return max(rounds) if rounds else 0
