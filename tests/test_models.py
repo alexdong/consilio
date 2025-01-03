@@ -1,6 +1,4 @@
 from datetime import datetime
-from pathlib import Path
-import pytest
 from consilio.models import Topic
 
 def test_get_latest_round_number(tmp_path):

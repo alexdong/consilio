@@ -1,7 +1,7 @@
 .PHONY: lint clean build release test test-coverage
 
 lint:
-	ruff check .
+	ruff check . --fix
 	mypy
 
 test: lint

@@ -45,7 +45,7 @@ def open_topic_directory() -> None:
     # Use 'open' command on macOS
     try:
         subprocess.run(["open", str(topic.directory)])
-    except subprocess.SubProcessError:
+    except subprocess.SubprocessError:
         click.echo("Failed to open directory in file explorer")
 
 

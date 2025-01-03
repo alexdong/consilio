@@ -16,7 +16,7 @@ def create_or_edit_config() -> None:
     try:
         click.echo(f"Opening config file: {config.path}")
         subprocess.run(["open", "-t", str(config.path)])
-    except subprocess.SubProcessError:
+    except subprocess.SubprocessError:
         click.echo("Failed to open config file in editor")
 
 

@@ -28,7 +28,7 @@ def edit_perspectives(topic: Topic) -> None:
 
     try:
         subprocess.run(["open", "-t", str(topic.perspectives_file)])
-    except subprocess.SubProcessError:
+    except subprocess.SubprocessError:
         click.echo("Failed to open perspectives file in editor")
 
 

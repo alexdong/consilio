@@ -7,7 +7,7 @@ from anthropic import Anthropic
 from openai import OpenAI
 import google.generativeai as genai
 import click
-from .models import Config
+from consilio.models import Config
 
 
 def render_template(template_name: str, **kwargs: Any) -> str:
@@ -70,7 +70,7 @@ def _get_anthropic_response(
         system=system_prompt,
         messages=[{"role": "user", "content": prompt}],
     )
-    return json.loads(message.content[0].text)
+    return json.loads(message.content[0].text)  # type: ignore
 
 
 def _get_openai_response(
@@ -90,7 +90,7 @@ def _get_openai_response(
             {"role": "user", "content": prompt},
         ],
     )
-    return json.loads(response.choices[0].message.content)
+    return json.loads(response.choices[0].message.content)  # type: ignore
 
 
 def _get_gemini_response(
@@ -101,9 +101,16 @@ def _get_gemini_response(
     if not api_key:
         raise click.ClickException("GOOGLE_API_KEY environment variable not set")
 
-    genai.configure(api_key=api_key)
-    model = genai.GenerativeModel(model)
-    response = model.generate_content(
+    generation_config = {
+        "temperature": temperature,
+        "top_p": 0.95,
+        "top_k": 64,
+        "max_output_tokens": 8192,
+        "response_mime_type": "text/plain",
+    }
+    response = genai.GenerativeModel(
+        model, generation_config=generation_config  # type: ignore
+    ).generate_content(
         f"{system_prompt}\n\n{prompt}",
         generation_config=genai.types.GenerationConfig(temperature=temperature),
     )
