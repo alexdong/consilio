@@ -42,3 +42,8 @@ cons = "consilio.main:cli"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+ [tool.mypy]
+ packages = ["consilio"]
+ namespace_packages = false
+ explicit_package_bases = true
