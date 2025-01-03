@@ -1,4 +1,4 @@
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, Union
 
 class GenerationConfig:
     """Configuration for text generation."""
@@ -11,7 +11,7 @@ class GenerativeModel:
     def generate_content(
         self, 
         prompt: str,
-        generation_config: Optional[GenerationConfig] = None
+        generation_config: Optional[Union["GenerationConfig", "types.GenerationConfig"]] = None
     ) -> Any: ...
 
 class types:
