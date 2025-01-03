@@ -2,7 +2,7 @@ import click
 import json
 import subprocess
 from .models import Config, Topic
-from .utils import get_llm_response
+from .utils import get_llm_response, render_template
 
 
 def generate_perspectives(topic: Topic) -> None:
