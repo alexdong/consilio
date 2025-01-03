@@ -123,11 +123,34 @@ $ cons config
 Create a initial configuration file  `~/.config/consilio/config.toml` with
 default options, then open the configuration file in the default editor.
 
-Currently, only the following options are available:
+The following configuration options are available:
 
 ```toml
-topic= "~/.consilio/YYYY-MM-DD-{Topic-Slug}"
-key_bindings = "vi" # Default is "emacs" as provided by the python prompt_toolkit package.
+# The current topic being discussed
+topic = "~/.consilio/YYYY-MM-DD-{Topic-Slug}"
+
+# Key bindings for input (default: "emacs")
+key_bindings = "vi"  
+
+# LLM model to use (default: "claude-3-sonnet-20240229")
+model = "claude-3-sonnet-20240229"
+
+# Temperature for LLM responses (0.0-1.0, default: 1.0)
+temperature = 1.0
+
+# Available LLM models configuration
+[models]
+[models.anthropic]
+default = "claude-3-sonnet-20240229"
+models = ["claude-3-opus-20240229", "claude-3-sonnet-20240229"]
+
+[models.openai]
+default = "gpt-4-turbo-preview"
+models = ["gpt-4-turbo-preview"]
+
+[models.google]
+default = "gemini-pro"
+models = ["gemini-pro"]
 ```
 
 ### Misc
