@@ -10,7 +10,7 @@ def _get_perspective(topic: Topic, index: int) -> Dict[Any, Any]:
     try:
         perspectives = json.loads(topic.perspectives_file.read_text())
         if index < 0 or index >= len(perspectives):
-            raise click.ClickException(f"Invalid perspective index. Choose 0-{len(perspectives)-1}")
+            raise click.ClickException(f"Invalid perspective index. Choose between 0 and {len(perspectives)-1}")
         return perspectives[index]
     except (json.JSONDecodeError, FileNotFoundError):
         raise click.ClickException("No valid perspectives found. Generate perspectives first.")
