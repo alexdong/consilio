@@ -58,6 +58,75 @@ All interactions are automatically saved as markdown files for future reference.
 - Edit and refine discussions using your preferred editor
 - Switch between multiple ongoing discussions
 
+### `cons` Command
+
+`cons` is the main command that you will interact with.
+
+Under the hook, it delegates to a set of subcommands depends on the state of the topic directory.
+
+- `cons topics`. If there is no `topic` in the configuration file or there is no `discussion.md` file in the topic directory, you will be prompted to describe the topic of the discussion. A slug will be generated from the topic and the file is saved as `~/.consilio/YYYY-MM-DD-{Topic-Slug}/discussion.md`.
+
+- `cons perspectives`. If there is a `discussion.md` file in the topic directory but no `perspectives.md` file, you will be prompted to enter the number of perspectives you would like to include in the discussion. Consilio will then generate a list of perspectives based on the topic and save it as `~/.consilio/YYYY-MM-DD-{Topic-Slug}/perspectives.md`. You can reload the perspectives or open up this file to add or remove perspectives.
+
+- `cons discuss`. If both the `discussion.md` and `perspectives.md` files exist, Consilio will start the discussion process. Each round of discussion will be saved as `~/.consilio/YYYY-MM-DD-{Topic-Slug}/round-{n}.md`.
+
+### `topics`
+
+$ cons topics [flags]
+
+This command will prompt you to enter the topic you'd like to discuss. The topic will be saved as `discussion.md` in the topic directory. You can use this command to start a new discussion or to switch to a different topic.
+
+The topic directory will be set as `topic` in the config.toml file through the `cons config set topic YYYY-MM-DD-{Topic_Slug}` command.
+
+Flags:
+
+- `-l`, `--list`: List all the topic directories in the `~/.consilio` directory.
+- `-t`, `--topic-number <number in the list>`: Switch to a different topic. This will update the `topic` in the config file.
+- `-o`, `--open`: Open the topic directory in the default file explorer.
+
+### `perspectives`
+
+$ cons perspectives [flags]
+
+Reload available perspectives. This will overwrite the existing `perspectives.md` file in the topic directory and request a new set of perspectives. If there is no topic or decision file, this command will quietly exit with a message to start a new topic.
+
+I find this useful after a couple of rounds of discussions when I want to update the discussion document or want to focus on a particular area.
+
+Flags:
+
+- `-e`, `--edit`: Open the perspectives.md file in the default editor
+
+### `discuss`
+
+$ cons discuss [flags]
+
+Start a new round of discussion. You will be prompted to provide guidance for the discussion. You can answer questions from the previous round of discussions or specify a particular area you'd like to focus on next.
+
+Flags:
+
+- `-e`, `--edit [round number]`: Open the specified round of discussions in the default editor. You can use this to add more context or clarifications to the discussion document. Once you are done editing, save and close the file. Consilio will provide you with the next steps.
+- `-r`, `--round [round number]`: Restart the discussion from the specified round number. This is useful if you want to revisit a previous round of discussions or if you have saved the discussion document and want to continue from where you left off.
+
+### `config`
+
+$ cons config
+
+Create a initial configuration file  `~/.config/consilio/config.toml` with
+default options, then open the configuration file in the default editor.
+
+Currently, only the following options are available:
+
+```toml
+topic= "~/.consilio/YYYY-MM-DD-{Topic-Slug}"
+key_bindings = "vi" # Default is "emacs" as provided by the python prompt_toolkit package.
+```
+
+### Misc
+
+- `cons completion [shell]` to generate shell completion scripts. Supported shells are `bash`, `zsh` and `fish`.
+- `cons --version` to get the version of the program.
+- `cons --help` to get the help message.
+
 ### Key Commands
 
 - `cons` - Start or continue a discussion
@@ -345,80 +414,9 @@ Starting discussions (Round #2) ...
 > ...
 ```
 
-## Features
-
-`cons` is the main command that you will interact with. 
-
-Under the hook, it delegates to a set of subcommands depends on the state of the topic directory.
-
-- `cons topics`. If there is no `topic` in the configuration file or there is no `discussion.md` file in the topic directory, you will be prompted to describe the topic of the discussion. A slug will be generated from the topic and the file is saved as `~/.consilio/YYYY-MM-DD-{Topic-Slug}/discussion.md`.
-
-- `cons perspectives`. If there is a `discussion.md` file in the topic directory but no `perspectives.md` file, you will be prompted to enter the number of perspectives you would like to include in the discussion. Consilio will then generate a list of perspectives based on the topic and save it as `~/.consilio/YYYY-MM-DD-{Topic-Slug}/perspectives.md`. You can reload the perspectives or open up this file to add or remove perspectives.
-
-- `cons discuss`. If both the `discussion.md` and `perspectives.md` files exist, Consilio will start the discussion process. Each round of discussion will be saved as `~/.consilio/YYYY-MM-DD-{Topic-Slug}/round-{n}.md`.
-
-### `topics`
-
-$ cons topics [flags]
-
-This command will prompt you to enter the topic you'd like to discuss. The topic will be saved as `discussion.md` in the topic directory. You can use this command to start a new discussion or to switch to a different topic.
-
-The topic directory will be set as `topic` in the config.toml file through the `cons config set topic YYYY-MM-DD-{Topic_Slug}` command. 
-
-Flags:
-
-- `-l`, `--list`: List all the topic directories in the `~/.consilio` directory. 
-- `-t`, `--topic-number <number in the list>`: Switch to a different topic. This will update the `topic` in the config file.
-- `-o`, `--open`: Open the topic directory in the default file explorer.
-
-
-### `perspectives`
-
-$ cons perspectives [flags]
-
-Reload available perspectives. This will overwrite the existing `perspectives.md` file in the topic directory and request a new set of perspectives. If there is no topic or decision file, this command will quietly exit with a message to start a new topic.
-
-I find this useful after a couple of rounds of discussions when I want to update the discussion document or want to focus on a particular area. 
-
-Flags:
-
-- `-e`, `--edit`: Open the perspectives.md file in the default editor
-
-### `discuss`
-
-$ cons discuss [flags]
-
-Start a new round of discussion. You will be prompted to provide guidance for the discussion. You can answer questions from the previous round of discussions or specify a particular area you'd like to focus on next.
-
-Flags:
-
-- `-e`, `--edit [round number]`: Open the specified round of discussions in the default editor. You can use this to add more context or clarifications to the discussion document. Once you are done editing, save and close the file. Consilio will provide you with the next steps.
-- `-r`, `--round [round number]`: Restart the discussion from the specified round number. This is useful if you want to revisit a previous round of discussions or if you have saved the discussion document and want to continue from where you left off.
-
-### `config`
-
-$ cons config 
-
-Create a initial configuration file  `~/.config/consilio/config.toml` with
-default options, then open the configuration file in the default editor. 
-
-Currently, only the following options are available:
-
-```toml
-topic= "~/.consilio/YYYY-MM-DD-{Topic-Slug}"
-key_bindings = "vi" # Default is "emacs" as provided by the python prompt_toolkit package.
-```
-
-### Misc
-
-- `cons completion [shell]` to generate shell completion scripts. Supported shells are `bash`, `zsh` and `fish`.
-- `cons --version` to get the version of the program.
-- `cons --help` to get the help message.
-
-
 ## Decision Philosophy
 
-Consilio is a file-centric program. Every interaction is saved as 
+Consilio is a file-centric program. Every interaction is saved as
 a markdown file. Use your unix power tools to review responses and search
 for discussions from past decisions.
 
@@ -442,4 +440,3 @@ decisions were made.
 
 [^1]: Consilio is a Latin term that embodies concepts such as counsel, deliberation, and wisdom. In ancient times, "consilium" referred to a group of advisors or a council that deliberated on important decisions, reflecting a process of careful consideration and planning. The term is associated with strategic thinking and prudent decision-making, emphasizing the use of good judgment, experience, and advice.
 [^2]: The name `cons` is a shortcut for `consilio`. It's called `cons` because just like LISP's `cons`, it constructs structures that you can manipulate, shape and transform. This is what I envision Consilio to be - a tool that helps you construct your thoughts, opinions, and decisions in a structured manner.
-
