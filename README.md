@@ -312,6 +312,7 @@ Flags:
 
 * `-l`, `--list`: List all the topic directories in the `~/.consilio` directory. 
 * `-t`, `--topic-number <number in the list>`: Switch to a different topic. This will update the `topic` in the config file.
+* `-o`, `--open`: Open the topic directory in the default file explorer.
 
 
 ### `perspectives`
@@ -392,13 +393,11 @@ uv install consilio
 - [Virtual Lab](https://github.com/zou-group/virtual-lab): The Virtual Lab is an AI-human collaboration for science research. [x.com](https://x.com/james_y_zou/status/1856729107045982607)
 - [tenx](https://github.com/cortesi/tenx): For the idea of encouraging the use of editors for fine control over the context.
 
-## Contributing Guide
+## See Also
 
-Please refer to the [CONTRIBUTING.md](CONTRIBUTING.md) document for the contribution guidelines.
-Please refer to the [Python.md](Python.md) document for the coding style guide.
+* [CONTRIBUTING.md](CONTRIBUTING.md) document for the contribution guidelines.
+* [Python.md](Python.md) document for the coding style guide.
+* [Issues](https://github.com/alexdong/consilio/issues) for the list of issues and feature requests.
 
 [^1]: The name `cons` is a shortcut for `consilio`. It's called `cons` because just like LISP's `cons`, it constructs structures that you can manipulate, shape and transform. This is what I envision Consilio to be - a tool that helps you construct your thoughts, opinions, and decisions in a structured manner.
 
-```
-
-```python
