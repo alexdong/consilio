@@ -2,7 +2,7 @@
 
 lint:
 	ruff check .
-	mypy src/consilio
+	mypy
 
 test: lint
 	py.test -v

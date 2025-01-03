@@ -18,7 +18,13 @@ class Topic:
     created_at: datetime
     description: str
 
-    def __init__(self, slug: str, created_at: datetime, description: str, test_dir: Optional[Path] = None):
+    def __init__(
+        self,
+        slug: str,
+        created_at: datetime,
+        description: str,
+        test_dir: Optional[Path] = None,
+    ):
         self.slug = slug
         self.created_at = created_at
         self.description = description
@@ -60,11 +66,11 @@ class Topic:
     def _get_latest_round_number(self, prefix: str) -> int:
         """Get the latest round number for a given file prefix (round/interview)"""
         pattern = re.compile(rf"{prefix}-(\d+)-(?:input|response)\.md")
-        rounds = [
-            int(pattern.match(f.name).group(1))
-            for f in self.directory.glob(f"{prefix}-*-*.md")
-            if pattern.match(f.name)
-        ]
+        rounds = []
+        for f in self.directory.glob(f"{prefix}-*-*.md"):
+            match = pattern.match(f.name)
+            if match and match.group(1):
+                rounds.append(int(match.group(1)))
         return max(rounds) if rounds else 0
 
     @property
