@@ -2,7 +2,7 @@ import click
 import json
 from typing import Optional, Dict, Any
 from .models import Config, Topic
-from .utils import get_llm_response
+from .utils import get_llm_response, render_template
 
 
 def _get_perspective(topic: Topic, index: int) -> Dict[Any, Any]:
