@@ -1,6 +1,7 @@
 import click
 from typing import Optional
 import better_exceptions
+from .version import __version__
 
 better_exceptions.hook()
 
@@ -8,7 +9,7 @@ CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
 
 
 @click.group(context_settings=CONTEXT_SETTINGS)
-@click.version_option()
+@click.version_option(version=__version__, prog_name="consilio")
 def cli():
     """Consilio: AI-Facilitated Decision Making Assistant"""
     pass
