@@ -36,7 +36,7 @@ class Topic:
     def round_input_file(self, round_num: int) -> Path:
         """Get the path for a specific round's input file"""
         return self.directory / f"round-{round_num}-input.md"
-        
+
     def round_response_file(self, round_num: int) -> Path:
         """Get the path for a specific round's response file"""
         return self.directory / f"round-{round_num}-response.md"
@@ -44,7 +44,7 @@ class Topic:
     def interview_input_file(self, round_num: int) -> Path:
         """Get the path for a specific interview round's input file"""
         return self.directory / f"interview-{round_num}-input.md"
-        
+
     def interview_response_file(self, round_num: int) -> Path:
         """Get the path for a specific interview round's response file"""
         return self.directory / f"interview-{round_num}-response.md"
@@ -128,24 +128,29 @@ class Config:
             self.data = tomli.loads(self.path.read_text())
         else:
             self.data = {
-                "topic": None, 
+                "topic": None,
                 "key_bindings": "emacs",
-                "model": "claude-3-sonnet-20240229",
+                "model": "claude-3-sonnet-20241022",
                 "temperature": 1.0,
                 "models": {
                     "anthropic": {
-                        "default": "claude-3-sonnet-20240229",
-                        "models": ["claude-3-opus-20240229", "claude-3-sonnet-20240229"]
+                        "default": "claude-3-sonnet-20241022",
+                        "models": [
+                            "claude-3-sonnet-202401022",
+                        ],
                     },
                     "openai": {
                         "default": "gpt-4-turbo-preview",
-                        "models": ["gpt-4-turbo-preview"]
+                        "models": ["gpt-4-turbo-preview"],
                     },
                     "google": {
-                        "default": "gemini-pro",
-                        "models": ["gemini-pro"]
-                    }
-                }
+                        "default": "gemini-2.0-flash-thinking-exp-1219",
+                        "models": [
+                            "gemini-2.0-flash-thinking-exp-1219",
+                            "gemini-2.0-flash-exp",
+                        ],
+                    },
+                },
             }
             self._save()
 

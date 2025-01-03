@@ -114,6 +114,7 @@ $ cons interview [perspective_index] [flags]
 Start an interview session with a specific perspective. This allows for focused discussions with individual perspectives, getting deeper insights from their particular viewpoint.
 
 Flags:
+
 - `-r`, `--round [round number]`: Start from a specific interview round number.
 
 ### `config`
@@ -135,22 +136,8 @@ key_bindings = "vi"
 # LLM model to use (default: "claude-3-sonnet-20240229")
 model = "claude-3-sonnet-20240229"
 
-# Temperature for LLM responses (0.0-1.0, default: 1.0)
+# Temperature for LLM responses (0.0-1.0, brainstorm: 0.8, meeting: 0.2)
 temperature = 1.0
-
-# Available LLM models configuration
-[models]
-[models.anthropic]
-default = "claude-3-sonnet-20240229"
-models = ["claude-3-opus-20240229", "claude-3-sonnet-20240229"]
-
-[models.openai]
-default = "gpt-4-turbo-preview"
-models = ["gpt-4-turbo-preview"]
-
-[models.google]
-default = "gemini-pro"
-models = ["gemini-pro"]
 ```
 
 ### Misc

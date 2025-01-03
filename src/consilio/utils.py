@@ -14,8 +14,7 @@ def render_template(template_name: str, **kwargs: Any) -> str:
     """Render a Jinja2 template with the given context"""
     templates_dir = Path(__file__).parent / "prompts"
     env = Environment(
-        loader=FileSystemLoader(templates_dir),
-        autoescape=select_autoescape()
+        loader=FileSystemLoader(templates_dir), autoescape=select_autoescape()
     )
     template = env.get_template(template_name)
     return template.render(**kwargs)
@@ -34,6 +33,8 @@ def get_llm_response(
     config = Config()
     if not model:
         model = config.data["model"]
+    if not model:
+        model = "sonn"
 
     system_prompt = (
         "You are an expert panel coordinator helping to analyze complex topics."
