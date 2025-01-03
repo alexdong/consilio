@@ -428,18 +428,6 @@ directory, creating a detailed record of the decision-making process. This
 allows for both immediate reference and retrospective review of how important
 decisions were made.
 
-## Get Started
-
-### Install
-
-```bash
-# Using `pipx` ... 
-pipx install consilio
-
-# or, if you prefer `uv`
-uv install consilio
-```
-
 ## Inspiration
 
 - [Virtual Lab](https://github.com/zou-group/virtual-lab): The Virtual Lab is an AI-human collaboration for science research. [x.com](https://x.com/james_y_zou/status/1856729107045982607)
