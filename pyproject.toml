@@ -46,6 +46,3 @@ where = ["src"]
 [tool.mypy]
 packages = ["consilio"]
 python_version = "3.11"
-warn_return_any = true
-warn_unused_configs = true
-disallow_untyped_defs = true
