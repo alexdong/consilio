@@ -8,7 +8,7 @@ import click
 from .models import Config
 
 
-def get_llm_response(prompt: str, model: Optional[str] = None, temperature: float = 0.7) -> Dict[Any, Any]:
+def get_llm_response(prompt: str, model: Optional[str] = None, temperature: float = 1.0) -> Dict[Any, Any]:
     """Get response from LLM API
     
     Args:
