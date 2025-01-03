@@ -3,6 +3,8 @@ prompt-toolkit
 Jinja2
 PyYAML
 python-slugify
+tomli
+tomli-w
 
 # Development tools
 ipython
