@@ -103,7 +103,11 @@ class Config:
         if self.path.exists():
             self.data = tomli.loads(self.path.read_text())
         else:
-            self.data = {"topic": None, "key_bindings": "emacs"}
+            self.data = {
+                "topic": None, 
+                "key_bindings": "emacs",
+                "model": "claude-3-sonnet-20240229"
+            }
             self._save()
 
     def _save(self):

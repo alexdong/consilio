@@ -32,8 +32,8 @@ def topics(list: bool, topic_number: Optional[int], open: bool):
 @click.option("-e", "--edit", is_flag=True, help="Edit perspectives file")
 def perspectives(edit: bool):
     """Manage and generate discussion perspectives"""
-    click.echo("Perspectives command")
-    # TODO: Implement perspectives functionality
+    from .perspectives import handle_perspectives_command
+    handle_perspectives_command(edit)
 
 
 @cli.command()
