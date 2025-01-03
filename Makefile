@@ -4,8 +4,8 @@ lint:
 	ruff check . --fix
 	mypy
 
-test: lint
-	py.test -v
+test:
+	py.test -v tests
 
 test-coverage: test
 	pytest --cov=consilio --cov-report=term-missing --cov-report=html tests/
