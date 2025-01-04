@@ -51,8 +51,9 @@ def start_discussion_round(topic: Topic, round_num: int, user_input: str) -> Non
     topic.round_input_file(round_num).write_text(user_input)
 
     try:
-        # Get LLM response
-        response = get_llm_response(prompt)
+        # Get LLM response with system prompt
+        system_prompt = render_template("system.j2")
+        response = get_llm_response(prompt, system_prompt=system_prompt)
 
         # Save response
         topic.round_response_file(round_num).write_text(json.dumps(response, indent=2))

@@ -15,9 +15,10 @@ def generate_perspectives(topic: Topic) -> None:
     prompt = render_template("perspectives.j2", 
                            topic=topic,
                            num_of_perspectives=num)
+    system_prompt = render_template("system.j2")
 
     try:
-        perspectives = get_llm_response(prompt)
+        perspectives = get_llm_response(prompt, system_prompt=system_prompt)
 
         # Save perspectives to file
         topic.perspectives_file.write_text(json.dumps(perspectives, indent=2))
