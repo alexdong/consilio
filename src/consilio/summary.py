@@ -1,5 +1,14 @@
+from dataclasses import dataclass
+from typing import List
 import click
 from .models import Topic
+from .utils import get_llm_response, render_template
+
+@dataclass
+class Round:
+    number: int
+    input: str
+    response: str
 
 def generate_summary(topic: Topic) -> None:
     """Generate a summary of all discussion rounds"""
