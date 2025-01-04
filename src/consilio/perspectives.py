@@ -7,7 +7,14 @@ from .utils import get_llm_response, render_template
 
 def generate_perspectives(topic: Topic) -> None:
     """Generate perspectives for a topic using LLM"""
-    prompt = render_template("perspectives.j2", topic=topic)
+    # Prompt for number of perspectives
+    num = click.prompt("How many perspectives would you like? (1-10)", 
+                      type=click.IntRange(1, 10),
+                      default=5)
+    
+    prompt = render_template("perspectives.j2", 
+                           topic=topic,
+                           num_of_perspectives=num)
 
     try:
         perspectives = get_llm_response(prompt)
