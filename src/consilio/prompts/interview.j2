@@ -9,6 +9,11 @@ Context from Previous Discussions:
 {{ history | join('\n') }}
 {% endif %}
 
+{% if interview_history %}
+Previous Interview Rounds with Your Perspective:
+{{ interview_history | join('\n') }}
+{% endif %}
+
 Questions/Input for Round {{ round_num }}:
 {{ user_input }}
 
