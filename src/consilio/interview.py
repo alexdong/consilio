@@ -26,18 +26,31 @@ def _build_interview_prompt(
     """Build prompt for interview rounds"""
     history = []
 
-    # Add context from previous rounds
+    # Add context from discussion rounds
+    for i in range(1, topic.latest_round + 1):
+        try:
+            input_file = topic.round_input_file(i)
+            response_file = topic.round_response_file(i)
+
+            if input_file.exists():
+                history.append(f"Discussion Round {i} Input:\n{input_file.read_text()}\n")
+            if response_file.exists():
+                history.append(f"Discussion Round {i} Response:\n{response_file.read_text()}\n")
+        except Exception as e:
+            click.echo(f"Warning: Error reading discussion round {i}: {str(e)}")
+
+    # Add context from previous interview rounds
     for i in range(1, round_num):
         try:
             input_file = topic.interview_input_file(i)
             response_file = topic.interview_response_file(i)
 
             if input_file.exists():
-                history.append(f"Round {i} Input:\n{input_file.read_text()}\n")
+                history.append(f"Interview Round {i} Input:\n{input_file.read_text()}\n")
             if response_file.exists():
-                history.append(f"Round {i} Response:\n{response_file.read_text()}\n")
+                history.append(f"Interview Round {i} Response:\n{response_file.read_text()}\n")
         except Exception as e:
-            click.echo(f"Warning: Error reading round {i}: {str(e)}")
+            click.echo(f"Warning: Error reading interview round {i}: {str(e)}")
 
     return render_template(
         "interview.j2",
