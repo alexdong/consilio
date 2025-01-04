@@ -55,13 +55,13 @@ class Topic:
         """Get the path for a specific round's response file"""
         return self.directory / f"round-{round_num}-response.md"
 
-    def interview_input_file(self, round_num: int) -> Path:
+    def interview_input_file(self, perspective_index: int, round_num: int) -> Path:
         """Get the path for a specific interview round's input file"""
-        return self.directory / f"interview-{round_num}-input.md"
+        return self.directory / f"interview-p{perspective_index}-r{round_num}-input.md"
 
-    def interview_response_file(self, round_num: int) -> Path:
+    def interview_response_file(self, perspective_index: int, round_num: int) -> Path:
         """Get the path for a specific interview round's response file"""
-        return self.directory / f"interview-{round_num}-response.md"
+        return self.directory / f"interview-p{perspective_index}-r{round_num}-response.md"
 
     def _get_latest_round_number(self, prefix: str) -> int:
         """Get the latest round number for a given file prefix (round/interview)"""

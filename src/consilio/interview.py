@@ -42,8 +42,8 @@ def _build_interview_prompt(
     # Add context from previous interview rounds
     for i in range(1, round_num):
         try:
-            input_file = topic.interview_input_file(i)
-            response_file = topic.interview_response_file(i)
+            input_file = topic.interview_input_file(perspective_index, i)
+            response_file = topic.interview_response_file(perspective_index, i)
 
             if input_file.exists():
                 history.append(f"Interview Round {i} Input:\n{input_file.read_text()}\n")
@@ -70,14 +70,14 @@ def start_interview_round(
     prompt = _build_interview_prompt(topic, perspective, round_num, user_input)
 
     # Save user input
-    topic.interview_input_file(round_num).write_text(user_input)
+    topic.interview_input_file(perspective_index, round_num).write_text(user_input)
 
     try:
         # Get LLM response
         response = get_llm_response(prompt)
 
         # Save response
-        topic.interview_response_file(round_num).write_text(
+        topic.interview_response_file(perspective_index, round_num).write_text(
             json.dumps(response, indent=2)
         )
 
