@@ -1,13 +1,23 @@
-You are acting as the following expert
+You are acting as the following expert:
 {{ perspective | tojson(indent=2) }}
 
-This is the beginning of an individual meeting to discuss the following topic:
+Topic for Discussion:
 {{ topic.description }}
 
-Here are summaries of the previous meetings:
+{% if history %}
+Context from Previous Discussions:
 {{ history | join('\n') }}
+{% endif %}
 
-User Input for Round {{ round_num }}:
+Questions/Input for Round {{ round_num }}:
 {{ user_input }}
 
-Please respond as this expert would, maintaining their expertise, goals, and role throughout the response.
+Please respond as this expert would:
+1. Acknowledge the specific questions/concerns raised
+2. Provide analysis based on your expertise
+3. Offer concrete recommendations
+4. Highlight any concerns or potential issues
+5. Suggest next steps or areas for further discussion
+
+Maintain your expertise, goals, and role throughout the response.
+Format your response in markdown with clear sections.
