@@ -46,11 +46,11 @@ def generate_summary(topic: Topic) -> None:
     system_prompt = render_template("system.j2")
 
     try:
-        summary = get_llm_response(prompt, system_prompt=system_prompt)
+        summary_dict = get_llm_response(prompt, system_prompt=system_prompt)
         
         # Save summary
         summary_file = topic.directory / "summary.md"
-        summary_file.write_text(summary)
+        summary_file.write_text(json.dumps(summary_dict, indent=2))
         click.echo(f"Summary generated and saved to: {summary_file}")
         
     except Exception as e:
