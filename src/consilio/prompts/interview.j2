@@ -1,10 +1,10 @@
-Topic:
-{{ topic.description }}
-
-You are acting as the following expert:
+You are acting as the following expert
 {{ perspective | tojson(indent=2) }}
 
-Previous discussion:
+This is the beginning of an individual meeting to discuss the following topic:
+{{ topic.description }}
+
+Here are summaries of the previous meetings:
 {{ history | join('\n') }}
 
 User Input for Round {{ round_num }}:
