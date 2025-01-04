@@ -21,7 +21,7 @@ def _get_perspective(topic: Topic, index: int) -> Dict[Any, Any]:
 
 
 def _build_interview_prompt(
-    topic: Topic, perspective: Dict[Any, Any], round_num: int, user_input: str
+    topic: Topic, perspective: Dict[Any, Any], perspective_index: int, round_num: int, user_input: str
 ) -> str:
     """Build prompt for interview rounds"""
     history = []
@@ -67,7 +67,7 @@ def start_interview_round(
 ) -> None:
     """Start a new interview round with a specific perspective"""
     perspective = _get_perspective(topic, perspective_index)
-    prompt = _build_interview_prompt(topic, perspective, round_num, user_input)
+    prompt = _build_interview_prompt(topic, perspective, perspective_index, round_num, user_input)
 
     # Save user input
     topic.interview_input_file(perspective_index, round_num).write_text(user_input)
