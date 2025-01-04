@@ -29,6 +29,8 @@ def get_llm_response(
 ) -> Dict[Any, Any]:
     logger = logging.getLogger("consilio.llm")
     logger.debug(f"Getting LLM response with model: {model}")
+    logger.debug(f"Prompt length: {len(prompt)} chars")
+    logger.info(f"Making API call to {model if model else 'default model'}")
     """Get response from LLM API
 
     Args:
@@ -66,6 +68,9 @@ def _get_anthropic_response(
     prompt: str, model: str, system_prompt: str, temperature: float
 ) -> Dict[Any, Any]:
     """Get response from Anthropic's Claude"""
+    logger = logging.getLogger("consilio.llm.anthropic")
+    logger.info("Making Anthropic API call")
+    logger.debug(f"Using model: {model}, temperature: {temperature}")
     api_key = os.getenv("ANTHROPIC_API_KEY")
     if not api_key:
         raise click.ClickException("ANTHROPIC_API_KEY environment variable not set")
@@ -85,6 +90,9 @@ def _get_openai_response(
     prompt: str, model: str, system_prompt: str, temperature: float
 ) -> Dict[Any, Any]:
     """Get response from OpenAI's GPT models"""
+    logger = logging.getLogger("consilio.llm.openai")
+    logger.info("Making OpenAI API call")
+    logger.debug(f"Using model: {model}, temperature: {temperature}")
     api_key = os.getenv("OPENAI_API_KEY")
     if not api_key:
         raise click.ClickException("OPENAI_API_KEY environment variable not set")
@@ -105,6 +113,9 @@ def _get_gemini_response(
     prompt: str, model: str, system_prompt: str, temperature: float
 ) -> Dict[Any, Any]:
     """Get response from Google's Gemini models"""
+    logger = logging.getLogger("consilio.llm.gemini")
+    logger.info("Making Gemini API call")
+    logger.debug(f"Using model: {model}, temperature: {temperature}")
     api_key = os.getenv("GOOGLE_API_KEY")
     if not api_key:
         raise click.ClickException("GOOGLE_API_KEY environment variable not set")

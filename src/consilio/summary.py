@@ -12,6 +12,8 @@ class Round:
 
 def generate_summary(topic: Topic) -> None:
     """Generate a summary of all discussion rounds"""
+    logger = logging.getLogger("consilio.summary")
+    logger.info("Generating discussion summary")
     if not topic.discussion_file.exists():
         click.echo("No discussion file found.")
         return

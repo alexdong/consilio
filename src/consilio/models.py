@@ -65,6 +65,8 @@ class Topic:
 
     def _get_latest_round_number(self, prefix: str) -> int:
         """Get the latest round number for a given file prefix (round/interview)"""
+        logger = logging.getLogger("consilio.models")
+        logger.debug(f"Getting latest {prefix} round number")
         pattern = re.compile(rf"{prefix}-(\d+)-(?:input|response)\.md")
         rounds = []
         for f in self.directory.glob(f"{prefix}-*-*.md"):
@@ -86,6 +88,8 @@ class Topic:
     @classmethod
     def create(cls, description: str) -> "Topic":
         """Create a new topic from a description"""
+        logger = logging.getLogger("consilio.models")
+        logger.info(f"Creating new topic: {description}")
         # Generate a URL-friendly slug from the first line
         first_line = description.split("\n")[0][:50]  # Take first 50 chars
         slug = re.sub(r"[^\w\s-]", "", first_line).strip().lower()
@@ -102,6 +106,8 @@ class Topic:
     @classmethod
     def load(cls, directory: Path) -> Optional["Topic"]:
         """Load a topic from an existing directory"""
+        logger = logging.getLogger("consilio.models")
+        logger.debug(f"Loading topic from {directory}")
         if not directory.exists():
             return None
 

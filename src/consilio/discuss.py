@@ -8,6 +8,8 @@ from consilio.utils import get_llm_response, render_template
 
 def _build_first_round_prompt(topic: Topic) -> str:
     """Build prompt for the first discussion round"""
+    logger = logging.getLogger("consilio.discuss")
+    logger.debug("Building first round prompt")
     try:
         perspectives = json.loads(topic.perspectives_file.read_text())
     except (json.JSONDecodeError, FileNotFoundError):
@@ -20,6 +22,8 @@ def _build_first_round_prompt(topic: Topic) -> str:
 
 def _build_subsequent_round_prompt(topic: Topic, round_num: int) -> str:
     """Build prompt including previous rounds' context"""
+    logger = logging.getLogger("consilio.discuss")
+    logger.debug(f"Building prompt for round {round_num}")
     history = []
 
     # Gather all previous rounds
@@ -70,6 +74,8 @@ def start_discussion_round(topic: Topic, round_num: int, user_input: str) -> Non
 
 def edit_round(topic: Topic, round_num: int) -> None:
     """Edit a specific discussion round"""
+    logger = logging.getLogger("consilio.discuss")
+    logger.info(f"Editing round {round_num}")
     if round_num > topic.latest_round:
         raise click.ClickException(f"Round {round_num} does not exist")
 

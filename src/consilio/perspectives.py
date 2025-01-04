@@ -7,6 +7,8 @@ from .utils import get_llm_response, render_template
 
 def generate_perspectives(topic: Topic) -> None:
     """Generate perspectives for a topic using LLM"""
+    logger = logging.getLogger("consilio.perspectives")
+    logger.info("Generating new perspectives")
     # Prompt for number of perspectives
     num = click.prompt("How many perspectives would you like? (1-10)", 
                       type=click.IntRange(1, 10),
@@ -30,6 +32,8 @@ def generate_perspectives(topic: Topic) -> None:
 
 def edit_perspectives(topic: Topic) -> None:
     """Open perspectives file in editor"""
+    logger = logging.getLogger("consilio.perspectives")
+    logger.info("Opening perspectives file for editing")
     if not topic.perspectives_file.exists():
         click.echo("No perspectives file exists yet. Generate perspectives first.")
         return
@@ -42,6 +46,8 @@ def edit_perspectives(topic: Topic) -> None:
 
 def list_perspectives(topic: Topic) -> None:
     """List all perspectives with their details"""
+    logger = logging.getLogger("consilio.perspectives")
+    logger.info("Listing available perspectives")
     try:
         perspectives = json.loads(topic.perspectives_file.read_text())
         click.echo("\nAvailable perspectives:")

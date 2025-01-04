@@ -8,6 +8,8 @@ from consilio.utils import get_llm_response, render_template
 
 def _get_perspective(topic: Topic, index: int) -> Dict[Any, Any]:
     """Get a specific perspective by index"""
+    logger = logging.getLogger("consilio.interview")
+    logger.debug(f"Getting perspective {index}")
     try:
         perspectives = json.loads(topic.perspectives_file.read_text())
         if index < 0 or index >= len(perspectives):
@@ -25,6 +27,8 @@ def _build_interview_prompt(
     topic: Topic, perspective: Dict[Any, Any], perspective_index: int, round_num: int, user_input: str
 ) -> str:
     """Build prompt for interview rounds"""
+    logger = logging.getLogger("consilio.interview")
+    logger.debug(f"Building interview prompt for perspective {perspective_index}, round {round_num}")
     history = []
 
     # Add context from discussion rounds
@@ -69,6 +73,7 @@ def start_interview_round(
     """Start a new interview round with a specific perspective"""
     logger = logging.getLogger("consilio.interview")
     logger.info(f"Starting interview round {round_num} with perspective {perspective_index}")
+    logger.debug(f"Interview prompt length: {len(user_input)} chars")
     perspective = _get_perspective(topic, perspective_index)
     prompt = _build_interview_prompt(topic, perspective, perspective_index, round_num, user_input)
 
