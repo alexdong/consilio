@@ -1,10 +1,8 @@
 import click
-import json
 import subprocess
-from typing import Optional, List, Dict
+from typing import Optional
 from dataclasses import dataclass
 from .models import Topic, Config
-from .utils import get_llm_response, render_template
 
 
 def list_topics() -> None:
