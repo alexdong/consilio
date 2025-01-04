@@ -35,6 +35,7 @@ def topics(list: bool, topic_number: Optional[int], open: bool):
 def summary():
     """Generate comprehensive discussion summary"""
     from .topics import generate_summary
+    from .models import Config
     config = Config()
     topic = config.current_topic
     if not topic:
