@@ -1,5 +1,6 @@
 import click
 import logging
+from pathlib import Path
 from typing import Optional
 import better_exceptions
 from consilio.logging import setup_logging
