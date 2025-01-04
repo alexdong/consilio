@@ -1,3 +1,10 @@
+This is a team meeting to discuss the following topic:
+{{ topic.description }}
+
+The meeting comprised of the team lead Principal Investigator, and the following team members: 
+{{ perspectives | tojson(indent=2) }}
+
+The following round of discussions have been recorded:
 {{ context }}
 
 User Input for Round {{ round_num }}:

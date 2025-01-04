@@ -117,6 +117,12 @@ Flags:
 
 - `-r`, `--round [round number]`: Start from a specific interview round number.
 
+### `summary`
+
+$ cons summary
+
+Generate a comprehensive summary of the discussion. This will compile all the rounds of discussions, perspectives, and other relevant information into a single document for easy review and reference.
+
 ### `config`
 
 $ cons config

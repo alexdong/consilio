@@ -21,10 +21,10 @@ def render_template(template_name: str, **kwargs: Any) -> str:
 
 
 def get_llm_response(
-    prompt: str, 
+    prompt: str,
     system_prompt: Optional[str] = None,
-    model: Optional[str] = None, 
-    temperature: float = 1.0
+    model: Optional[str] = None,
+    temperature: float = 1.0,
 ) -> Dict[Any, Any]:
     """Get response from LLM API
 
@@ -38,10 +38,12 @@ def get_llm_response(
     if not model:
         model = config.data["model"]
     if not model:
-        model = "sonn"
+        model = "claude-3-sonnet-20241022"
 
     if system_prompt is None:
-        system_prompt = "You are an expert panel coordinator helping to analyze complex topics."
+        system_prompt = (
+            "You are an expert panel coordinator helping to analyze complex topics."
+        )
 
     try:
         if "claude" in model:

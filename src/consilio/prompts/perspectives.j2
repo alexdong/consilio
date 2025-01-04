@@ -1,8 +1,10 @@
-Please give me {{ num_of_perspectives }} distinct perspectives to discuss the following topic. 
+Please provide {{ num_of_perspectives }} distinct perspectives to discuss the following topic. 
 
 <Topic>
 {{ topic.description }}
 </Topic>
+
+Ensure that each perspective is clearly defined and distinct from the others.
 
 For each perspective, give me brief description of the following:
 
@@ -12,3 +14,14 @@ Goal: The ultimate goal of the agent in the context of the research project.
 Role: The specific role that the agent will play in the research project.
 
 Please make sure the response is in json.
+
+Here is an example output with only one perspective:
+
+[
+  {
+    "perspective": "Pediatric Exercise Physiologist",
+    "expertise": "The science of how exercise and physical activity affect children's growth, development, and overall health. This includes understanding energy expenditure, recovery, and the impact of intense training on young bodies.",
+    "goal": "To optimize your daughter's physical activity schedule to ensure it supports her health, well-being, and long-term athletic development without causing burnout or injury.",
+    "role": "To analyze your daughter's current activity load, considering the intensity, duration, and frequency of each activity. They would assess the potential for overtraining, recommend strategies for recovery and rest, and advise on how to balance her physical activities with her developmental needs and energy levels."
+  }
+]
