@@ -1,3 +1,4 @@
+import logging
 import click
 import json
 import subprocess
