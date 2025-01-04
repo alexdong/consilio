@@ -104,17 +104,10 @@ def generate_summary(topic: Topic) -> None:
 
 
 def handle_topics_command(
-    list_flag: bool, topic_number: Optional[int], open_flag: bool, summary: bool = False
+    list_flag: bool, topic_number: Optional[int], open_flag: bool
 ) -> None:
     """Main handler for the topics command"""
-    if summary:
-        config = Config()
-        topic = config.current_topic
-        if not topic:
-            click.echo("No topic currently selected. Use 'cons topics -t <number>' to select one.")
-            return
-        generate_summary(topic)
-    elif list_flag:
+    if list_flag:
         list_topics()
     elif topic_number is not None:
         switch_topic(topic_number)

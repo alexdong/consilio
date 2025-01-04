@@ -83,7 +83,6 @@ Flags:
 - `-l`, `--list`: List all the topic directories in the `~/.consilio` directory.
 - `-t`, `--topic-number <number in the list>`: Switch to a different topic. This will update the `topic` in the config file.
 - `-o`, `--open`: Open the topic directory in the default file explorer.
-- `--summary`: Generate a comprehensive summary of all discussion rounds, including key points, recommendations, and answers to agenda questions.
 
 ### `perspectives`
 
@@ -151,7 +150,7 @@ temperature = 1.0
 
 - `cons` - Start or continue a discussion
 - `cons topics` - Manage discussion topics
-- `cons topics --summary` - Generate comprehensive discussion summary
+- `cons summary` - Generate comprehensive discussion summary
 - `cons perspectives` - Generate or edit expert perspectives
 - `cons discuss` - Start a new discussion round
 - `cons interview` - Interview a specific perspective

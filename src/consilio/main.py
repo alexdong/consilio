@@ -32,6 +32,18 @@ def topics(list: bool, topic_number: Optional[int], open: bool):
 
 
 @cli.command()
+def summary():
+    """Generate comprehensive discussion summary"""
+    from .topics import generate_summary
+    config = Config()
+    topic = config.current_topic
+    if not topic:
+        click.echo("No topic currently selected. Use 'cons topics -t <number>' to select one.")
+        return
+    generate_summary(topic)
+
+
+@cli.command()
 @click.option("-e", "--edit", is_flag=True, help="Edit perspectives file")
 @click.option("-l", "--list", is_flag=True, help="List all perspectives")
 def perspectives(edit: bool, list_flag: bool):
