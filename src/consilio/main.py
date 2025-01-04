@@ -1,6 +1,8 @@
 import click
+import logging
 from typing import Optional
 import better_exceptions
+from consilio.logging import setup_logging
 from consilio.version import __version__
 from consilio.topics import handle_topics_command
 from consilio.perspectives import handle_perspectives_command
@@ -15,9 +17,19 @@ CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
 
 @click.group(context_settings=CONTEXT_SETTINGS)
 @click.version_option(version=__version__, prog_name="consilio")
-def cli():
+@click.option('--log-level', 
+              type=click.Choice(['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'], 
+              case_sensitive=False),
+              default='INFO',
+              help='Set logging level')
+@click.option('--log-file', 
+              type=click.Path(path_type=Path),
+              help='Write logs to specified file')
+def cli(log_level: str, log_file: Optional[Path]):
     """Consilio: AI-Facilitated Decision Making Assistant"""
-    pass
+    setup_logging(log_level, log_file)
+    logger = logging.getLogger("consilio.cli")
+    logger.debug("CLI started")
 
 
 @cli.command()

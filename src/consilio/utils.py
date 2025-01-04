@@ -1,5 +1,6 @@
 import os
 import json
+import logging
 from pathlib import Path
 from typing import Dict, Any, Optional
 from jinja2 import Environment, FileSystemLoader, select_autoescape
@@ -26,6 +27,8 @@ def get_llm_response(
     model: Optional[str] = None,
     temperature: float = 1.0,
 ) -> Dict[Any, Any]:
+    logger = logging.getLogger("consilio.llm")
+    logger.debug(f"Getting LLM response with model: {model}")
     """Get response from LLM API
 
     Args:

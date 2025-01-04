@@ -1,5 +1,6 @@
 import click
 import json
+import logging
 from typing import Optional
 from consilio.models import Config, Topic
 from consilio.utils import get_llm_response, render_template
@@ -40,6 +41,8 @@ def _build_subsequent_round_prompt(topic: Topic, round_num: int) -> str:
 
 def start_discussion_round(topic: Topic, round_num: int, user_input: str) -> None:
     """Start a new discussion round"""
+    logger = logging.getLogger("consilio.discuss")
+    logger.info(f"Starting discussion round {round_num}")
     # Build appropriate prompt based on round number
     if round_num == 1:
         prompt = _build_first_round_prompt(topic)

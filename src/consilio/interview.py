@@ -1,5 +1,6 @@
 import click
 import json
+import logging
 from typing import Optional, Dict, Any
 from consilio.models import Config, Topic
 from consilio.utils import get_llm_response, render_template
@@ -66,6 +67,8 @@ def start_interview_round(
     topic: Topic, perspective_index: int, round_num: int, user_input: str
 ) -> None:
     """Start a new interview round with a specific perspective"""
+    logger = logging.getLogger("consilio.interview")
+    logger.info(f"Starting interview round {round_num} with perspective {perspective_index}")
     perspective = _get_perspective(topic, perspective_index)
     prompt = _build_interview_prompt(topic, perspective, perspective_index, round_num, user_input)
 
