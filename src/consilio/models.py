@@ -48,6 +48,16 @@ class Topic:
         """Get the perspectives.md file path"""
         return self.directory / "perspectives.md"
 
+    @property
+    def clarification_file(self) -> Path:
+        """Get the clarification.md file path"""
+        return self.directory / "clarification.md"
+
+    @property
+    def clarification_answers_file(self) -> Path:
+        """Get the clarification_answers.md file path"""
+        return self.directory / "clarification_answers.md"
+
     def round_input_file(self, round_num: int) -> Path:
         """Get the path for a specific round's input file"""
         return self.directory / f"round-{round_num}-input.md"

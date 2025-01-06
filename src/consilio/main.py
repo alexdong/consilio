@@ -10,6 +10,7 @@ from consilio.perspectives import handle_perspectives_command
 from consilio.discuss import handle_discuss_command
 from consilio.interview import handle_interview_command
 from consilio.config import handle_config_command
+from consilio.clarify import handle_clarify_command
 
 better_exceptions.hook()
 
@@ -102,6 +103,12 @@ def completion(shell: Optional[str]):
 def interview(perspective_index: int, round: Optional[int]):
     """Interview a specific perspective"""
     handle_interview_command(perspective_index, round)
+
+
+@cli.command()
+def clarify():
+    """Request clarification before discussion"""
+    handle_clarify_command()
 
 
 @cli.command()
