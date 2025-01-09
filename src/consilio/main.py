@@ -11,6 +11,7 @@ from consilio.discuss import handle_discuss_command
 from consilio.interview import handle_interview_command
 from consilio.config import handle_config_command
 from consilio.clarify import handle_clarify_command
+from consilio.stress import handle_stress_command
 
 better_exceptions.hook()
 
@@ -115,6 +116,12 @@ def clarify():
 def config():
     """Configure Consilio settings"""
     handle_config_command()
+
+
+@cli.command()
+def stress():
+    """Stress test current discussion and decisions"""
+    handle_stress_command()
 
 
 def main():
