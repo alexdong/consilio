@@ -12,6 +12,7 @@ from consilio.interview import handle_interview_command
 from consilio.config import handle_config_command
 from consilio.clarify import handle_clarify_command
 from consilio.stress import handle_stress_command
+from consilio.bias import handle_bias_command
 
 better_exceptions.hook()
 
@@ -122,6 +123,12 @@ def config():
 def stress():
     """Stress test current discussion and decisions"""
     handle_stress_command()
+
+
+@cli.command()
+def bias():
+    """Check for cognitive and other biases"""
+    handle_bias_command()
 
 
 def main():
