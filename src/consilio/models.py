@@ -50,8 +50,8 @@ class Topic:
 
     @property
     def clarification_file(self) -> Path:
-        """Get the clarification.md file path"""
-        return self.directory / "clarification.md"
+        """Get the clarification.json file path"""
+        return self.directory / "clarification.json"
 
     @property
     def clarification_answers_file(self) -> Path:

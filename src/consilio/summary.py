@@ -50,7 +50,7 @@ def generate_summary(topic: Topic) -> None:
         summary_dict = get_llm_response(prompt, system_prompt=system_prompt)
         
         # Save summary
-        summary_file = topic.directory / "summary.md"
+        summary_file = topic.directory / "summary.json"
         summary_file.write_text(json.dumps(summary_dict, indent=2))
         click.echo(f"Summary generated and saved to: {summary_file}")
         

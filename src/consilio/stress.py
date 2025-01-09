@@ -51,7 +51,7 @@ def get_stress_analysis(topic: Topic) -> None:
         analysis = get_llm_response(prompt, system_prompt=system_prompt)
         
         # Save analysis
-        stress_file = topic.directory / "stress_analysis.md"
+        stress_file = topic.directory / "stress_analysis.json"
         stress_file.write_text(json.dumps(analysis, indent=2))
         click.echo(f"Stress analysis saved to: {stress_file}")
         

@@ -51,7 +51,7 @@ def get_bias_analysis(topic: Topic) -> None:
         analysis = get_llm_response(prompt, system_prompt=system_prompt)
         
         # Save analysis
-        bias_file = topic.directory / "bias_analysis.md"
+        bias_file = topic.directory / "bias_analysis.json"
         bias_file.write_text(json.dumps(analysis, indent=2))
         click.echo(f"Bias analysis saved to: {bias_file}")
         
