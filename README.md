@@ -43,7 +43,7 @@ uv install consilio
 3. Choose number of expert perspectives (1-10)
 4. Guide the discussion through multiple rounds
 
-All interactions are automatically saved as markdown files for future reference.
+All interactions are automatically saved as text files for future reference.
 
 ## Features
 
@@ -441,7 +441,7 @@ Starting discussions (Round #2) ...
 ## Decision Philosophy
 
 Consilio is a file-centric program. Every interaction is saved as
-a markdown file. Use your unix power tools to review responses and search
+a text file. Use your unix power tools to review responses and search
 for discussions from past decisions.
 
 Check this document into your version control system to maintain a record of your decision-making process.
