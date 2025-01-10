@@ -1,25 +1,27 @@
 import click
-import subprocess
+from pathlib import Path
 from consilio.models import Config
 
 
-def create_or_edit_config() -> None:
-    """Create config file if it doesn't exist and open it in editor"""
-    config = Config()
+def initialize_project(path: str) -> None:
+    """Initialize a new Consilio project in the specified directory"""
+    project_dir = Path(path).resolve()
+    
+    if not project_dir.exists():
+        project_dir.mkdir(parents=True)
+        click.echo(f"Created directory: {project_dir}")
 
-    # Ensure config file exists with defaults
-    if not config.path.exists():
-        click.echo("Creating new config file with defaults...")
-        config._save()
+    config = Config(project_dir / "config.toml")
+    
+    if config.path.exists():
+        click.echo(f"Config file already exists at: {config.path}")
+        return
 
-    # Open in default editor
-    try:
-        click.echo(f"Opening config file: {config.path}")
-        subprocess.run(["open", "-t", str(config.path)])
-    except subprocess.SubprocessError:
-        click.echo("Failed to open config file in editor")
+    click.echo(f"Initializing new Consilio project in: {project_dir}")
+    config._save()
+    click.echo(f"Created config file: {config.path}")
 
 
-def handle_config_command() -> None:
-    """Main handler for the config command"""
-    create_or_edit_config()
+def handle_init_command(path: str) -> None:
+    """Main handler for the init command"""
+    initialize_project(path)

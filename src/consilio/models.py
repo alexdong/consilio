@@ -146,8 +146,8 @@ class Topic:
 class Config:
     """Manages Consilio configuration"""
 
-    def __init__(self):
-        self.path = CONFIG_DIR / "config.toml"
+    def __init__(self, config_path: Optional[Path] = None):
+        self.path = config_path if config_path else CONFIG_DIR / "config.toml"
         self.path.parent.mkdir(parents=True, exist_ok=True)
         self._load()
 

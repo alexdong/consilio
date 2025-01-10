@@ -114,9 +114,10 @@ def clarify():
 
 
 @cli.command()
-def config():
-    """Configure Consilio settings"""
-    handle_config_command()
+@click.argument('path', type=str, default=".")
+def init(path: str):
+    """Initialize a new Consilio project in the specified directory"""
+    handle_init_command(path)
 
 
 @cli.command()

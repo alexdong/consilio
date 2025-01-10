@@ -67,14 +67,19 @@ Under the hook, it delegates to a set of subcommands depends on the state of the
 
 - `cons discuss`. If both the `discussion.md` and `perspectives.md` files exist, Consilio will start the discussion process. Each round of discussion will be saved as `~/.consilio/YYYY-MM-DD-{Topic-Slug}/round-{n}.md`.
 
-### `config`
+### `init`
 
-$ cons config
+$ cons init [path]
 
-Create a initial configuration file  `~/.config/consilio/config.toml` with
-default options, then open the configuration file in the default editor.
+Initialize a new Consilio project in the specified directory (defaults to current directory). This creates a `config.toml` file with default settings.
 
-The following configuration options are available:
+Example:
+```bash
+cons init ./my-decision  # Initialize in a new directory
+cons init .             # Initialize in current directory
+```
+
+The following configuration options are available in config.toml:
 
 ```toml
 # The current topic being discussed
@@ -187,7 +192,7 @@ Generate a comprehensive summary of the discussion. This will compile all the ro
 ### Key Commands
 
 - `cons` - Start or continue a discussion
-- `cons config` - Configure settings
+- `cons init` - Initialize a new project
 - `cons topics` - Manage discussion topics
 - `cons perspectives` - Generate or edit expert perspectives
 - `cons discuss` - Start a new discussion round
