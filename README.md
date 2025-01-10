@@ -97,8 +97,6 @@ $ cons topics [flags]
 
 This command will prompt you to enter the topic you'd like to discuss. The topic will be saved as `discussion.md` in the topic directory. You can use this command to start a new discussion or to switch to a different topic.
 
-The topic directory will be set as `topic` in the config.toml file through the `cons config set topic YYYY-MM-DD-{Topic_Slug}` command.
-
 Flags:
 
 - `-l`, `--list`: List all the topic directories in the `~/.consilio` directory.
