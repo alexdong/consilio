@@ -37,14 +37,9 @@ def cli(log_level: str, log_file: Optional[Path]):
 
 
 @cli.command()
-@click.option("-l", "--list", is_flag=True, help="List all topic directories")
-@click.option("-t", "--topic-number", type=int, help="Switch to a different topic")
-@click.option(
-    "-o", "--open", is_flag=True, help="Open topic directory in file explorer"
-)
-def topics(list: bool, topic_number: Optional[int], open: bool):
-    """Manage discussion topics"""
-    handle_topics_command(list, topic_number, open)
+def topic():
+    """Open the current topic's discussion file"""
+    handle_topics_command()
 
 
 @cli.command()

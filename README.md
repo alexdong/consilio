@@ -61,7 +61,7 @@ All interactions are automatically saved as text files for future reference.
 
 Under the hook, it delegates to a set of subcommands depends on the state of the topic directory.
 
-- `cons topics`. If there is no `topic` in the configuration file or there is no `discussion.md` file in the topic directory, you will be prompted to describe the topic of the discussion. A slug will be generated from the topic and the file is saved as `~/.consilio/YYYY-MM-DD-{Topic-Slug}/discussion.md`.
+- `cons topic`. Open the current topic's discussion file in your default editor. If there is no current topic, you will be prompted to create one first.
 
 - `cons perspectives`. If there is a `discussion.md` file in the topic directory but no `perspectives.md` file, you will be prompted to enter the number of perspectives you would like to include in the discussion. Consilio will then generate a list of perspectives based on the topic and save it as `~/.consilio/YYYY-MM-DD-{Topic-Slug}/perspectives.md`. You can reload the perspectives or open up this file to add or remove perspectives.
 
@@ -176,7 +176,7 @@ Generate a comprehensive summary of the discussion. This will compile all the ro
 
 - `cons` - Start or continue a discussion
 - `cons init` - Initialize a new project
-- `cons topics` - Manage discussion topics
+- `cons topic` - Open current topic for editing
 - `cons perspectives` - Generate or edit expert perspectives
 - `cons discuss` - Start a new discussion round
 - `cons interview` - Interview a specific perspective
