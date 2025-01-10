@@ -1,11 +1,8 @@
 # Consilio: AI-Facilitated Panel Discussions
 
-Consilio[^1] is a command-line tool that helps you make better decisions by simulating panel discussions with AI-generated expert perspectives. It's particularly useful for:
+Consilio[^1] is a command-line tool that helps you make better decisions through System-2 Reasoning.
 
-- Complex decisions requiring multiple viewpoints
-- Brainstorming solutions to challenging problems
-- Strategic planning and analysis
-- Getting unstuck when facing difficult choices
+For complex problems, solutions are not generated in a single, sequential way, but through a latent, iterative exploration process. Consilio provides a set of thinking tools, like debate, panel discussion, stress test and one-on-one interview, to faciliate this process. Or, to put it more simply, Consilio gives you with the tools to execute a Monte Carlo Tree Search by providing inputs every step of the way.
 
 ## Quick Start
 
