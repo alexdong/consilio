@@ -81,9 +81,6 @@ cons init .             # Initialize in current directory
 The following configuration options are available in cons.toml:
 
 ```toml
-# The current topic being discussed
-topic = "~/.consilio/YYYY-MM-DD-{Topic-Slug}"
-
 # Key bindings for input (default: "emacs")
 key_bindings = "vi"  
 

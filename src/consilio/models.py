@@ -157,7 +157,6 @@ class Config:
             self.data = tomli.loads(self.path.read_text())
         else:
             self.data = {
-                "topic": None,
                 "key_bindings": "emacs",
                 "model": "claude-3-sonnet-20241022",
                 "temperature": 1.0,
