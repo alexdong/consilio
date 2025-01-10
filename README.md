@@ -145,6 +145,40 @@ $ cons summary
 
 Generate a comprehensive summary of the discussion. This will compile all the rounds of discussions, perspectives, and other relevant information into a single document for easy review and reference.
 
+### `debate`
+
+$ cons debate
+
+Facilitate structured debates between different perspectives to deeply explore key points of disagreement and find potential solutions. This helps surface underlying assumptions and trade-offs in the decision-making process.
+
+### `bias`
+
+$ cons bias
+
+Analyze the discussion for potential cognitive biases and other forms of bias that might be influencing the decision-making process. The analysis covers:
+
+- Cognitive biases (confirmation bias, anchoring bias, etc.)
+- Emotional biases affecting judgment
+- Cultural or social biases
+- Professional/domain-specific biases
+- Common decision-making traps
+
+The output includes specific examples and recommendations for mitigating identified biases.
+
+### `stress`
+
+$ cons stress
+
+Stress test the current discussion and decisions by:
+
+- Identifying potential failure points
+- Exploring extreme "what if" scenarios
+- Questioning hidden assumptions
+- Analyzing resource constraints and dependencies
+- Providing recommendations to mitigate identified risks
+
+This helps ensure the robustness of decisions by actively looking for weak points and edge cases.
+
 
 ### Misc
 
