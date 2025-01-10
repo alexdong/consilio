@@ -71,9 +71,8 @@ Under the hook, it delegates to a set of subcommands depends on the state of the
 
 $ cons init [path]
 
-Initialize a new Consilio project in the specified directory (defaults to current directory). This creates a `config.toml` file with default settings.
+Initialize a new Consilio project in the specified directory (defaults to current directory). This creates a `config.toml` file with default settings.  Example:
 
-Example:
 ```bash
 cons init ./my-decision  # Initialize in a new directory
 cons init .             # Initialize in current directory
