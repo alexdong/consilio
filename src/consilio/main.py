@@ -9,7 +9,7 @@ from consilio.topics import handle_topics_command
 from consilio.perspectives import handle_perspectives_command
 from consilio.discuss import handle_discuss_command
 from consilio.interview import handle_interview_command
-from consilio.config import handle_config_command
+from consilio.config import handle_init_command
 from consilio.clarify import handle_clarify_command
 from consilio.stress import handle_stress_command
 from consilio.bias import handle_bias_command
