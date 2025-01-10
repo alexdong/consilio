@@ -90,7 +90,7 @@ temperature = 1.0
 
 $ cons topic
 
-Open the `topic.md` file in your default editor. This allows you to review and edit the topic description directly.
+Open the current topic's discussion file in your default editor. This allows you to review and edit the topic description directly.
 
 ### `perspectives`
 
