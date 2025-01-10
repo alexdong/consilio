@@ -69,14 +69,9 @@ Under the hook, it delegates to a set of subcommands depends on the state of the
 
 ### `init`
 
-$ cons init [path]
+$ cons init
 
-Initialize a new Consilio project in the specified directory (defaults to current directory). This creates a `config.toml` file with default settings.  Example:
-
-```bash
-cons init ./my-decision  # Initialize in a new directory
-cons init .             # Initialize in current directory
-```
+Initialize a new Consilio project in the specified directory (defaults to current directory). This creates a `cons.toml` file with default settings. (Similar to `git init`.)  
 
 The following configuration options are available in cons.toml:
 
@@ -91,11 +86,11 @@ model = "claude-3-sonnet-20240229"
 temperature = 1.0
 ```
 
-### `topics`
+### `topic`
 
-$ cons topics
+$ cons topic
 
-Open the current topic's discussion file in your default editor. This allows you to review and edit the topic description directly.
+Open the `topic.md` file in your default editor. This allows you to review and edit the topic description directly.
 
 ### `perspectives`
 
