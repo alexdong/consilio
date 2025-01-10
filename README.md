@@ -54,6 +54,8 @@ All interactions are automatically saved as text files for future reference.
 - Save all interactions for review and reference
 - Edit and refine discussions using your preferred editor
 - Switch between multiple ongoing discussions
+- Stress test decisions to identify potential failure points
+- Analyze discussions for cognitive biases and assumptions
 
 ### `cons` Command
 
@@ -157,6 +159,8 @@ temperature = 1.0
 - `cons perspectives` - Generate or edit expert perspectives
 - `cons discuss` - Start a new discussion round
 - `cons interview` - Interview a specific perspective
+- `cons stress` - Stress test current discussion and decisions
+- `cons bias` - Check for cognitive and other biases
 - `cons config` - Configure settings
 
 See detailed command options below.
