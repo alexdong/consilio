@@ -93,15 +93,9 @@ temperature = 1.0
 
 ### `topics`
 
-$ cons topics [flags]
+$ cons topics
 
-This command will prompt you to enter the topic you'd like to discuss. The topic will be saved as `discussion.md` in the topic directory. You can use this command to start a new discussion or to switch to a different topic.
-
-Flags:
-
-- `-l`, `--list`: List all the topic directories in the `~/.consilio` directory.
-- `-t`, `--topic-number <number in the list>`: Switch to a different topic. This will update the `topic` in the config file.
-- `-o`, `--open`: Open the topic directory in the default file explorer.
+Open the current topic's discussion file in your default editor. This allows you to review and edit the topic description directly.
 
 ### `perspectives`
 
