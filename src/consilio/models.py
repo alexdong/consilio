@@ -160,6 +160,7 @@ class Config:
                 "key_bindings": "emacs",
                 "model": "claude-3-sonnet-20241022",
                 "temperature": 1.0,
+                "topic": None,
                 "models": {
                     "anthropic": {
                         "default": "claude-3-sonnet-20241022",
