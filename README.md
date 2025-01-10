@@ -55,7 +55,6 @@ All interactions are automatically saved as text files for future reference.
 
 ## Features
 
-
 ### `cons` Command
 
 `cons` is the main command that you will interact with.
@@ -67,7 +66,6 @@ Under the hook, it delegates to a set of subcommands depends on the state of the
 - `cons perspectives`. If there is a `discussion.md` file in the topic directory but no `perspectives.md` file, you will be prompted to enter the number of perspectives you would like to include in the discussion. Consilio will then generate a list of perspectives based on the topic and save it as `~/.consilio/YYYY-MM-DD-{Topic-Slug}/perspectives.md`. You can reload the perspectives or open up this file to add or remove perspectives.
 
 - `cons discuss`. If both the `discussion.md` and `perspectives.md` files exist, Consilio will start the discussion process. Each round of discussion will be saved as `~/.consilio/YYYY-MM-DD-{Topic-Slug}/round-{n}.md`.
-
 
 ### `config`
 
@@ -139,12 +137,6 @@ Flags:
 
 - `-r`, `--round [round number]`: Start from a specific interview round number.
 
-### `summary`
-
-$ cons summary
-
-Generate a comprehensive summary of the discussion. This will compile all the rounds of discussions, perspectives, and other relevant information into a single document for easy review and reference.
-
 ### `debate`
 
 $ cons debate
@@ -179,6 +171,12 @@ Stress test the current discussion and decisions by:
 
 This helps ensure the robustness of decisions by actively looking for weak points and edge cases.
 
+### `summary`
+
+$ cons summary
+
+Generate a comprehensive summary of the discussion. This will compile all the rounds of discussions, perspectives, and other relevant information into a single document for easy review and reference.
+
 
 ### Misc
 
@@ -189,14 +187,14 @@ This helps ensure the robustness of decisions by actively looking for weak point
 ### Key Commands
 
 - `cons` - Start or continue a discussion
+- `cons config` - Configure settings
 - `cons topics` - Manage discussion topics
-- `cons summary` - Generate comprehensive discussion summary
 - `cons perspectives` - Generate or edit expert perspectives
 - `cons discuss` - Start a new discussion round
 - `cons interview` - Interview a specific perspective
 - `cons stress` - Stress test current discussion and decisions
 - `cons bias` - Check for cognitive and other biases
-- `cons config` - Configure settings
+- `cons summary` - Generate comprehensive discussion summary
 
 See detailed command options below.
 
