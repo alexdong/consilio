@@ -2,7 +2,15 @@
 
 Consilio[^1] is a command-line tool that helps you make better decisions through System-2 Reasoning.
 
-For complex problems, solutions are not generated in a single, sequential way, but through a latent, iterative exploration process. Consilio provides a set of thinking tools, like debate, panel discussion, stress test and one-on-one interview, to faciliate this process. Or, to put it more simply, Consilio gives you with the tools to execute a Monte Carlo Tree Search by providing inputs every step of the way.
+For complex problems, solutions are not generated in a single, sequential way, but through a latent, iterative exploration process. Consilio provides a set of thinking tools, like debate, panel discussion, stress test and one-on-one interview, to faciliate this process. Or, to put it more simply, Consilio gives you with the tools to execute a Monte Carlo Tree Search by providing inputs every step of the way. Core capabilities include:
+
+- Generate diverse expert perspectives on your topic
+- Facilitate structured multi-round discussions
+- Save all interactions for review and reference
+- Edit and refine discussions using your preferred editor
+- Switch between multiple ongoing discussions
+- Stress test decisions to identify potential failure points
+- Analyze discussions for cognitive biases and assumptions
 
 ## Quick Start
 
@@ -47,15 +55,6 @@ All interactions are automatically saved as text files for future reference.
 
 ## Features
 
-### Core Capabilities
-
-- Generate diverse expert perspectives on your topic
-- Facilitate structured multi-round discussions
-- Save all interactions for review and reference
-- Edit and refine discussions using your preferred editor
-- Switch between multiple ongoing discussions
-- Stress test decisions to identify potential failure points
-- Analyze discussions for cognitive biases and assumptions
 
 ### `cons` Command
 
@@ -68,6 +67,30 @@ Under the hook, it delegates to a set of subcommands depends on the state of the
 - `cons perspectives`. If there is a `discussion.md` file in the topic directory but no `perspectives.md` file, you will be prompted to enter the number of perspectives you would like to include in the discussion. Consilio will then generate a list of perspectives based on the topic and save it as `~/.consilio/YYYY-MM-DD-{Topic-Slug}/perspectives.md`. You can reload the perspectives or open up this file to add or remove perspectives.
 
 - `cons discuss`. If both the `discussion.md` and `perspectives.md` files exist, Consilio will start the discussion process. Each round of discussion will be saved as `~/.consilio/YYYY-MM-DD-{Topic-Slug}/round-{n}.md`.
+
+
+### `config`
+
+$ cons config
+
+Create a initial configuration file  `~/.config/consilio/config.toml` with
+default options, then open the configuration file in the default editor.
+
+The following configuration options are available:
+
+```toml
+# The current topic being discussed
+topic = "~/.consilio/YYYY-MM-DD-{Topic-Slug}"
+
+# Key bindings for input (default: "emacs")
+key_bindings = "vi"  
+
+# LLM model to use (default: "claude-3-sonnet-20240229")
+model = "claude-3-sonnet-20240229"
+
+# Temperature for LLM responses (0.0-1.0, brainstorm: 0.8, meeting: 0.2)
+temperature = 1.0
+```
 
 ### `topics`
 
@@ -122,28 +145,6 @@ $ cons summary
 
 Generate a comprehensive summary of the discussion. This will compile all the rounds of discussions, perspectives, and other relevant information into a single document for easy review and reference.
 
-### `config`
-
-$ cons config
-
-Create a initial configuration file  `~/.config/consilio/config.toml` with
-default options, then open the configuration file in the default editor.
-
-The following configuration options are available:
-
-```toml
-# The current topic being discussed
-topic = "~/.consilio/YYYY-MM-DD-{Topic-Slug}"
-
-# Key bindings for input (default: "emacs")
-key_bindings = "vi"  
-
-# LLM model to use (default: "claude-3-sonnet-20240229")
-model = "claude-3-sonnet-20240229"
-
-# Temperature for LLM responses (0.0-1.0, brainstorm: 0.8, meeting: 0.2)
-temperature = 1.0
-```
 
 ### Misc
 
