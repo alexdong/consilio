@@ -11,7 +11,7 @@ def initialize_project(path: str) -> None:
         project_dir.mkdir(parents=True)
         click.echo(f"Created directory: {project_dir}")
 
-    config = Config(project_dir / "config.toml")
+    config = Config(project_dir / "cons.toml")
     
     if config.path.exists():
         click.echo(f"Config file already exists at: {config.path}")

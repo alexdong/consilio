@@ -78,7 +78,7 @@ cons init ./my-decision  # Initialize in a new directory
 cons init .             # Initialize in current directory
 ```
 
-The following configuration options are available in config.toml:
+The following configuration options are available in cons.toml:
 
 ```toml
 # The current topic being discussed
