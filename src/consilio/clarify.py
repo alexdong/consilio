@@ -16,11 +16,11 @@ schema = (Path(__file__).parent / "schemas" / "clarification_schema.json").read_
 def display_clarification(clarification: Dict[Any, Any]) -> None:
     """Display clarification in markdown format using rich"""
     console = Console()
-    
+
     # Convert to Clarification object if it's a dict
     if isinstance(clarification, dict):
         clarification = Clarification.from_dict(clarification)
-        
+
     # Display using rich markdown
     console.print(Markdown(clarification.to_markdown()))
 

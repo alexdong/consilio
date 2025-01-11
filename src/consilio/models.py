@@ -43,6 +43,7 @@ class Perspective:
 @dataclass
 class Clarification:
     """Represents a clarification response with its sections"""
+
     questions: List[str]
     missing_context: List[str]
     assumptions: List[str]
@@ -55,40 +56,40 @@ class Clarification:
             questions=data.get("questions", []),
             missing_context=data.get("missing_context", []),
             assumptions=data.get("assumptions", []),
-            suggestions=data.get("suggestions", [])
+            suggestions=data.get("suggestions", []),
         )
 
     def to_markdown(self) -> str:
         """Convert clarification to markdown format"""
-        md = "Clarification Questions\n====================\n\n"
-        
+        md = "__Questions__"
+
         # Questions section
         if self.questions:
             for i, q in enumerate(self.questions, 1):
                 md += f"{i}. {q}\n"
             md += "\n"
-            
+
         # Missing Context section
         if self.missing_context:
             md += "__Missing Context__\n"
             for item in self.missing_context:
                 md += f"* {item}\n"
             md += "\n"
-            
+
         # Assumptions section
         if self.assumptions:
             md += "__Assumptions to Verify__\n"
             for item in self.assumptions:
                 md += f"* {item}\n"
             md += "\n"
-            
+
         # Suggestions section
         if self.suggestions:
             md += "__Suggestions__\n"
             for item in self.suggestions:
                 md += f"* {item}\n"
             md += "\n"
-            
+
         return md
 
 
