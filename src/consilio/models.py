@@ -72,7 +72,9 @@ class Topic:
 
     def interview_response_file(self, perspective_index: int, round_num: int) -> Path:
         """Get the path for a specific interview round's response file"""
-        return self.directory / f"interview-p{perspective_index}-r{round_num}-response.md"
+        return (
+            self.directory / f"interview-p{perspective_index}-r{round_num}-response.md"
+        )
 
     def _get_latest_round_number(self, prefix: str) -> int:
         """Get the latest round number for a given file prefix (round/interview)"""
@@ -160,7 +162,6 @@ class Config:
                 "key_bindings": "emacs",
                 "model": "claude-3-sonnet-20241022",
                 "temperature": 1.0,
-                "topic": None,
                 "models": {
                     "anthropic": {
                         "default": "claude-3-sonnet-20241022",
@@ -190,9 +191,10 @@ class Config:
     @property
     def current_topic(self) -> Optional[Topic]:
         """Get the currently active topic"""
+
         if not self.data["topic"]:
             return None
-        return Topic.load(TOPICS_DIR / self.data["topic"])
+        return Topic.load(TOPICS_DIR / "topic.md")
 
     @current_topic.setter
     def current_topic(self, topic: Optional[Topic]):
