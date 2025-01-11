@@ -62,9 +62,4 @@ def get_bias_analysis(topic: Topic) -> None:
 def handle_bias_command() -> None:
     """Main handler for the bias command"""
     topic = Topic.load()
-    if not topic:
-        raise click.ClickException(
-            "No topic selected. Use 'cons topics -t <number>' to select one."
-        )
-
     get_bias_analysis(topic)

@@ -62,9 +62,4 @@ def get_stress_analysis(topic: Topic) -> None:
 def handle_stress_command() -> None:
     """Main handler for the stress command"""
     topic = Topic.load()
-    if not topic:
-        raise click.ClickException(
-            "No topic selected. Use 'cons topics -t <number>' to select one."
-        )
-
     get_stress_analysis(topic)

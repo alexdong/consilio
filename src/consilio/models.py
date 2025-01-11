@@ -84,8 +84,10 @@ class Topic:
         return cls()
 
     @classmethod
-    def load(cls) -> Optional["Topic"]:
+    def load(cls) -> "Topic":
         """Load topic from current directory"""
         if Path("README.md").exists():
             return cls()
-        return None
+        raise click.ClickException(
+            "No topic selected. Use 'cons topics -t <number>' to select one."
+        )

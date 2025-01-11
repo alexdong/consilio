@@ -64,12 +64,6 @@ def list_perspectives(topic: Topic) -> None:
 def handle_perspectives_command(edit: bool, list_flag: bool) -> None:
     """Main handler for the perspectives command"""
     topic = Topic.load()
-    if not topic:
-        click.echo(
-            "No topic currently selected. Use 'cons topics -t <number>' to select one."
-        )
-        return
-
     if list_flag:
         list_perspectives(topic)
     elif edit:

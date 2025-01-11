@@ -89,11 +89,6 @@ def edit_round(topic: Topic, round_num: int) -> None:
 def handle_discuss_command(edit: Optional[int], round: Optional[int]) -> None:
     """Main handler for the discuss command"""
     topic = Topic.load()
-    if not topic:
-        raise click.ClickException(
-            "No topic selected. Use 'cons topics -t <number>' to select one."
-        )
-
     if edit is not None:
         edit_round(topic, edit)
         return

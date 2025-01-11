@@ -48,9 +48,4 @@ def get_clarification(topic: Topic) -> None:
 def handle_clarify_command() -> None:
     """Main handler for the clarify command"""
     topic = Topic.load()
-    if not topic:
-        raise click.ClickException(
-            "No topic selected. Use 'cons topics -t <number>' to select one."
-        )
-
     get_clarification(topic)
