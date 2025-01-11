@@ -3,8 +3,8 @@ import click
 import json
 import jsonschema
 from pathlib import Path
-from .models import Topic
-from .utils import get_llm_response, render_template
+from consilio.models import Topic
+from consilio.utils import get_llm_response, render_template
 
 
 def validate_perspectives(perspectives: list) -> None:
@@ -19,23 +19,27 @@ def generate_perspectives(topic: Topic) -> None:
     logger = logging.getLogger("consilio.perspectives")
     logger.info("Generating new perspectives")
     # Prompt for number of perspectives
-    num = click.prompt("How many perspectives would you like? (1-10)", 
-                      type=click.IntRange(1, 10),
-                      default=5)
-    
+    num = click.prompt(
+        "How many perspectives would you like? (1-10)",
+        type=click.IntRange(1, 10),
+        default=5,
+    )
+
     # Load schema for template
     schema_path = Path(__file__).parent / "schemas" / "perspectives_schema.json"
     schema = json.loads(schema_path.read_text())
-    
-    prompt = render_template("perspectives.j2", 
-                           topic=topic,
-                           num_of_perspectives=num,
-                           schema=json.dumps(schema, indent=2))
+
+    prompt = render_template(
+        "perspectives.j2",
+        topic=topic,
+        num_of_perspectives=num,
+        schema=json.dumps(schema, indent=2),
+    )
     system_prompt = render_template("system.j2")
 
     try:
         perspectives = json.loads(get_llm_response(prompt, system_prompt=system_prompt))
-        
+
         # Validate perspectives against schema
         validate_perspectives(perspectives)
 

@@ -39,10 +39,9 @@ def cli(log_level: str, log_file: Optional[Path]):
 
 
 @cli.command()
-@click.argument("path", type=str, default=".")
-def init(path: str):
+def init():
     """Initialize a new Consilio project in the specified directory"""
-    handle_init_command(path)
+    handle_init_command()
 
 
 @cli.command()
