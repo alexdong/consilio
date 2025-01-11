@@ -1,19 +1,18 @@
 import click
 import subprocess
 from pathlib import Path
-from .models import Config
+from .models import Topic
 
 def handle_topics_command() -> None:
-    """Open the discussion.md file in the default editor"""
-    config = Config()
-    topic = config.current_topic
+    """Open the README.md file in the default editor"""
+    topic = Topic.load()
     
     if not topic:
-        click.echo("No topic currently selected.")
+        click.echo("No README.md found in current directory.")
         return
         
     editor = click.get_editor()
     try:
-        click.edit(filename=str(topic.discussion_file))
+        click.edit(filename="README.md")
     except subprocess.SubprocessError:
-        click.echo("Failed to open discussion file in editor")
+        click.echo("Failed to open README.md in editor")

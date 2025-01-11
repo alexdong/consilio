@@ -1,31 +1,13 @@
 import logging
 from dataclasses import dataclass
-from datetime import datetime
 from pathlib import Path
 from typing import Optional, List
-import re
-import tomli
-import tomli_w
-
-CONFIG_DIR = Path.home() / ".config" / "consilio"
-TOPICS_DIR = Path.home() / ".consilio"
-
 
 @dataclass
 class Topic:
     """Represents a discussion topic with its associated files"""
-
-    created_at: datetime
-    description: str
-
-    def __init__(
-        self,
-        created_at: datetime,
-        description: str,
-        test_dir: Optional[Path] = None,
-    ):
-        self.created_at = created_at
-        self.description = description
+    
+    def __init__(self, test_dir: Optional[Path] = None):
         self._test_dir = test_dir
 
     @property
@@ -33,7 +15,7 @@ class Topic:
         """Get the topic's directory path"""
         if self._test_dir is not None:
             return self._test_dir
-        return TOPICS_DIR / f"{self.created_at:%Y%m%d-%H%M%S}"
+        return Path(".")
 
     @property
     def discussion_file(self) -> Path:
@@ -96,100 +78,13 @@ class Topic:
         return self._get_latest_round_number("interview")
 
     @classmethod
-    def create(cls, description: str) -> "Topic":
-        """Create a new topic from a description"""
-        logger = logging.getLogger("consilio.models")
-        logger.info(f"Creating new topic: {description}")
-        topic = cls(created_at=datetime.now(), description=description)
-
-        # Create directory and save description
-        topic.directory.mkdir(parents=True, exist_ok=True)
-        topic.discussion_file.write_text(description)
-
-        return topic
+    def create(cls) -> "Topic":
+        """Create a new topic"""
+        return cls()
 
     @classmethod
-    def load(cls, directory: Path) -> Optional["Topic"]:
-        """Load a topic from an existing directory"""
-        logger = logging.getLogger("consilio.models")
-        logger.debug(f"Loading topic from {directory}")
-        if not directory.exists():
-            return None
-
-        # Parse directory name for timestamp
-        pattern = re.compile(r"(\d{8}-\d{6})")
-        match = pattern.match(directory.name)
-        if match:
-            timestamp = match.group(1)
-            created_at = datetime.strptime(timestamp, "%Y%m%d-%H%M%S")
-            description = (directory / "discussion.md").read_text()
-            return cls(created_at=created_at, description=description)
+    def load(cls) -> Optional["Topic"]:
+        """Load topic from current directory"""
+        if Path("README.md").exists():
+            return cls()
         return None
-
-    @classmethod
-    def list_all(cls) -> List["Topic"]:
-        """List all topics in the topics directory"""
-        TOPICS_DIR.mkdir(parents=True, exist_ok=True)
-        topics = []
-        for d in TOPICS_DIR.glob("*-*"):
-            if topic := cls.load(d):
-                topics.append(topic)
-        return sorted(topics, key=lambda t: t.created_at, reverse=True)
-
-
-class Config:
-    """Manages Consilio configuration"""
-
-    def __init__(self, config_path: Optional[Path] = None):
-        self.path = config_path if config_path else CONFIG_DIR / "cons.toml"
-        self.path.parent.mkdir(parents=True, exist_ok=True)
-        self._load()
-
-    def _load(self):
-        """Load config from file or create with defaults"""
-        if self.path.exists():
-            self.data = tomli.loads(self.path.read_text())
-        else:
-            self.data = {
-                "key_bindings": "emacs",
-                "model": "claude-3-sonnet-20241022",
-                "temperature": 1.0,
-                "models": {
-                    "anthropic": {
-                        "default": "claude-3-sonnet-20241022",
-                        "models": [
-                            "claude-3-sonnet-202401022",
-                        ],
-                    },
-                    "openai": {
-                        "default": "gpt-4-turbo-preview",
-                        "models": ["gpt-4-turbo-preview"],
-                    },
-                    "google": {
-                        "default": "gemini-2.0-flash-thinking-exp-1219",
-                        "models": [
-                            "gemini-2.0-flash-thinking-exp-1219",
-                            "gemini-2.0-flash-exp",
-                        ],
-                    },
-                },
-            }
-            self._save()
-
-    def _save(self):
-        """Save config to file"""
-        self.path.write_text(tomli_w.dumps(self.data))
-
-    @property
-    def current_topic(self) -> Optional[Topic]:
-        """Get the currently active topic"""
-
-        if not self.data["topic"]:
-            return None
-        return Topic.load(TOPICS_DIR / "topic.md")
-
-    @current_topic.setter
-    def current_topic(self, topic: Optional[Topic]):
-        """Set the current topic"""
-        self.data["topic"] = topic.directory.name if topic else None
-        self._save()
