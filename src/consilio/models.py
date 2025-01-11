@@ -2,9 +2,29 @@ import logging
 import re
 import tomli
 import tomli_w
+import json
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
+from typing import Any, List, Optional
+
+
+@dataclass
+class Perspective:
+    """Represents a single perspective with its attributes"""
+    title: str
+    expertise: str
+    goal: str
+    role: str
+
+    @classmethod
+    def from_dict(cls, data: dict) -> "Perspective":
+        """Create a Perspective instance from a dictionary"""
+        return cls(
+            title=data.get("Title", "Unnamed Perspective"),
+            expertise=data.get("Expertise", ""),
+            goal=data.get("Goal", ""),
+            role=data.get("Role", "")
+        )
 
 
 @dataclass
@@ -108,6 +128,16 @@ class Topic:
     def description(self) -> str:
         """Get the topic's description"""
         return self.discussion_file.read_text()
+        
+    @property
+    def perspectives(self) -> List[Perspective]:
+        """Get the list of perspectives"""
+        try:
+            with open(self.perspectives_file) as f:
+                data = json.load(f)
+            return [Perspective.from_dict(p) for p in data]
+        except (FileNotFoundError, json.JSONDecodeError):
+            return []
 
     @property
     def latest_round(self) -> int:
