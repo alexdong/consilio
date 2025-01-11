@@ -2,7 +2,7 @@ import logging
 import click
 import json
 import subprocess
-from .models import Config, Topic
+from .models import Topic
 from .utils import get_llm_response, render_template
 
 
@@ -63,9 +63,7 @@ def list_perspectives(topic: Topic) -> None:
 
 def handle_perspectives_command(edit: bool, list_flag: bool) -> None:
     """Main handler for the perspectives command"""
-    config = Config()
-    topic = config.current_topic
-
+    topic = Topic.load()
     if not topic:
         click.echo(
             "No topic currently selected. Use 'cons topics -t <number>' to select one."

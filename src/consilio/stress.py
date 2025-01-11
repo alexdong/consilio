@@ -3,7 +3,7 @@ import logging
 import click
 from typing import List
 from dataclasses import dataclass
-from .models import Config, Topic
+from .models import Topic
 from .utils import get_llm_response, render_template
 
 @dataclass
@@ -61,9 +61,7 @@ def get_stress_analysis(topic: Topic) -> None:
 
 def handle_stress_command() -> None:
     """Main handler for the stress command"""
-    config = Config()
-    topic = config.current_topic
-
+    topic = Topic.load()
     if not topic:
         raise click.ClickException(
             "No topic selected. Use 'cons topics -t <number>' to select one."

@@ -2,7 +2,7 @@ import click
 import json
 import logging
 from typing import Optional
-from consilio.models import Config, Topic
+from consilio.models import Topic
 from consilio.utils import get_llm_response, render_template
 
 
@@ -88,9 +88,7 @@ def edit_round(topic: Topic, round_num: int) -> None:
 
 def handle_discuss_command(edit: Optional[int], round: Optional[int]) -> None:
     """Main handler for the discuss command"""
-    config = Config()
-    topic = config.current_topic
-
+    topic = Topic.load()
     if not topic:
         raise click.ClickException(
             "No topic selected. Use 'cons topics -t <number>' to select one."

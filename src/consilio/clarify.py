@@ -2,7 +2,7 @@ import json
 import logging
 import click
 from typing import Dict, Any
-from .models import Config, Topic
+from .models import Topic
 from .utils import get_llm_response, render_template
 
 
@@ -47,9 +47,7 @@ def get_clarification(topic: Topic) -> None:
 
 def handle_clarify_command() -> None:
     """Main handler for the clarify command"""
-    config = Config()
-    topic = config.current_topic
-
+    topic = Topic.load()
     if not topic:
         raise click.ClickException(
             "No topic selected. Use 'cons topics -t <number>' to select one."

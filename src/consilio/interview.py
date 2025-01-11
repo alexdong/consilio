@@ -2,7 +2,7 @@ import click
 import json
 import logging
 from typing import Optional, Dict, Any
-from consilio.models import Config, Topic
+from consilio.models import Topic
 from consilio.utils import get_llm_response, render_template
 
 
@@ -98,9 +98,7 @@ def start_interview_round(
 
 def handle_interview_command(perspective_index: int, round: Optional[int]) -> None:
     """Main handler for the interview command"""
-    config = Config()
-    topic = config.current_topic
-
+    topic = Topic.load()
     if not topic:
         raise click.ClickException(
             "No topic selected. Use 'cons topics -t <number>' to select one."
