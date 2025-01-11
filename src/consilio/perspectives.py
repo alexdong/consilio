@@ -40,8 +40,11 @@ def generate_perspectives(topic: Topic) -> None:
         validate_perspectives(perspectives)  # type: ignore
 
         # Save perspectives to file
-        topic.perspectives_file.write_text(json.dumps(perspectives, indent=2))
+        json_str = json.dumps(perspectives, indent=2)
+        topic.perspectives_file.write_text(json_str)
         click.echo(f"Generated perspectives saved to: {topic.perspectives_file}")
+        click.echo("\nGenerated perspectives:")
+        click.echo(json_str)
 
     except jsonschema.ValidationError as e:
         click.echo(f"Generated perspectives failed validation: {str(e)}")
