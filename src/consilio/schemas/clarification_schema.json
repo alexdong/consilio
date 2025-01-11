@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["questions", "missing_context", "assumptions", "suggestions"],
+  "properties": {
+    "questions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 5,
+      "maxItems": 10
+    },
+    "missing_context": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "assumptions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "suggestions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}
