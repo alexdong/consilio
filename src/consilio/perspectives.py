@@ -23,9 +23,14 @@ def generate_perspectives(topic: Topic) -> None:
                       type=click.IntRange(1, 10),
                       default=5)
     
+    # Load schema for template
+    schema_path = Path(__file__).parent / "schemas" / "perspectives_schema.json"
+    schema = json.loads(schema_path.read_text())
+    
     prompt = render_template("perspectives.j2", 
                            topic=topic,
-                           num_of_perspectives=num)
+                           num_of_perspectives=num,
+                           schema=json.dumps(schema, indent=2))
     system_prompt = render_template("system.j2")
 
     try:
