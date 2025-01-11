@@ -43,7 +43,7 @@ def generate_perspectives(topic: Topic) -> None:
     logger.info("Generating new perspectives")
     # Prompt for number of perspectives
     num = click.prompt(
-        "How many perspectives would you like? (1-25)",
+        "How many perspectives would you like? It's often beneficial to start with a larger number of persepctives before trimming the number down. (1-25)",
         type=click.IntRange(1, 25),
         default=10,
     )
