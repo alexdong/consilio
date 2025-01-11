@@ -51,6 +51,24 @@ def get_clarification(topic: Topic) -> None:
         click.echo("\nPlease provide answers to these clarifying questions:")
         for i, q in enumerate(clarification.get("questions", []), 1):
             click.echo(f"{i}. {q}")
+            
+        # Display missing context
+        if missing_context := clarification.get("missing_context"):
+            click.echo("\nMissing Context:")
+            for item in missing_context:
+                click.echo(f"• {item}")
+                
+        # Display assumptions
+        if assumptions := clarification.get("assumptions"):
+            click.echo("\nAssumptions to Verify:")
+            for item in assumptions:
+                click.echo(f"• {item}")
+                
+        # Display suggestions
+        if suggestions := clarification.get("suggestions"):
+            click.echo("\nSuggestions:")
+            for item in suggestions:
+                click.echo(f"• {item}")
 
     except Exception as e:
         raise click.ClickException(f"Error getting clarification: {str(e)}")
