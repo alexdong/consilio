@@ -4,7 +4,9 @@ import click
 import jsonschema
 from pathlib import Path
 from typing import Dict, Any
-from .models import Topic
+from rich.console import Console
+from rich.markdown import Markdown
+from .models import Topic, Clarification
 from .utils import get_llm_response, render_template
 
 
@@ -12,29 +14,15 @@ schema = (Path(__file__).parent / "schemas" / "clarification_schema.json").read_
 
 
 def display_clarification(clarification: Dict[Any, Any]) -> None:
-    """Display clarification in a formatted way"""
-    # Display questions for user
-    click.echo("\nPlease provide answers to these clarifying questions:")
-    for i, q in enumerate(clarification.get("questions", []), 1):
-        click.echo(f"{i}. {q}")
+    """Display clarification in markdown format using rich"""
+    console = Console()
+    
+    # Convert to Clarification object if it's a dict
+    if isinstance(clarification, dict):
+        clarification = Clarification.from_dict(clarification)
         
-    # Display missing context
-    if missing_context := clarification.get("missing_context"):
-        click.echo("\nMissing Context:")
-        for item in missing_context:
-            click.echo(f"• {item}")
-            
-    # Display assumptions
-    if assumptions := clarification.get("assumptions"):
-        click.echo("\nAssumptions to Verify:")
-        for item in assumptions:
-            click.echo(f"• {item}")
-            
-    # Display suggestions
-    if suggestions := clarification.get("suggestions"):
-        click.echo("\nSuggestions:")
-        for item in suggestions:
-            click.echo(f"• {item}")
+    # Display using rich markdown
+    console.print(Markdown(clarification.to_markdown()))
 
 
 def validate_clarification(clarification: Dict[Any, Any]) -> None:
