@@ -19,7 +19,11 @@ Format the response in JSON with these sections:
 - assumptions: Key assumptions that should be verified
 - suggestions: Recommendations for additional helpful information
 
-Example:
+<JSONSchema>
+{{ schema }}
+</JSONSchema>
+
+Example response format:
 
 ```json
 {
@@ -40,5 +44,4 @@ Example:
     "Documentation of similar incidents over a few weeks to establish patterns",
   ]
 }
-
 ```
