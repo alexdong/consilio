@@ -4,10 +4,26 @@ import logging
 import jsonschema
 from pathlib import Path
 from typing import Optional, List, Dict, Any
-from consilio.models import Topic
+from rich.console import Console
+from rich.markdown import Markdown
+from consilio.models import Topic, Discussion
 from consilio.utils import get_llm_response, render_template
 
 schema = (Path(__file__).parent / "schemas" / "discussion_schema.json").read_text()
+
+
+def display_discussion(discussion_list: List[Dict[str, str]]) -> None:
+    """Display discussion in markdown format using rich"""
+    console = Console()
+    
+    # Convert to Discussion objects if they're dicts
+    discussions = [Discussion.from_dict(d) for d in discussion_list]
+    
+    # Build markdown content from Discussion objects
+    md_content = "## Discussion\n\n" + "".join(d.to_markdown() for d in discussions)
+    
+    # Display using rich
+    console.print(Markdown(md_content))
 
 
 def _build_first_round_prompt(topic: Topic) -> str:
@@ -82,6 +98,9 @@ def start_discussion_round(
 
         # Save response
         topic.round_response_file(round_num).write_text(json.dumps(response, indent=2))
+
+        # Display the discussion
+        display_discussion(response)
 
         click.echo(f"\nDiscussion round {round_num} completed.")
         click.echo(f"Files saved in: {topic.directory}")

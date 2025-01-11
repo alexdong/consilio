@@ -112,6 +112,32 @@ class Clarification:
 
 
 @dataclass
+class Discussion:
+    """Represents a discussion response"""
+    perspective: str
+    opinion: str
+
+    @classmethod
+    def from_dict(cls, data: dict) -> "Discussion":
+        """Create a Discussion instance from a dictionary"""
+        return cls(
+            perspective=data.get("perspective", ""),
+            opinion=data.get("opinion", "")
+        )
+
+    def to_markdown(self) -> str:
+        """Convert discussion to markdown format"""
+        return f"**{self.perspective}:**\n{self.opinion}\n\n"
+
+    def to_json(self) -> dict:
+        """Convert discussion to JSON format"""
+        return {
+            "perspective": self.perspective,
+            "opinion": self.opinion
+        }
+
+
+@dataclass
 class Config:
     """Configuration settings for a topic"""
 
