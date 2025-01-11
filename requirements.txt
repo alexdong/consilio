@@ -3,6 +3,7 @@ prompt-toolkit
 Jinja2
 PyYAML
 python-slugify
+rich
 tomli
 tomli-w
 jsonschema>=4.23.0

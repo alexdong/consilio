@@ -3,10 +3,32 @@ import click
 import json
 import jsonschema
 from pathlib import Path
+import subprocess
+from rich.console import Console
+from rich.markdown import Markdown
 from consilio.models import Topic
 from consilio.utils import get_llm_response, render_template
 
 schema = (Path(__file__).parent / "schemas" / "perspectives_schema.json").read_text()
+
+def display_perspectives(perspectives: list) -> None:
+    """Display perspectives in markdown format using rich"""
+    console = Console()
+    
+    # Build markdown content
+    md_content = "# Generated Perspectives\n\n"
+    for i, perspective in enumerate(perspectives, 1):
+        md_content += f"## {i}. {perspective.get('name', 'Unnamed Perspective')}\n\n"
+        if 'expertise' in perspective:
+            md_content += f"* **Expertise:** {perspective['expertise']}\n"
+        if 'goal' in perspective:
+            md_content += f"* **Goal:** {perspective['goal']}\n"
+        if 'role' in perspective:
+            md_content += f"* **Role:** {perspective['role']}\n"
+        md_content += "\n"
+    
+    # Display using rich
+    console.print(Markdown(md_content))
 
 
 def validate_perspectives(perspectives: list) -> None:
@@ -43,8 +65,14 @@ def generate_perspectives(topic: Topic) -> None:
         json_str = json.dumps(perspectives, indent=2)
         topic.perspectives_file.write_text(json_str)
         click.echo(f"Generated perspectives saved to: {topic.perspectives_file}")
-        click.echo("\nGenerated perspectives:")
-        click.echo(json_str)
+        
+        # Display perspectives in markdown format
+        display_perspectives(perspectives)
+        
+        # Ask if user wants to edit
+        if click.confirm("Would you like to edit the perspectives?"):
+            click.echo("Opening perspectives file in editor...")
+            subprocess.run(["$EDITOR", str(topic.perspectives_file)])
 
     except jsonschema.ValidationError as e:
         click.echo(f"Generated perspectives failed validation: {str(e)}")
