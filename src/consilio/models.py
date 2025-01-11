@@ -3,7 +3,7 @@ import logging
 import re
 from dataclasses import dataclass
 from pathlib import Path
-from typing import List
+from typing import List, Optional
 
 @dataclass
 class Topic:
