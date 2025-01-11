@@ -45,6 +45,37 @@ def init():
 
 
 @cli.command()
+def perspectives():
+    """Generate discussion perspectives"""
+    handle_perspectives_command()
+
+
+@cli.command()
+@click.option("-r", "--round", type=int, help="Restart from specific round")
+def discuss(round: Optional[int]):
+    """Start or continue discussion rounds"""
+    handle_discuss_command(round)
+
+
+@cli.command()
+def clarify():
+    """Request clarification before discussion"""
+    handle_clarify_command()
+
+
+@cli.command()
+def stress():
+    """Stress test current discussion and decisions"""
+    handle_stress_command()
+
+
+@cli.command()
+def bias():
+    """Check for cognitive and other biases"""
+    handle_bias_command()
+
+
+@cli.command()
 def summary():
     """Generate comprehensive discussion summary"""
     from .summary import generate_summary
@@ -58,20 +89,6 @@ def summary():
         )
         return
     generate_summary(topic)
-
-
-@cli.command()
-def perspectives():
-    """Generate discussion perspectives"""
-    handle_perspectives_command()
-
-
-@cli.command()
-@click.option("-e", "--edit", type=int, help="Edit specific discussion round")
-@click.option("-r", "--round", type=int, help="Restart from specific round")
-def discuss(edit: Optional[int], round: Optional[int]):
-    """Start or continue discussion rounds"""
-    handle_discuss_command(edit, round)
 
 
 @cli.command()
@@ -95,32 +112,6 @@ def completion(shell: Optional[str]):
         click.echo("_CONS_COMPLETE=fish_source cons | source)")
     else:
         click.echo("Invalid shell specified. Please use 'bash' or 'zsh'.")
-
-
-@cli.command()
-@click.argument("perspective_index", type=int)
-@click.option("-r", "--round", type=int, help="Start from specific round")
-def interview(perspective_index: int, round: Optional[int]):
-    """Interview a specific perspective"""
-    handle_interview_command(perspective_index, round)
-
-
-@cli.command()
-def clarify():
-    """Request clarification before discussion"""
-    handle_clarify_command()
-
-
-@cli.command()
-def stress():
-    """Stress test current discussion and decisions"""
-    handle_stress_command()
-
-
-@cli.command()
-def bias():
-    """Check for cognitive and other biases"""
-    handle_bias_command()
 
 
 def main():

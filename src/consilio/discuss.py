@@ -10,14 +10,10 @@ def _build_first_round_prompt(topic: Topic) -> str:
     """Build prompt for the first discussion round"""
     logger = logging.getLogger("consilio.discuss")
     logger.debug("Building first round prompt")
-    try:
-        perspectives = json.loads(topic.perspectives_file.read_text())
-    except (json.JSONDecodeError, FileNotFoundError):
-        raise click.ClickException(
-            "No valid perspectives found. Generate perspectives first."
-        )
 
-    return render_template("first_round.j2", topic=topic, perspectives=perspectives)
+    return render_template(
+        "first_round.j2", topic=topic, perspectives=topic.perspectives
+    )
 
 
 def _build_subsequent_round_prompt(
@@ -34,10 +30,12 @@ def _build_subsequent_round_prompt(
             input_file = topic.round_input_file(i)
             response_file = topic.round_response_file(i)
 
+            history.append(f"<Discussion round='{i}'>")
             if input_file.exists():
-                history.append(f"Round {i} Input:\n{input_file.read_text()}\n")
+                history.append(f"<input>{input_file.read_text()}</input>\n")
             if response_file.exists():
-                history.append(f"Round {i} Discussion:\n{response_file.read_text()}\n")
+                history.append(f"<response>\n{response_file.read_text()}</response>\n")
+            history.append("</Discussion>\n")
         except Exception as e:
             click.echo(f"Warning: Error reading round {i}: {str(e)}")
 
@@ -47,6 +45,7 @@ def _build_subsequent_round_prompt(
         perspectives=topic.perspectives,
         context=context,
         round_num=round_num,
+        user_input=user_input,
     )
 
 
@@ -77,26 +76,10 @@ def start_discussion_round(
         raise click.ClickException(f"Error in discussion round: {str(e)}")
 
 
-def edit_round(topic: Topic, round_num: int) -> None:
-    """Edit a specific discussion round"""
-    logger = logging.getLogger("consilio.discuss")
-    logger.info(f"Editing round {round_num}")
-    if round_num > topic.latest_round:
-        raise click.ClickException(f"Round {round_num} does not exist")
-
-    files = [topic.round_input_file(round_num), topic.round_response_file(round_num)]
-
-    for file in files:
-        if file.exists():
-            click.edit(filename=str(file))
-
-
-def handle_discuss_command(edit: Optional[int], round: Optional[int]) -> None:
+def handle_discuss_command(round: Optional[int]) -> None:
     """Main handler for the discuss command"""
+    logger = logging.getLogger("consilio.discuss")
     topic = Topic.load()
-    if edit is not None:
-        edit_round(topic, edit)
-        return
 
     # Determine round number
     current_round = round if round else topic.latest_round + 1
