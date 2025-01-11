@@ -34,10 +34,11 @@ def generate_perspectives(topic: Topic) -> None:
     system_prompt = render_template("system.j2")
 
     try:
-        perspectives = get_llm_response(prompt, system_prompt=system_prompt)
+        response = get_llm_response(prompt, system_prompt=system_prompt)
+        perspectives = json.loads(response)
 
         # Validate perspectives against schema
-        validate_perspectives(perspectives)  # type: ignore
+        validate_perspectives(perspectives)
 
         # Save perspectives to file
         topic.perspectives_file.write_text(json.dumps(perspectives, indent=2))
