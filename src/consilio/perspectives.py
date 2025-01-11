@@ -16,10 +16,9 @@ def display_perspectives(perspectives: list) -> None:
     console = Console()
 
     # Build markdown content
-    md_content = "Generated Perspectives\n===================\n\n"
+    md_content = ""
     for i, perspective in enumerate(perspectives, 1):
-        print(perspective)
-        md_content += f"## {i}. {perspective.get('Title', 'Unnamed Perspective')}\n\n"
+        md_content += f"__{i}. {perspective.get('Title', 'Unnamed Perspective')}__\n"
         if "Expertise" in perspective:
             md_content += f"* **Expertise:** {perspective['Expertise']}\n"
         if "Goal" in perspective:
