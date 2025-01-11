@@ -1,9 +1,11 @@
 import click
 import logging
 import re
-from dataclasses import dataclass
+import tomli
+import tomli_w
+from dataclasses import dataclass, asdict
 from pathlib import Path
-from typing import List, Optional
+from typing import List, Optional, Any
 
 @dataclass
 class Config:
@@ -11,6 +13,26 @@ class Config:
     key_bindings: str = "emacs"  # or "vi"
     model: str = "claude-3-sonnet-20240229"
     temperature: float = 1.0
+
+    def __post_init__(self) -> None:
+        """Write config to cons.toml if it doesn't exist"""
+        config_file = Path("cons.toml")
+        if not config_file.exists():
+            config = {
+                "key_bindings": self.key_bindings,
+                "model": self.model,
+                "temperature": self.temperature
+            }
+            config_file.write_text(tomli_w.dumps(config))
+
+    def __getattribute__(self, name: str) -> Any:
+        """Load config from cons.toml before accessing attributes"""
+        config_file = Path("cons.toml")
+        if config_file.exists():
+            config = tomli.loads(config_file.read_text())
+            if name in config:
+                return config[name]
+        return super().__getattribute__(name)
 
 
 @dataclass
