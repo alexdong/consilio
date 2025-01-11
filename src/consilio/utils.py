@@ -8,7 +8,7 @@ from anthropic import Anthropic
 from openai import OpenAI
 import google.generativeai as genai
 import click
-from consilio.models import Config
+from consilio.models import Topic
 
 
 def render_template(template_name: str, **kwargs: Any) -> str:
@@ -27,10 +27,6 @@ def get_llm_response(
     model: Optional[str] = None,
     temperature: float = 1.0,
 ) -> Dict[Any, Any]:
-    logger = logging.getLogger("consilio.llm")
-    logger.debug(f"Getting LLM response with model: {model}")
-    logger.debug(f"Prompt length: {len(prompt)} chars")
-    logger.info(f"Making API call to {model if model else 'default model'}")
     """Get response from LLM API
 
     Args:
@@ -39,11 +35,12 @@ def get_llm_response(
         model: Optional model name to use (defaults to config)
         temperature: Controls randomness in the response (0.0-1.0, default 1.0)
     """
-    config = Config()
-    if not model:
-        model = config.data["model"]
-    if not model:
-        model = "claude-3-sonnet-20241022"
+    config = Topic.load().config
+    model = model or config.model
+    logger = logging.getLogger("consilio.llm")
+    logger.debug(f"Getting LLM response with model: {model}")
+    logger.debug(f"Prompt length: {len(prompt)} chars")
+    logger.info(f"Making API call to {model if model else 'default model'}")
 
     if system_prompt is None:
         system_prompt = (

@@ -10,22 +10,24 @@ from consilio.utils import get_llm_response, render_template
 
 schema = (Path(__file__).parent / "schemas" / "perspectives_schema.json").read_text()
 
+
 def display_perspectives(perspectives: list) -> None:
     """Display perspectives in markdown format using rich"""
     console = Console()
-    
+
     # Build markdown content
     md_content = "# Generated Perspectives\n\n"
     for i, perspective in enumerate(perspectives, 1):
-        md_content += f"## {i}. {perspective.get('name', 'Unnamed Perspective')}\n\n"
-        if 'expertise' in perspective:
-            md_content += f"* **Expertise:** {perspective['expertise']}\n"
-        if 'goal' in perspective:
-            md_content += f"* **Goal:** {perspective['goal']}\n"
-        if 'role' in perspective:
-            md_content += f"* **Role:** {perspective['role']}\n"
+        print(perspective)
+        md_content += f"## {i}. {perspective.get('Title', 'Unnamed Perspective')}\n\n"
+        if "Expertise" in perspective:
+            md_content += f"* **Expertise:** {perspective['Expertise']}\n"
+        if "Goal" in perspective:
+            md_content += f"* **Goal:** {perspective['Goal']}\n"
+        if "Role" in perspective:
+            md_content += f"* **Role:** {perspective['Role']}\n"
         md_content += "\n"
-    
+
     # Display using rich
     console.print(Markdown(md_content))
 
@@ -41,9 +43,9 @@ def generate_perspectives(topic: Topic) -> None:
     logger.info("Generating new perspectives")
     # Prompt for number of perspectives
     num = click.prompt(
-        "How many perspectives would you like? (1-10)",
-        type=click.IntRange(1, 10),
-        default=5,
+        "How many perspectives would you like? (1-25)",
+        type=click.IntRange(1, 25),
+        default=10,
     )
 
     prompt = render_template(
@@ -64,10 +66,10 @@ def generate_perspectives(topic: Topic) -> None:
         json_str = json.dumps(perspectives, indent=2)
         topic.perspectives_file.write_text(json_str)
         click.echo(f"Generated perspectives saved to: {topic.perspectives_file}")
-        
+
         # Display perspectives in markdown format
-        display_perspectives(perspectives)
-        
+        display_perspectives(perspectives)  # type: ignore
+
         # Ask if user wants to edit
         if click.confirm("Would you like to edit the perspectives?"):
             click.echo("Opening perspectives file in editor...")

@@ -3,6 +3,7 @@
 lint:
 	ruff check . --fix
 	mypy
+	pyright
 
 test:
 	py.test -v tests
