@@ -15,13 +15,15 @@ schema = (Path(__file__).parent / "schemas" / "discussion_schema.json").read_tex
 def display_discussion(discussion_list: List[Dict[str, str]]) -> None:
     """Display discussion in markdown format using rich"""
     console = Console()
-    
+
     # Convert to Discussion objects if they're dicts
     discussions = [Discussion.from_dict(d) for d in discussion_list]
-    
+
     # Build markdown content from Discussion objects
-    md_content = "## Discussion Round\n\n" + "".join(d.to_markdown() for d in discussions)
-    
+    md_content = "## Discussion Round\n\n" + "".join(
+        d.to_markdown() for d in discussions
+    )
+
     # Display using rich
     console.print(Markdown(md_content))
 
@@ -95,14 +97,14 @@ def start_discussion_round(
                 f"Generated discussion response failed validation: {str(e)}"
             )
 
-        # Save response
-        topic.round_response_file(round_num).write_text(json.dumps(response, indent=2))
-
         # Display the discussion
-        display_discussion(response)
+        display_discussion(response)  # type: ignore
 
+        # Save response
+        response_file = topic.round_response_file(round_num)
+        response_file.write_text(json.dumps(response, indent=2))
         click.echo(f"\nDiscussion round {round_num} completed.")
-        click.echo(f"Files saved in: {topic.directory}")
+        click.echo(f"Files saved in: {response_file}")
 
     except Exception as e:
         raise click.ClickException(f"Error in discussion round: {str(e)}")
