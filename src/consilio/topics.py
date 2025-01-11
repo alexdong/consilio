@@ -10,7 +10,6 @@ def handle_topics_command() -> None:
         click.echo("No README.md found in current directory.")
         return
         
-    editor = click.get_editor()
     try:
         click.edit(filename="README.md")
     except subprocess.SubprocessError:
