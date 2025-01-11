@@ -6,6 +6,7 @@ python-slugify
 tomli
 tomli-w
 jsonschema>=4.23.0
+types-jsonschema>=4.23.0
 
 # Development tools
 ipython

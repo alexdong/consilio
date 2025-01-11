@@ -61,11 +61,9 @@ def summary():
 
 
 @cli.command()
-@click.option("-e", "--edit", is_flag=True, help="Edit perspectives file")
-@click.option("-l", "--list", is_flag=True, help="List all perspectives")
-def perspectives(edit: bool, list_flag: bool):
-    """Manage and generate discussion perspectives"""
-    handle_perspectives_command(edit, list_flag)
+def perspectives():
+    """Generate discussion perspectives"""
+    handle_perspectives_command()
 
 
 @cli.command()
