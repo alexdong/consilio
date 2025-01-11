@@ -39,16 +39,14 @@ class Config:
 class Topic:
     """Represents a discussion topic with its associated files"""
 
-    def __init__(self, test_dir: Optional[Path] = None):
-        self._test_dir = test_dir
+    def __init__(self, dir: Path = Path(".")):
+        self._dir = dir
         self.config = Config()
 
     @property
     def directory(self) -> Path:
         """Get the topic's directory path"""
-        if self._test_dir is not None:
-            return self._test_dir
-        return Path(".")
+        return self._dir
 
     @property
     def discussion_file(self) -> Path:
