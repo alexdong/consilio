@@ -123,9 +123,4 @@ class Topic:
     @classmethod
     def load(cls) -> "Topic":
         """Load topic from current directory"""
-        topic = cls()
-        if not topic.config_file.exists():
-            raise click.ClickException(
-                "The topic config.toml file does not exist. Use 'cons init' first."
-            )
-        return topic
+        return cls()

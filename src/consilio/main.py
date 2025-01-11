@@ -5,7 +5,6 @@ from typing import Optional
 import better_exceptions
 from consilio.logging import setup_logging
 from consilio.version import __version__
-from consilio.edit import handle_edit_command
 from consilio.perspectives import handle_perspectives_command
 from consilio.discuss import handle_discuss_command
 from consilio.interview import handle_interview_command
@@ -40,9 +39,10 @@ def cli(log_level: str, log_file: Optional[Path]):
 
 
 @cli.command()
-def edit():
-    """Edit the current topic's discussion file"""
-    handle_edit_command()
+@click.argument("path", type=str, default=".")
+def init(path: str):
+    """Initialize a new Consilio project in the specified directory"""
+    handle_init_command(path)
 
 
 @cli.command()
@@ -112,13 +112,6 @@ def interview(perspective_index: int, round: Optional[int]):
 def clarify():
     """Request clarification before discussion"""
     handle_clarify_command()
-
-
-@cli.command()
-@click.argument("path", type=str, default=".")
-def init(path: str):
-    """Initialize a new Consilio project in the specified directory"""
-    handle_init_command(path)
 
 
 @cli.command()
