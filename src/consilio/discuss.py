@@ -127,8 +127,8 @@ def handle_discuss_command(edit: Optional[int], round: Optional[int]) -> None:
         click.echo("Press Ctrl+D when finished.\n")
         user_input = click.get_text_stream("stdin").read().strip()
 
-    if not user_input:
-        raise click.ClickException("No input provided")
-
+    # Ensure user_input is at least an empty string
+    user_input = user_input or ""
+    
     click.echo(f"\nStarting discussions (Round #{current_round}) ...")
     start_discussion_round(topic, current_round, user_input)
