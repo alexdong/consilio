@@ -5,6 +5,13 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import List, Optional
 
+@dataclass
+class Config:
+    """Configuration settings for a topic"""
+    key_bindings: str = "emacs"  # or "vi"
+    model: str = "claude-3-sonnet-20240229"
+    temperature: float = 1.0
+
 
 @dataclass
 class Topic:
@@ -12,6 +19,7 @@ class Topic:
 
     def __init__(self, test_dir: Optional[Path] = None):
         self._test_dir = test_dir
+        self.config = Config()
 
     @property
     def directory(self) -> Path:
