@@ -6,20 +6,15 @@ from consilio.models import Config
 def initialize_project(path: str) -> None:
     """Initialize a new Consilio project in the specified directory"""
     project_dir = Path(path).resolve()
-    
-    if not project_dir.exists():
-        project_dir.mkdir(parents=True)
-        click.echo(f"Created directory: {project_dir}")
 
-    config = Config(project_dir / "cons.toml")
-    
-    if config.path.exists():
-        click.echo(f"Config file already exists at: {config.path}")
+    config_path = project_dir / "cons.toml"
+    if config_path.exists():
+        click.echo(f"Config file already exists at: {config_path}")
         return
 
-    click.echo(f"Initializing new Consilio project in: {project_dir}")
+    config = Config(config_path)
     config._save()
-    click.echo(f"Created config file: {config.path}")
+    click.echo(f"Initialized a new Consilio project in: {project_dir}")
 
 
 def handle_init_command(path: str) -> None:
