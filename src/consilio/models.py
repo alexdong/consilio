@@ -11,6 +11,7 @@ from typing import Any, List, Optional
 @dataclass
 class Perspective:
     """Represents a single perspective with its attributes"""
+
     title: str
     expertise: str
     goal: str
@@ -23,9 +24,9 @@ class Perspective:
             title=data.get("Title", "Unnamed Perspective"),
             expertise=data.get("Expertise", ""),
             goal=data.get("Goal", ""),
-            role=data.get("Role", "")
+            role=data.get("Role", ""),
         )
-        
+
     def to_markdown(self, index: int) -> str:
         """Convert perspective to markdown format"""
         md = f"__{index}. {self.title}__\n"
@@ -44,7 +45,7 @@ class Config:
     """Configuration settings for a topic"""
 
     key_bindings: str = "emacs"  # or "vi"
-    model: str = "claude-3-sonnet-20240229"
+    model: str = "claude-3-5-sonnet-20241022"
     temperature: float = 1.0
 
     def __post_init__(self) -> None:
@@ -108,11 +109,11 @@ class Topic:
 
     def round_input_file(self, round_num: int) -> Path:
         """Get the path for a specific round's input file"""
-        return self.directory / f"round-{round_num}-input.md"
+        return self.directory / f"discussion-r{round_num}-input.md"
 
     def round_response_file(self, round_num: int) -> Path:
         """Get the path for a specific round's response file"""
-        return self.directory / f"round-{round_num}-response.md"
+        return self.directory / f"discussion-r{round_num}-response.md"
 
     def interview_input_file(self, perspective_index: int, round_num: int) -> Path:
         """Get the path for a specific interview round's input file"""
@@ -140,7 +141,7 @@ class Topic:
     def description(self) -> str:
         """Get the topic's description"""
         return self.discussion_file.read_text()
-        
+
     @property
     def perspectives(self) -> List[Perspective]:
         """Get the list of perspectives"""

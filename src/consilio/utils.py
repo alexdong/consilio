@@ -46,6 +46,8 @@ def get_llm_response(
         system_prompt = (
             "You are an expert panel coordinator helping to analyze complex topics."
         )
+    logger.debug(f"User prompt: {prompt}")
+    logger.debug(f"System prompt: {system_prompt}")
 
     try:
         if "claude" in model:
@@ -80,7 +82,9 @@ def _get_anthropic_response(
         system=system_prompt,
         messages=[{"role": "user", "content": prompt}],
     )
-    return json.loads(message.content[0].text)  # type: ignore
+    response = json.loads(message.content[0].text)  # type: ignore
+    logger.debug(f"Response: {response}")
+    return json.loads(response)
 
 
 def _get_openai_response(
@@ -103,6 +107,7 @@ def _get_openai_response(
             {"role": "user", "content": prompt},
         ],
     )
+    logger.debug(f"Response: {response.choices[0].message.content}")  # type: ignore
     return json.loads(response.choices[0].message.content)  # type: ignore
 
 
@@ -130,4 +135,5 @@ def _get_gemini_response(
         f"{system_prompt}\n\n{prompt}",
         generation_config=genai.types.GenerationConfig(temperature=temperature),
     )
+    logger.debug(f"Response: {response.text}")
     return json.loads(response.text)

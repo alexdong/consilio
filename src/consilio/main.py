@@ -25,7 +25,7 @@ CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
     type=click.Choice(
         ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"], case_sensitive=False
     ),
-    default="INFO",
+    default="DEBUG",
     help="Set logging level",
 )
 @click.option(
@@ -45,6 +45,12 @@ def init():
 
 
 @cli.command()
+def clarify():
+    """Request clarification before discussion"""
+    handle_clarify_command()
+
+
+@cli.command()
 def perspectives():
     """Generate discussion perspectives"""
     handle_perspectives_command()
@@ -58,9 +64,11 @@ def discuss(round: Optional[int]):
 
 
 @cli.command()
-def clarify():
-    """Request clarification before discussion"""
-    handle_clarify_command()
+@click.option("-p", "--perspective", type=int, help="Perspective index")
+@click.option("-r", "--round", type=int, help="Restart from specific round")
+def interview(perspective_index: int, round: Optional[int]):
+    """Start or continue interview rounds"""
+    handle_interview_command(perspective_index, round)
 
 
 @cli.command()
