@@ -4,26 +4,10 @@ import logging
 import jsonschema
 from pathlib import Path
 from typing import Optional, List, Dict, Any
-from rich.console import Console
-from rich.markdown import Markdown
-from consilio.models import Topic, Discussion
+from consilio.models import Topic
 from consilio.utils import get_llm_response, render_template
 
 schema = (Path(__file__).parent / "schemas" / "discussion_schema.json").read_text()
-
-
-def display_discussion(discussion_list: List[Dict[str, str]]) -> None:
-    """Display discussion in markdown format using rich"""
-    console = Console()
-    
-    # Convert to Discussion objects if they're dicts
-    discussions = [Discussion.from_dict(d) for d in discussion_list]
-    
-    # Build markdown content from Discussion objects
-    md_content = "## Discussion\n\n" + "".join(d.to_markdown() for d in discussions)
-    
-    # Display using rich
-    console.print(Markdown(md_content))
 
 
 def _build_first_round_prompt(topic: Topic) -> str:
@@ -32,10 +16,7 @@ def _build_first_round_prompt(topic: Topic) -> str:
     logger.debug("Building first round prompt")
 
     return render_template(
-        "first_round.j2", 
-        topic=topic, 
-        perspectives=topic.perspectives,
-        schema=schema
+        "first_round.j2", topic=topic, perspectives=topic.perspectives, schema=schema
     )
 
 
@@ -69,7 +50,7 @@ def _build_subsequent_round_prompt(
         context=context,
         round_num=round_num,
         user_input=user_input,
-        schema=schema
+        schema=schema,
     )
 
 
@@ -94,13 +75,12 @@ def start_discussion_round(
         try:
             jsonschema.validate(instance=response, schema=json.loads(schema))
         except jsonschema.ValidationError as e:
-            raise click.ClickException(f"Generated discussion response failed validation: {str(e)}")
+            raise click.ClickException(
+                f"Generated discussion response failed validation: {str(e)}"
+            )
 
         # Save response
         topic.round_response_file(round_num).write_text(json.dumps(response, indent=2))
-
-        # Display the discussion
-        display_discussion(response)
 
         click.echo(f"\nDiscussion round {round_num} completed.")
         click.echo(f"Files saved in: {topic.directory}")
@@ -124,7 +104,9 @@ def handle_discuss_command(round: Optional[int]) -> None:
 
     # Get user input for the round
     user_input = None
-    if click.confirm("\nWould you like to provide your input?", default=True):
+    if current_round > 1 and click.confirm(
+        "\nWould you like to provide your input?", default=True
+    ):
         # Create input file if it doesn't exist
         input_file = topic.round_input_file(current_round)
         if not input_file.exists():
