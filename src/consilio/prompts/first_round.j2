@@ -1,11 +1,32 @@
-This is the beginning of a team meeting to discuss the following topic:
+This is a team meeting to discuss the following topic:
+<Topic>
 {{ topic.description }}
+</Topic>
 
-This is a meeting with the team lead, Principal Investigator, and the following team members: 
-{{ perspectives | tojson(indent=2) }}
+The meeting comprised of the team lead Principal Investigator, and the following team members: 
+<Perspectives>
+{% for perspective in perspectives %}
+{{ perspective.to_json() }}
+{% endfor %}
+</Perspectives>
 
 Principal Investigator will convene the meeting by providing the initial thoughts as well as any questions to guide the discussion among the team members.
 
-Then each team member will present their thoughts, guiding questions one-by-one in the order above. If you do not have anything new or relevant to add, you may say "pass". Remember that you can and should (politely) disagree with other team members if you have a different perspective.
+Make sure the output conform to JSON format. Here is a sample output where text is truncated.
 
-After all team members have given their input, the Principal Investigator will summarise the discussion and guide the team to the next steps by synthesizing the points raised by each team member, making decisions regarding the agenda based on team member input, and ask follow-up questions to gather more information and feedback about how to better address the agenda.
+```json
+{
+  [
+    {
+      "perspective": "Principal Investigator",
+      "opinion": "As the Principal Investigator, I\'ll start by noting that ..."
+    },
+    {
+      "perspective": "Child Psychologist",
+      "opinion": "."
+    },
+    ...
+  ]
+}
+```
+

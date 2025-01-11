@@ -1,13 +1,42 @@
 This is a team meeting to discuss the following topic:
+<Topic>
 {{ topic.description }}
+</Topic>
 
 The meeting comprised of the team lead Principal Investigator, and the following team members: 
-{{ perspectives | tojson(indent=2) }}
+<Perspectives>
+{% for perspective in perspectives %}
+{{ perspective.to_json() }}
+{% endfor %}
+</Perspectives>
 
 The following round of discussions have been recorded:
+<Discussions>
 {{ context }}
+</Discussions>
 
 User Input for Round {{ round_num }}:
+<UserInput>
 {{ user_input }}
+</UserInput>
 
 Please continue the discussion by providing your thoughts, guiding questions one-by-one in the order above. If you do not have anything new or relevant to add, you may say "pass". Remember that you can and should (politely) disagree with other team members if you have a different perspective.
+
+Make sure the output conform to JSON format. Here is a sample output where text is truncated.
+
+```json
+{
+  [
+    {
+      "perspective": "Principal Investigator",
+      "opinion": "Note from the previous discussions that ..."
+    },
+    {
+      "perspective": "Child Psychologist",
+      "opinion": "."
+    },
+    ...
+  ]
+}
+```
+
