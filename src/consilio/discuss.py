@@ -1,9 +1,13 @@
 import click
 import json
 import logging
-from typing import Optional
+import jsonschema
+from pathlib import Path
+from typing import Optional, List, Dict, Any
 from consilio.models import Topic
 from consilio.utils import get_llm_response, render_template
+
+schema = (Path(__file__).parent / "schemas" / "discussion_schema.json").read_text()
 
 
 def _build_first_round_prompt(topic: Topic) -> str:
@@ -12,7 +16,10 @@ def _build_first_round_prompt(topic: Topic) -> str:
     logger.debug("Building first round prompt")
 
     return render_template(
-        "first_round.j2", topic=topic, perspectives=topic.perspectives
+        "first_round.j2", 
+        topic=topic, 
+        perspectives=topic.perspectives,
+        schema=schema
     )
 
 
@@ -46,6 +53,7 @@ def _build_subsequent_round_prompt(
         context=context,
         round_num=round_num,
         user_input=user_input,
+        schema=schema
     )
 
 
@@ -65,6 +73,12 @@ def start_discussion_round(
         # Get LLM response with system prompt
         system_prompt = render_template("system.j2")
         response = get_llm_response(prompt, system_prompt=system_prompt)
+
+        # Validate response against schema
+        try:
+            jsonschema.validate(instance=response, schema=json.loads(schema))
+        except jsonschema.ValidationError as e:
+            raise click.ClickException(f"Generated discussion response failed validation: {str(e)}")
 
         # Save response
         topic.round_response_file(round_num).write_text(json.dumps(response, indent=2))
