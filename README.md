@@ -107,7 +107,6 @@ Start a new round of discussion. You will be prompted to provide guidance for th
 
 Flags:
 
-- `-e`, `--edit [round number]`: Open the specified round of discussions in the default editor. You can use this to add more context or clarifications to the discussion document. Once you are done editing, save and close the file. Consilio will provide you with the next steps.
 - `-r`, `--round [round number]`: Restart the discussion from the specified round number. This is useful if you want to revisit a previous round of discussions or if you have saved the discussion document and want to continue from where you left off.
 
 ### `interview`

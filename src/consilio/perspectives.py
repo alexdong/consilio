@@ -5,7 +5,7 @@ import jsonschema
 from pathlib import Path
 from rich.console import Console
 from rich.markdown import Markdown
-from consilio.models import Topic
+from consilio.models import Topic, Perspective
 from consilio.utils import get_llm_response, render_template
 
 schema = (Path(__file__).parent / "schemas" / "perspectives_schema.json").read_text()
@@ -14,15 +14,13 @@ schema = (Path(__file__).parent / "schemas" / "perspectives_schema.json").read_t
 def display_perspectives(perspectives: list) -> None:
     """Display perspectives in markdown format using rich"""
     console = Console()
-    
+
     # Convert perspectives to Perspective objects if they're dicts
-    if perspectives and isinstance(perspectives[0], dict):
-        from consilio.models import Perspective
-        perspectives = [Perspective.from_dict(p) for p in perspectives]
-    
+    perspectives = [Perspective.from_dict(p) for p in perspectives]
+
     # Build markdown content from Perspective objects
     md_content = "".join(p.to_markdown(i) for i, p in enumerate(perspectives, 1))
-    
+
     # Display using rich
     console.print(Markdown(md_content))
 

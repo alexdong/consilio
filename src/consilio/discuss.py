@@ -20,7 +20,9 @@ def _build_first_round_prompt(topic: Topic) -> str:
     return render_template("first_round.j2", topic=topic, perspectives=perspectives)
 
 
-def _build_subsequent_round_prompt(topic: Topic, round_num: int) -> str:
+def _build_subsequent_round_prompt(
+    topic: Topic, round_num: int, user_input: Optional[str]
+) -> str:
     """Build prompt including previous rounds' context"""
     logger = logging.getLogger("consilio.discuss")
     logger.debug(f"Building prompt for round {round_num}")
@@ -40,10 +42,17 @@ def _build_subsequent_round_prompt(topic: Topic, round_num: int) -> str:
             click.echo(f"Warning: Error reading round {i}: {str(e)}")
 
     context = "\n".join(history)
-    return render_template("subsequent_round.j2", context=context, round_num=round_num)
+    return render_template(
+        "subsequent_round.j2",
+        perspectives=topic.perspectives,
+        context=context,
+        round_num=round_num,
+    )
 
 
-def start_discussion_round(topic: Topic, round_num: int, user_input: str) -> None:
+def start_discussion_round(
+    topic: Topic, round_num: int, user_input: Optional[str]
+) -> None:
     """Start a new discussion round"""
     logger = logging.getLogger("consilio.discuss")
     logger.info(f"Starting discussion round {round_num}")
@@ -51,11 +60,7 @@ def start_discussion_round(topic: Topic, round_num: int, user_input: str) -> Non
     if round_num == 1:
         prompt = _build_first_round_prompt(topic)
     else:
-        context = _build_subsequent_round_prompt(topic, round_num)
-        prompt = f"{context}\n\nUser Input for Round {round_num}:\n{user_input}"
-
-    # Save user input
-    topic.round_input_file(round_num).write_text(user_input)
+        prompt = _build_subsequent_round_prompt(topic, round_num, user_input=user_input)
 
     try:
         # Get LLM response with system prompt
@@ -102,6 +107,7 @@ def handle_discuss_command(edit: Optional[int], round: Optional[int]) -> None:
         )
 
     # Get user input for the round
+    user_input = None
     if click.confirm("\nWould you like to provide your input?", default=True):
         # Create input file if it doesn't exist
         input_file = topic.round_input_file(current_round)
@@ -119,16 +125,6 @@ def handle_discuss_command(edit: Optional[int], round: Optional[int]) -> None:
             raise click.ClickException(
                 "No input provided - editor was closed without saving"
             )
-    else:
-        click.echo("\nPlease provide guidance for the discussion.")
-        click.echo(
-            "(Answer questions from the previous round of discussions, or specify a particular area you'd like to focus on next.)"
-        )
-        click.echo("Press Ctrl+D when finished.\n")
-        user_input = click.get_text_stream("stdin").read().strip()
 
-    # Ensure user_input is at least an empty string
-    user_input = user_input or ""
-    
     click.echo(f"\nStarting discussions (Round #{current_round}) ...")
     start_discussion_round(topic, current_round, user_input)
