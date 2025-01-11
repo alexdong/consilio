@@ -3,7 +3,6 @@ import click
 import json
 import jsonschema
 from pathlib import Path
-import subprocess
 from rich.console import Console
 from rich.markdown import Markdown
 from consilio.models import Topic
@@ -72,7 +71,7 @@ def generate_perspectives(topic: Topic) -> None:
         # Ask if user wants to edit
         if click.confirm("Would you like to edit the perspectives?"):
             click.echo("Opening perspectives file in editor...")
-            subprocess.run(["$EDITOR", str(topic.perspectives_file)])
+            click.edit(filename=str(topic.perspectives_file))
 
     except jsonschema.ValidationError as e:
         click.echo(f"Generated perspectives failed validation: {str(e)}")
