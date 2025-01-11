@@ -15,18 +15,15 @@ TOPICS_DIR = Path.home() / ".consilio"
 class Topic:
     """Represents a discussion topic with its associated files"""
 
-    slug: str
     created_at: datetime
     description: str
 
     def __init__(
         self,
-        slug: str,
         created_at: datetime,
         description: str,
         test_dir: Optional[Path] = None,
     ):
-        self.slug = slug
         self.created_at = created_at
         self.description = description
         self._test_dir = test_dir
@@ -36,7 +33,7 @@ class Topic:
         """Get the topic's directory path"""
         if self._test_dir is not None:
             return self._test_dir
-        return TOPICS_DIR / f"{self.created_at:%Y-%m-%d}-{self.slug}"
+        return TOPICS_DIR / f"{self.created_at:%Y%m%d-%H%M%S}"
 
     @property
     def discussion_file(self) -> Path:
@@ -103,12 +100,7 @@ class Topic:
         """Create a new topic from a description"""
         logger = logging.getLogger("consilio.models")
         logger.info(f"Creating new topic: {description}")
-        # Generate a URL-friendly slug from the first line
-        first_line = description.split("\n")[0][:50]  # Take first 50 chars
-        slug = re.sub(r"[^\w\s-]", "", first_line).strip().lower()
-        slug = re.sub(r"[-\s]+", "-", slug)
-
-        topic = cls(slug=slug, created_at=datetime.now(), description=description)
+        topic = cls(created_at=datetime.now(), description=description)
 
         # Create directory and save description
         topic.directory.mkdir(parents=True, exist_ok=True)
@@ -124,14 +116,14 @@ class Topic:
         if not directory.exists():
             return None
 
-        # Parse directory name for date and slug
-        pattern = re.compile(r"(\d{4}-\d{2}-\d{2})-(.*)")
+        # Parse directory name for timestamp
+        pattern = re.compile(r"(\d{8}-\d{6})")
         match = pattern.match(directory.name)
         if match:
-            date_str, slug = match.groups()
-            created_at = datetime.strptime(date_str, "%Y-%m-%d")
+            timestamp = match.group(1)
+            created_at = datetime.strptime(timestamp, "%Y%m%d-%H%M%S")
             description = (directory / "discussion.md").read_text()
-            return cls(slug=slug, created_at=created_at, description=description)
+            return cls(created_at=created_at, description=description)
         return None
 
     @classmethod
