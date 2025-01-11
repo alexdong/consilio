@@ -1,6 +1,5 @@
 import click
 import subprocess
-from pathlib import Path
 from .models import Topic
 
 def handle_topics_command() -> None:
