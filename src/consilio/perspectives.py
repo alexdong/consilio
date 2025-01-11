@@ -6,12 +6,12 @@ from pathlib import Path
 from consilio.models import Topic
 from consilio.utils import get_llm_response, render_template
 
+schema = (Path(__file__).parent / "schemas" / "perspectives_schema.json").read_text()
+
 
 def validate_perspectives(perspectives: list) -> None:
     """Validate perspectives against schema"""
-    schema_path = Path(__file__).parent / "schemas" / "perspectives_schema.json"
-    schema = json.loads(schema_path.read_text())
-    jsonschema.validate(instance=perspectives, schema=schema)
+    jsonschema.validate(instance=perspectives, schema=json.loads(schema))
 
 
 def generate_perspectives(topic: Topic) -> None:
@@ -25,29 +25,25 @@ def generate_perspectives(topic: Topic) -> None:
         default=5,
     )
 
-    # Load schema for template
-    schema_path = Path(__file__).parent / "schemas" / "perspectives_schema.json"
-    schema_text = schema_path.read_text()
-
     prompt = render_template(
         "perspectives.j2",
         topic=topic,
         num_of_perspectives=num,
-        schema=schema_text,
+        schema=schema,
     )
     system_prompt = render_template("system.j2")
 
     try:
-        perspectives = json.loads(get_llm_response(prompt, system_prompt=system_prompt))
+        perspectives = get_llm_response(prompt, system_prompt=system_prompt)
 
         # Validate perspectives against schema
-        validate_perspectives(perspectives)
+        validate_perspectives(perspectives)  # type: ignore
 
         # Save perspectives to file
         topic.perspectives_file.write_text(json.dumps(perspectives, indent=2))
         click.echo(f"Generated perspectives saved to: {topic.perspectives_file}")
 
-    except jsonschema.exceptions.ValidationError as e:
+    except jsonschema.ValidationError as e:
         click.echo(f"Generated perspectives failed validation: {str(e)}")
     except json.JSONDecodeError as e:
         click.echo(f"Invalid JSON response from LLM: {str(e)}")

@@ -3,7 +3,12 @@
   "type": "array",
   "items": {
     "type": "object",
-    "required": ["Title", "Expertise", "Goal", "Role"],
+    "required": [
+      "Title",
+      "Expertise",
+      "Goal",
+      "Role"
+    ],
     "properties": {
       "Title": {
         "type": "string",

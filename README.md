@@ -95,15 +95,9 @@ temperature = 1.0
 
 ### `perspectives`
 
-$ cons perspectives [flags]
+$ cons perspectives
 
-Reload available perspectives. This will overwrite the existing `perspectives.md` file in the topic directory and request a new set of perspectives. If there is no topic or decision file, this command will quietly exit with a message to start a new topic.
-
-I find this useful after a couple of rounds of discussions when I want to update the discussion document or want to focus on a particular area.
-
-Flags:
-
-- `-e`, `--edit`: Open the perspectives.md file in the default editor
+Request available perspectives from the default LLM model and save the response into `perspectives.json` file in the directory.
 
 ### `discuss`
 

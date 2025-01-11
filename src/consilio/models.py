@@ -1,4 +1,3 @@
-import click
 import logging
 import re
 import tomli
@@ -104,6 +103,11 @@ class Topic:
             if match and match.group(1):
                 rounds.append(int(match.group(1)))
         return max(rounds) if rounds else 0
+
+    @property
+    def description(self) -> str:
+        """Get the topic's description"""
+        return self.discussion_file.read_text()
 
     @property
     def latest_round(self) -> int:

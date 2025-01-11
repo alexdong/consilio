@@ -8,21 +8,14 @@ Think about "What's the overlap between the views", "What perspective provides t
 
 Please provide {{ num_of_perspectives }} distinct perspectives. Ensure that each perspective is clearly defined and distinct from the others.
 
+For each perspective, provide the following information:
+- Title: A short title for the perspective.
+- Expertise: A brief description of the expert's background and expertise.
+- Goals: The goals of the expert in the discussion.
+- Role: The role of the expert in the discussion.
+
 Your response must strictly follow this JSON schema:
 
-```json
+<JSONSchema>
 {{ schema }}
-```
-
-Here is an example of a valid response:
-
-```json
-[
-  {
-    "Title": "Pediatric Exercise Physiologist",
-    "Expertise": "The science of how exercise and physical activity affect children's growth, development, and overall health. This includes understanding energy expenditure, recovery, and the impact of intense training on young bodies.",
-    "Goal": "To optimize your daughter's physical activity schedule to ensure it supports her health, well-being, and long-term athletic development without causing burnout or injury.",
-    "Role": "To analyze your daughter's current activity load, considering the intensity, duration, and frequency of each activity. They would assess the potential for overtraining, recommend strategies for recovery and rest, and advise on how to balance her physical activities with her developmental needs and energy levels."
-  }
-]
-```
+</JSONSchema>
