@@ -98,14 +98,9 @@ class Topic:
         return self.directory / "perspectives.json"
 
     @property
-    def clarification_file(self) -> Path:
-        """Get the clarification.json file path"""
-        return self.directory / "clarification.json"
-
-    @property
     def clarification_answers_file(self) -> Path:
         """Get the clarification_answers.md file path"""
-        return self.directory / "clarification_answers.md"
+        return self.directory / "clarification.json"
 
     def round_input_file(self, round_num: int) -> Path:
         """Get the path for a specific round's input file"""

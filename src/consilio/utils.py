@@ -51,16 +51,21 @@ def get_llm_response(
 
     try:
         if "claude" in model:
-            return _get_anthropic_response(prompt, model, system_prompt, temperature)
+            response = _get_anthropic_response(
+                prompt, model, system_prompt, temperature
+            )
         elif "gpt" in model:
-            return _get_openai_response(prompt, model, system_prompt, temperature)
+            response = _get_openai_response(prompt, model, system_prompt, temperature)
         elif "gemini" in model:
-            return _get_gemini_response(prompt, model, system_prompt, temperature)
+            response = _get_gemini_response(prompt, model, system_prompt, temperature)
         else:
             raise click.ClickException(f"Unsupported model: {model}")
 
     except Exception as e:
         raise click.ClickException(f"Error getting LLM response: {str(e)}")
+
+    logger.debug(f"Response: {json.dumps(response)}")
+    return response
 
 
 def _get_anthropic_response(
@@ -82,9 +87,8 @@ def _get_anthropic_response(
         system=system_prompt,
         messages=[{"role": "user", "content": prompt}],
     )
-    response = json.loads(message.content[0].text)  # type: ignore
-    logger.debug(f"Response: {response}")
-    return json.loads(response)
+    logger.debug(f"Response: {message}")
+    return json.loads(message.content[0].text)  # type: ignore
 
 
 def _get_openai_response(
@@ -107,7 +111,7 @@ def _get_openai_response(
             {"role": "user", "content": prompt},
         ],
     )
-    logger.debug(f"Response: {response.choices[0].message.content}")  # type: ignore
+    logger.debug(f"Response: {response}")
     return json.loads(response.choices[0].message.content)  # type: ignore
 
 
@@ -135,5 +139,5 @@ def _get_gemini_response(
         f"{system_prompt}\n\n{prompt}",
         generation_config=genai.types.GenerationConfig(temperature=temperature),
     )
-    logger.debug(f"Response: {response.text}")
+    logger.debug(f"Response: {response}")
     return json.loads(response.text)
