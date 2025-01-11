@@ -56,7 +56,8 @@ def generate_perspectives(topic: Topic) -> None:
         validate_perspectives(perspectives)  # type: ignore
 
         # Save perspectives to file
-        json_str = json.dumps(perspectives, indent=2)
+        perspectives_objects = [Perspective.from_dict(p) for p in perspectives]
+        json_str = json.dumps([p.to_json() for p in perspectives_objects], indent=2)
         topic.perspectives_file.write_text(json_str)
         click.echo(f"Generated perspectives saved to: {topic.perspectives_file}")
 

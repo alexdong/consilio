@@ -35,7 +35,9 @@ def save_clarification(topic: Topic, clarification: Dict[Any, Any]) -> None:
     logger = logging.getLogger("consilio.clarify")
     logger.info("Saving clarification response")
     clarification_file = topic.clarification_answers_file
-    clarification_file.write_text(json.dumps(clarification, indent=2))
+    if isinstance(clarification, dict):
+        clarification = Clarification.from_dict(clarification)
+    clarification_file.write_text(json.dumps(clarification.to_json(), indent=2))
     click.echo(f"Clarification saved to: {clarification_file}")
 
 

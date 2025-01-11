@@ -39,6 +39,15 @@ class Perspective:
         md += "\n"
         return md
 
+    def to_json(self) -> dict:
+        """Convert perspective to JSON format"""
+        return {
+            "Title": self.title,
+            "Expertise": self.expertise,
+            "Goal": self.goal,
+            "Role": self.role
+        }
+
 
 @dataclass
 class Clarification:
@@ -91,6 +100,15 @@ class Clarification:
             md += "\n"
 
         return md
+
+    def to_json(self) -> dict:
+        """Convert clarification to JSON format"""
+        return {
+            "questions": self.questions,
+            "missing_context": self.missing_context,
+            "assumptions": self.assumptions,
+            "suggestions": self.suggestions
+        }
 
 
 @dataclass
