@@ -7,9 +7,11 @@ Your role is to identify areas that need more clarity or detail before the discu
 Please:
 1. Analyze the current description
 2. Identify any missing context or unclear points
-3. List specific questions that need answers
-4. Suggest additional information that would be valuable
+3. List 5-10 questions that need answers
+4. Suggest additional information how the answer to these questions would be valuable
 5. Point out any assumptions that should be verified
+
+Keep the focus on gathering information that will make the discussion more productive.
 
 Format the response in JSON with these sections:
 - questions: List of specific questions that need answers
@@ -17,4 +19,26 @@ Format the response in JSON with these sections:
 - assumptions: Key assumptions that should be verified
 - suggestions: Recommendations for additional helpful information
 
-Keep the focus on gathering information that will make the discussion more productive.
+Example:
+
+```json
+{
+  "questions": [
+    "Is this mood change a recent development? When did you first notice it?",
+    "How are her sleeping patterns and quality of sleep?",
+  ],
+  "missing_context": [
+    "Duration and frequency of these mood changes",
+    "Family's typical morning routine and how it might have changed",
+  ],
+  "assumptions": [
+    "This behavior is primarily mood-related rather than circumstantial",
+    "The morning incident described is representative of a pattern",
+  ],
+  "suggestions": [
+    "A timeline of behavior changes and any correlating events would be helpful",
+    "Documentation of similar incidents over a few weeks to establish patterns",
+  ]
+}
+
+```
