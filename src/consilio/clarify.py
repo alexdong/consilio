@@ -31,7 +31,7 @@ def get_clarification(topic: Topic) -> None:
     logger.info("Getting clarification for topic")
 
     # Generate clarification using template
-    prompt = render_template("clarify.j2", topic=topic)
+    prompt = render_template("clarify.j2", topic=topic, schema=schema)
     system_prompt = render_template("system.j2")
 
     try:
