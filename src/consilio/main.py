@@ -9,7 +9,7 @@ from consilio.topics import handle_topics_command
 from consilio.perspectives import handle_perspectives_command
 from consilio.discuss import handle_discuss_command
 from consilio.interview import handle_interview_command
-from consilio.config import handle_init_command
+from consilio.init import handle_init_command
 from consilio.clarify import handle_clarify_command
 from consilio.stress import handle_stress_command
 from consilio.bias import handle_bias_command
@@ -21,14 +21,17 @@ CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
 
 @click.group(context_settings=CONTEXT_SETTINGS)
 @click.version_option(version=__version__, prog_name="consilio")
-@click.option('--log-level', 
-              type=click.Choice(['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'], 
-              case_sensitive=False),
-              default='INFO',
-              help='Set logging level')
-@click.option('--log-file', 
-              type=click.Path(path_type=Path),
-              help='Write logs to specified file')
+@click.option(
+    "--log-level",
+    type=click.Choice(
+        ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"], case_sensitive=False
+    ),
+    default="INFO",
+    help="Set logging level",
+)
+@click.option(
+    "--log-file", type=click.Path(path_type=Path), help="Write logs to specified file"
+)
 def cli(log_level: str, log_file: Optional[Path]):
     """Consilio: AI-Facilitated Decision Making Assistant"""
     setup_logging(log_level, log_file)
@@ -47,10 +50,13 @@ def summary():
     """Generate comprehensive discussion summary"""
     from .summary import generate_summary
     from .models import Config
+
     config = Config()
     topic = config.current_topic
     if not topic:
-        click.echo("No topic currently selected. Use 'cons topics -t <number>' to select one.")
+        click.echo(
+            "No topic currently selected. Use 'cons topics -t <number>' to select one."
+        )
         return
     generate_summary(topic)
 
@@ -109,7 +115,7 @@ def clarify():
 
 
 @cli.command()
-@click.argument('path', type=str, default=".")
+@click.argument("path", type=str, default=".")
 def init(path: str):
     """Initialize a new Consilio project in the specified directory"""
     handle_init_command(path)
