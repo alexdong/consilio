@@ -14,19 +14,15 @@ schema = (Path(__file__).parent / "schemas" / "perspectives_schema.json").read_t
 def display_perspectives(perspectives: list) -> None:
     """Display perspectives in markdown format using rich"""
     console = Console()
-
-    # Build markdown content
-    md_content = ""
-    for i, perspective in enumerate(perspectives, 1):
-        md_content += f"__{i}. {perspective.get('Title', 'Unnamed Perspective')}__\n"
-        if "Expertise" in perspective:
-            md_content += f"* **Expertise:** {perspective['Expertise']}\n"
-        if "Goal" in perspective:
-            md_content += f"* **Goal:** {perspective['Goal']}\n"
-        if "Role" in perspective:
-            md_content += f"* **Role:** {perspective['Role']}\n"
-        md_content += "\n"
-
+    
+    # Convert perspectives to Perspective objects if they're dicts
+    if perspectives and isinstance(perspectives[0], dict):
+        from consilio.models import Perspective
+        perspectives = [Perspective.from_dict(p) for p in perspectives]
+    
+    # Build markdown content from Perspective objects
+    md_content = "".join(p.to_markdown(i) for i, p in enumerate(perspectives, 1))
+    
     # Display using rich
     console.print(Markdown(md_content))
 

@@ -25,6 +25,18 @@ class Perspective:
             goal=data.get("Goal", ""),
             role=data.get("Role", "")
         )
+        
+    def to_markdown(self, index: int) -> str:
+        """Convert perspective to markdown format"""
+        md = f"__{index}. {self.title}__\n"
+        if self.expertise:
+            md += f"* **Expertise:** {self.expertise}\n"
+        if self.goal:
+            md += f"* **Goal:** {self.goal}\n"
+        if self.role:
+            md += f"* **Role:** {self.role}\n"
+        md += "\n"
+        return md
 
 
 @dataclass
