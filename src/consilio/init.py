@@ -1,20 +1,25 @@
 import click
+import subprocess
 from pathlib import Path
+from .utils import render_template
 
 
-def initialize_project(path: str) -> None:
-    """Initialize a new Consilio project in the specified directory"""
+def handle_init_command(path: str = ".") -> None:
+    """Initialize a new project and open README.md in editor"""
     project_dir = Path(path).resolve()
-
-    # Create README.md if it doesn't exist
     readme_path = project_dir / "README.md"
+
     if not readme_path.exists():
-        readme_path.write_text("# New Consilio Project\n\nDescribe your topic here.\n")
+        content = render_template("edit.j2")
+        readme_path.write_text(content)
         click.echo(f"Created README.md in: {project_dir}")
     else:
-        click.echo(f"README.md already exists in: {project_dir}")
+        content = readme_path.read_text()
 
-
-def handle_init_command(path: str) -> None:
-    """Main handler for the init command"""
-    initialize_project(path)
+    try:
+        click.edit(
+            text=content,
+            filename=str(readme_path),
+        )
+    except subprocess.SubprocessError:
+        click.echo(f"Failed to open {readme_path} in editor")

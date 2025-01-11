@@ -69,32 +69,11 @@ Under the hook, it delegates to a set of subcommands depends on the state of the
 
 ### `init`
 
-$ cons init
+$ cons init [path]
 
-Initialize a new Consilio project in the specified directory (defaults to current directory). This creates a `cons.toml` file with default settings. (Similar to `git init`.)  
+Initialize a new Consilio project in the specified directory (defaults to current directory) and open README.md in your default editor. If README.md already exists, it will be opened for editing.
 
-The following configuration options are available in cons.toml:
-
-```toml
-# Key bindings for input (default: "emacs")
-key_bindings = "vi"  
-
-# LLM model to use (default: "claude-3-5-sonnet-20241022")
-# Can be any of the models available:
-# - claude-3-5-sonnet-20241022
-# - gemini-2.0-flash-exp
-# - gemini-2.0-flash-thinking-exp-1219
-model = "claude-3-5-sonnet-20241022"
-
-# Temperature for LLM responses (0.0-1.0, brainstorm: 0.8, meeting: 0.2)
-temperature = 1.0
-```
-
-### `edit`
-
-$ cons edit
-
-Open the current topic's README.md file in your default editor. This allows you to review and edit the topic description directly.
+The editor will be pre-populated with a template if creating a new file, or the existing content if the file already exists.
 
 ### `perspectives`
 
