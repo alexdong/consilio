@@ -10,9 +10,11 @@ from .utils import get_llm_response, render_template
 
 schema = (Path(__file__).parent / "schemas" / "clarification_schema.json").read_text()
 
+
 def validate_clarification(clarification: Dict[Any, Any]) -> None:
     """Validate clarification against schema"""
     jsonschema.validate(instance=clarification, schema=json.loads(schema))
+
 
 def save_clarification(topic: Topic, clarification: Dict[Any, Any]) -> None:
     """Save clarification response to file"""
@@ -34,13 +36,15 @@ def get_clarification(topic: Topic) -> None:
 
     try:
         clarification = get_llm_response(prompt, system_prompt=system_prompt)
-        
+
         # Validate clarification against schema
         try:
             validate_clarification(clarification)
         except jsonschema.ValidationError as e:
-            raise click.ClickException(f"Generated clarification failed validation: {str(e)}")
-            
+            raise click.ClickException(
+                f"Generated clarification failed validation: {str(e)}"
+            )
+
         save_clarification(topic, clarification)
 
         # Display questions for user
