@@ -3,13 +3,15 @@ import logging
 import re
 import tomli
 import tomli_w
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass
 from pathlib import Path
-from typing import List, Optional, Any
+from typing import Any
+
 
 @dataclass
 class Config:
     """Configuration settings for a topic"""
+
     key_bindings: str = "emacs"  # or "vi"
     model: str = "claude-3-sonnet-20240229"
     temperature: float = 1.0
@@ -21,7 +23,7 @@ class Config:
             config = {
                 "key_bindings": self.key_bindings,
                 "model": self.model,
-                "temperature": self.temperature
+                "temperature": self.temperature,
             }
             config_file.write_text(tomli_w.dumps(config))
 
@@ -49,14 +51,19 @@ class Topic:
         return self._dir
 
     @property
+    def config_file(self) -> Path:
+        """Get the cons.toml file path"""
+        return self.directory / "cons.toml"
+
+    @property
     def discussion_file(self) -> Path:
         """Get the discussion.md file path"""
-        return self.directory / "discussion.md"
+        return self.directory / "README.md"
 
     @property
     def perspectives_file(self) -> Path:
         """Get the perspectives.md file path"""
-        return self.directory / "perspectives.md"
+        return self.directory / "perspectives.json"
 
     @property
     def clarification_file(self) -> Path:
@@ -116,8 +123,9 @@ class Topic:
     @classmethod
     def load(cls) -> "Topic":
         """Load topic from current directory"""
-        if Path("README.md").exists():
-            return cls()
-        raise click.ClickException(
-            "No topic selected. Use 'cons topics -t <number>' to select one."
-        )
+        topic = cls()
+        if not topic.config_file.exists():
+            raise click.ClickException(
+                "The topic config.toml file does not exist. Use 'cons init' first."
+            )
+        return topic

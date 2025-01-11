@@ -79,18 +79,22 @@ The following configuration options are available in cons.toml:
 # Key bindings for input (default: "emacs")
 key_bindings = "vi"  
 
-# LLM model to use (default: "claude-3-sonnet-20240229")
-model = "claude-3-sonnet-20240229"
+# LLM model to use (default: "claude-3-5-sonnet-20241022")
+# Can be any of the models available:
+# - claude-3-5-sonnet-20241022
+# - gemini-2.0-flash-exp
+# - gemini-2.0-flash-thinking-exp-1219
+model = "claude-3-5-sonnet-20241022"
 
 # Temperature for LLM responses (0.0-1.0, brainstorm: 0.8, meeting: 0.2)
 temperature = 1.0
 ```
 
-### `topic`
+### `edit`
 
-$ cons topic
+$ cons edit
 
-Open the current topic's discussion file in your default editor. This allows you to review and edit the topic description directly.
+Open the current topic's README.md file in your default editor. This allows you to review and edit the topic description directly.
 
 ### `perspectives`
 

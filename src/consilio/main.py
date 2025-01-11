@@ -5,7 +5,7 @@ from typing import Optional
 import better_exceptions
 from consilio.logging import setup_logging
 from consilio.version import __version__
-from consilio.topics import handle_topics_command
+from consilio.edit import handle_edit_command
 from consilio.perspectives import handle_perspectives_command
 from consilio.discuss import handle_discuss_command
 from consilio.interview import handle_interview_command
@@ -40,9 +40,9 @@ def cli(log_level: str, log_file: Optional[Path]):
 
 
 @cli.command()
-def topic():
-    """Open the current topic's discussion file"""
-    handle_topics_command()
+def edit():
+    """Edit the current topic's discussion file"""
+    handle_edit_command()
 
 
 @cli.command()
