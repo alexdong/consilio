@@ -5,10 +5,11 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import List, Optional
 
+
 @dataclass
 class Topic:
     """Represents a discussion topic with its associated files"""
-    
+
     def __init__(self, test_dir: Optional[Path] = None):
         self._test_dir = test_dir
 
