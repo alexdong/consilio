@@ -102,13 +102,27 @@ def handle_discuss_command(edit: Optional[int], round: Optional[int]) -> None:
         )
 
     # Get user input for the round
-    click.echo("\nPlease provide guidance for the discussion.")
-    click.echo(
-        "(Answer questions from the previous round of discussions, or specify a particular area you'd like to focus on next.)"
-    )
-    click.echo("Press Ctrl+D when finished.\n")
-
-    user_input = click.get_text_stream("stdin").read().strip()
+    if click.confirm("\nWould you like to use an editor to write your input?", default=True):
+        # Create input file if it doesn't exist
+        input_file = topic.round_input_file(current_round)
+        if not input_file.exists():
+            input_file.write_text(
+                "# Discussion Round {}\n\n"
+                "Please provide guidance for the discussion.\n"
+                "- Answer questions from the previous round of discussions\n"
+                "- Specify particular areas you'd like to focus on next\n".format(current_round)
+            )
+        user_input = click.edit(filename=str(input_file))
+        if user_input is None:  # User aborted
+            raise click.ClickException("No input provided - editor was closed without saving")
+    else:
+        click.echo("\nPlease provide guidance for the discussion.")
+        click.echo(
+            "(Answer questions from the previous round of discussions, or specify a particular area you'd like to focus on next.)"
+        )
+        click.echo("Press Ctrl+D when finished.\n")
+        user_input = click.get_text_stream("stdin").read().strip()
+        
     if not user_input:
         raise click.ClickException("No input provided")
 
