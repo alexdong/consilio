@@ -139,8 +139,8 @@ class Config:
     """Configuration settings for a topic"""
 
     key_bindings: str = "emacs"  # or "vi"
-    model: str = "claude-3-5-sonnet-20241022"
-    temperature: float = 1.0
+    model: str = "gemini-2.0-flash-exp"
+    temperature: float = 0.5
 
     def __post_init__(self) -> None:
         """Write config to cons.toml if it doesn't exist"""
