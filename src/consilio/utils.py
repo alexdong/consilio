@@ -2,7 +2,8 @@ import os
 import json
 import logging
 from pathlib import Path
-from typing import Dict, Any, Optional
+from typing import Dict, Any, Union, Type, List
+from pydantic import BaseModel
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 import google.generativeai as genai
 import click
@@ -22,7 +23,7 @@ def render_template(template_name: str, **kwargs: Any) -> str:
 def get_llm_response(
     prompt: str,
     temperature: float = 1.0,
-    response_definition: Optional[str] = None,
+    response_definition: Union[Type[BaseModel], List[Type[BaseModel]]],
 ) -> Dict[Any, Any]:
     """Get response from LLM API
 
