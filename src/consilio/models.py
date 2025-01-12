@@ -5,7 +5,7 @@ import tomli_w
 import json
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, List, Optional
+from typing import Any, List
 
 
 @dataclass
@@ -45,7 +45,7 @@ class Perspective:
             "Title": self.title,
             "Expertise": self.expertise,
             "Goal": self.goal,
-            "Role": self.role
+            "Role": self.role,
         }
 
 
@@ -107,13 +107,14 @@ class Clarification:
             "questions": self.questions,
             "missing_context": self.missing_context,
             "assumptions": self.assumptions,
-            "suggestions": self.suggestions
+            "suggestions": self.suggestions,
         }
 
 
 @dataclass
 class Discussion:
     """Represents a discussion response"""
+
     perspective: str
     opinion: str
 
@@ -121,8 +122,7 @@ class Discussion:
     def from_dict(cls, data: dict) -> "Discussion":
         """Create a Discussion instance from a dictionary"""
         return cls(
-            perspective=data.get("perspective", ""),
-            opinion=data.get("opinion", "")
+            perspective=data.get("perspective", ""), opinion=data.get("opinion", "")
         )
 
     def to_markdown(self) -> str:
@@ -131,10 +131,7 @@ class Discussion:
 
     def to_json(self) -> dict:
         """Convert discussion to JSON format"""
-        return {
-            "perspective": self.perspective,
-            "opinion": self.opinion
-        }
+        return {"perspective": self.perspective, "opinion": self.opinion}
 
 
 @dataclass
@@ -199,11 +196,11 @@ class Topic:
         """Get the clarification_answers.md file path"""
         return self.directory / "clarification.json"
 
-    def round_input_file(self, round_num: int) -> Path:
+    def discussion_input_file(self, round_num: int) -> Path:
         """Get the path for a specific round's input file"""
         return self.directory / f"discussion-r{round_num}-input.md"
 
-    def round_response_file(self, round_num: int) -> Path:
+    def discussion_response_file(self, round_num: int) -> Path:
         """Get the path for a specific round's response file"""
         return self.directory / f"discussion-r{round_num}-response.md"
 
@@ -221,7 +218,7 @@ class Topic:
         """Get the latest round number for a given file prefix (round/interview)"""
         logger = logging.getLogger("consilio.models")
         logger.debug(f"Getting latest {prefix} round number")
-        pattern = re.compile(rf"{prefix}-(\d+)-(?:input|response)\.md")
+        pattern = re.compile(rf"{prefix}(\d+)-(?:input|response)\.md")
         rounds = []
         for f in self.directory.glob(f"{prefix}-*-*.md"):
             match = pattern.match(f.name)
@@ -245,14 +242,13 @@ class Topic:
             return []
 
     @property
-    def latest_round(self) -> int:
+    def latest_discussion_round(self) -> int:
         """Get the number of the latest discussion round"""
-        return self._get_latest_round_number("round")
+        return self._get_latest_round_number("discussion-r")
 
-    @property
-    def latest_interview_round(self) -> int:
+    def get_latest_interview_round(self, perspective_index) -> int:
         """Get the number of the latest interview round"""
-        return self._get_latest_round_number("interview")
+        return self._get_latest_round_number(f"interview-p{perspective_index}-r")
 
     @classmethod
     def create(cls) -> "Topic":

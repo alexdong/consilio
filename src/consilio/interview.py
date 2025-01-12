@@ -24,23 +24,33 @@ def _get_perspective(topic: Topic, index: int) -> Dict[Any, Any]:
 
 
 def _build_interview_prompt(
-    topic: Topic, perspective: Dict[Any, Any], perspective_index: int, round_num: int, user_input: str
+    topic: Topic,
+    perspective: Dict[Any, Any],
+    perspective_index: int,
+    round_num: int,
+    user_input: str,
 ) -> str:
     """Build prompt for interview rounds"""
     logger = logging.getLogger("consilio.interview")
-    logger.debug(f"Building interview prompt for perspective {perspective_index}, round {round_num}")
+    logger.debug(
+        f"Building interview prompt for perspective {perspective_index}, round {round_num}"
+    )
     history = []
 
     # Add context from discussion rounds
-    for i in range(1, topic.latest_round + 1):
+    for i in range(1, topic.latest_discussion_round + 1):
         try:
-            input_file = topic.round_input_file(i)
-            response_file = topic.round_response_file(i)
+            input_file = topic.discussion_input_file(i)
+            response_file = topic.discussion_response_file(i)
 
             if input_file.exists():
-                history.append(f"Discussion Round {i} Input:\n{input_file.read_text()}\n")
+                history.append(
+                    f"Discussion Round {i} Input:\n{input_file.read_text()}\n"
+                )
             if response_file.exists():
-                history.append(f"Discussion Round {i} Response:\n{response_file.read_text()}\n")
+                history.append(
+                    f"Discussion Round {i} Response:\n{response_file.read_text()}\n"
+                )
         except Exception as e:
             click.echo(f"Warning: Error reading discussion round {i}: {str(e)}")
 
@@ -51,9 +61,13 @@ def _build_interview_prompt(
             response_file = topic.interview_response_file(perspective_index, i)
 
             if input_file.exists():
-                history.append(f"Interview Round {i} Input:\n{input_file.read_text()}\n")
+                history.append(
+                    f"Interview Round {i} Input:\n{input_file.read_text()}\n"
+                )
             if response_file.exists():
-                history.append(f"Interview Round {i} Response:\n{response_file.read_text()}\n")
+                history.append(
+                    f"Interview Round {i} Response:\n{response_file.read_text()}\n"
+                )
         except Exception as e:
             click.echo(f"Warning: Error reading interview round {i}: {str(e)}")
 
@@ -72,10 +86,14 @@ def start_interview_round(
 ) -> None:
     """Start a new interview round with a specific perspective"""
     logger = logging.getLogger("consilio.interview")
-    logger.info(f"Starting interview round {round_num} with perspective {perspective_index}")
+    logger.info(
+        f"Starting interview round {round_num} with perspective {perspective_index}"
+    )
     logger.debug(f"Interview prompt length: {len(user_input)} chars")
     perspective = _get_perspective(topic, perspective_index)
-    prompt = _build_interview_prompt(topic, perspective, perspective_index, round_num, user_input)
+    prompt = _build_interview_prompt(
+        topic, perspective, perspective_index, round_num, user_input
+    )
 
     # Save user input
     topic.interview_input_file(perspective_index, round_num).write_text(user_input)
@@ -110,7 +128,9 @@ def handle_interview_command(perspective_index: int, round: Optional[int]) -> No
         )
 
     # Determine round number
-    current_round = round if round else topic.latest_interview_round + 1
+    current_round = (
+        round if round else topic.get_latest_interview_round(perspective_index) + 1
+    )
 
     # Get user input for the round
     click.echo(f"\nInterviewing perspective #{perspective_index}")

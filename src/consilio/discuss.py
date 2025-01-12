@@ -3,7 +3,7 @@ import json
 import logging
 import jsonschema
 from pathlib import Path
-from typing import Optional, List, Dict, Any
+from typing import Optional, List, Dict
 from rich.console import Console
 from rich.markdown import Markdown
 from consilio.models import Topic, Discussion
@@ -49,8 +49,8 @@ def _build_subsequent_round_prompt(
     # Gather all previous rounds
     for i in range(1, round_num):
         try:
-            input_file = topic.round_input_file(i)
-            response_file = topic.round_response_file(i)
+            input_file = topic.discussion_input_file(i)
+            response_file = topic.discussion_response_file(i)
 
             history.append(f"<Discussion round='{i}'>")
             if input_file.exists():
@@ -101,7 +101,7 @@ def start_discussion_round(
         display_discussion(response)  # type: ignore
 
         # Save response
-        response_file = topic.round_response_file(round_num)
+        response_file = topic.discussion_response_file(round_num)
         response_file.write_text(json.dumps(response, indent=2))
         click.echo(f"\nDiscussion round {round_num} completed.")
         click.echo(f"Files saved in: {response_file}")
@@ -112,12 +112,10 @@ def start_discussion_round(
 
 def handle_discuss_command(round: Optional[int]) -> None:
     """Main handler for the discuss command"""
-    logger = logging.getLogger("consilio.discuss")
     topic = Topic.load()
 
     # Determine round number
-    current_round = round if round else topic.latest_round + 1
-
+    current_round = round if round else topic.latest_discussion_round + 1
     if current_round == 1 and not topic.perspectives_file.exists():
         raise click.ClickException(
             "No perspectives found. Generate perspectives first with 'cons perspectives'"
@@ -129,7 +127,7 @@ def handle_discuss_command(round: Optional[int]) -> None:
         "\nWould you like to provide your input?", default=True
     ):
         # Create input file if it doesn't exist
-        input_file = topic.round_input_file(current_round)
+        input_file = topic.discussion_input_file(current_round)
         if not input_file.exists():
             input_file.write_text(
                 "# Discussion Round {}\n\n"

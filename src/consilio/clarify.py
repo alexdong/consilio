@@ -18,11 +18,10 @@ def display_clarification(clarification: Dict[Any, Any]) -> None:
     console = Console()
 
     # Convert to Clarification object if it's a dict
-    if isinstance(clarification, dict):
-        clarification = Clarification.from_dict(clarification)
+    message = Clarification.from_dict(clarification).to_markdown()
 
     # Display using rich markdown
-    console.print(Markdown(clarification.to_markdown()))
+    console.print(Markdown(message))
 
 
 def validate_clarification(clarification: Dict[Any, Any]) -> None:
@@ -35,9 +34,9 @@ def save_clarification(topic: Topic, clarification: Dict[Any, Any]) -> None:
     logger = logging.getLogger("consilio.clarify")
     logger.info("Saving clarification response")
     clarification_file = topic.clarification_answers_file
-    if isinstance(clarification, dict):
-        clarification = Clarification.from_dict(clarification)
-    clarification_file.write_text(json.dumps(clarification.to_json(), indent=2))
+    clarification_file.write_text(
+        json.dumps(Clarification.from_dict(clarification).to_json(), indent=2)
+    )
     click.echo(f"Clarification saved to: {clarification_file}")
 
 
