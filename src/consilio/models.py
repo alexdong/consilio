@@ -73,6 +73,11 @@ class BiasAnalysis(BaseModel):
     professional_biases: List[str] = Field(description="List of identified professional biases")
     recommendations: List[str] = Field(description="List of recommendations to mitigate biases")
 
+    @classmethod
+    def from_dict(cls, data: dict) -> "BiasAnalysis":
+        """Create a BiasAnalysis instance from a dictionary"""
+        return cls(**data)
+
 class StressAnalysis(BaseModel):
     """Represents a stress test analysis response"""
     failure_points: List[str] = Field(description="Potential failure points identified")
@@ -80,6 +85,11 @@ class StressAnalysis(BaseModel):
     hidden_assumptions: List[str] = Field(description="Hidden assumptions uncovered")
     resource_constraints: List[str] = Field(description="Resource constraints and dependencies")
     mitigation_strategies: List[str] = Field(description="Recommended mitigation strategies")
+
+    @classmethod
+    def from_dict(cls, data: dict) -> "StressAnalysis":
+        """Create a StressAnalysis instance from a dictionary"""
+        return cls(**data)
 
 class Discussion(BaseModel):
     """Represents a discussion response"""
@@ -90,12 +100,22 @@ class Discussion(BaseModel):
         """Convert discussion to markdown format"""
         return f"**{self.perspective}:**\n{self.opinion}\n\n"
 
+    @classmethod
+    def from_dict(cls, data: dict) -> "Discussion":
+        """Create a Discussion instance from a dictionary"""
+        return cls(**data)
+
 class Summary(BaseModel):
     """Represents a discussion summary"""
     key_points: List[str] = Field(description="Key points from the discussion")
     decisions: List[str] = Field(description="Decisions made or recommended")
     open_questions: List[str] = Field(description="Remaining open questions")
     next_steps: List[str] = Field(description="Recommended next steps")
+
+    @classmethod
+    def from_dict(cls, data: dict) -> "Summary":
+        """Create a Summary instance from a dictionary"""
+        return cls(**data)
 
 
 class Config(BaseModel):
