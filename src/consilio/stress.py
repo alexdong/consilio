@@ -52,7 +52,7 @@ def get_stress_analysis(topic: Topic) -> None:
     system_prompt = render_template("system.j2")
 
     try:
-        analysis = get_llm_response(prompt, system_prompt=system_prompt)
+        analysis = get_llm_response(prompt, response_definition=StressAnalysis)
 
         # Save analysis
         stress_file = topic.directory / "stress_analysis.json"

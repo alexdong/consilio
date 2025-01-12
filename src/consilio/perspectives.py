@@ -50,7 +50,7 @@ def generate_perspectives(topic: Topic) -> None:
     system_prompt = render_template("system.j2")
 
     try:
-        perspectives = get_llm_response(prompt, system_prompt=system_prompt)
+        perspectives = get_llm_response(prompt, response_definition=List[Perspective])
 
         # Validate perspectives against schema
         validate_perspectives(perspectives)  # type: ignore

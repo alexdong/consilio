@@ -51,7 +51,7 @@ def generate_summary(topic: Topic) -> None:
     system_prompt = render_template("system.j2")
 
     try:
-        summary_dict = get_llm_response(prompt, system_prompt=system_prompt)
+        summary_dict = get_llm_response(prompt, response_definition=Summary)
 
         # Save summary
         summary_file = topic.directory / "summary.json"

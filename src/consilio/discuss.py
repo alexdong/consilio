@@ -87,7 +87,7 @@ def start_discussion_round(
     try:
         # Get LLM response with system prompt
         system_prompt = render_template("system.j2")
-        response = get_llm_response(prompt, system_prompt=system_prompt)
+        response = get_llm_response(prompt, response_definition=List[Discussion])
 
         # Validate response against schema
         try:

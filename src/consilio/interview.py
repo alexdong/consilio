@@ -100,7 +100,7 @@ def start_interview_round(
 
     try:
         # Get LLM response
-        response = get_llm_response(prompt)
+        response = get_llm_response(prompt, response_definition=Discussion)
 
         # Save response
         topic.interview_response_file(perspective_index, round_num).write_text(

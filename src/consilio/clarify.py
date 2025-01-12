@@ -50,7 +50,7 @@ def get_clarification(topic: Topic) -> None:
     system_prompt = render_template("system.j2")
 
     try:
-        clarification = get_llm_response(prompt, system_prompt=system_prompt)
+        clarification = get_llm_response(prompt, response_definition=Clarification)
 
         # Validate clarification against schema
         try:
