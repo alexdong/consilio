@@ -67,11 +67,11 @@ class Clarification(BaseModel):
 
 class BiasAnalysis(BaseModel):
     """Represents a bias analysis response"""
-    cognitive_biases: List[str] = Field(description="List of identified cognitive biases")
-    emotional_biases: List[str] = Field(description="List of identified emotional biases")
-    cultural_biases: List[str] = Field(description="List of identified cultural/social biases")
-    professional_biases: List[str] = Field(description="List of identified professional biases")
-    recommendations: List[str] = Field(description="List of recommendations to mitigate biases")
+    cognitive_biases: List[str]
+    emotional_biases: List[str]
+    cultural_biases: List[str]
+    professional_biases: List[str]
+    recommendations: List[str]
 
     @classmethod
     def from_dict(cls, data: dict) -> "BiasAnalysis":
@@ -80,11 +80,11 @@ class BiasAnalysis(BaseModel):
 
 class StressAnalysis(BaseModel):
     """Represents a stress test analysis response"""
-    failure_points: List[str] = Field(description="Potential failure points identified")
-    edge_cases: List[str] = Field(description="Critical edge cases to consider")
-    hidden_assumptions: List[str] = Field(description="Hidden assumptions uncovered")
-    resource_constraints: List[str] = Field(description="Resource constraints and dependencies")
-    mitigation_strategies: List[str] = Field(description="Recommended mitigation strategies")
+    failure_points: List[str]
+    edge_cases: List[str]
+    hidden_assumptions: List[str]
+    resource_constraints: List[str]
+    mitigation_strategies: List[str]
 
     @classmethod
     def from_dict(cls, data: dict) -> "StressAnalysis":
@@ -107,10 +107,10 @@ class Discussion(BaseModel):
 
 class Summary(BaseModel):
     """Represents a discussion summary"""
-    key_points: List[str] = Field(description="Key points from the discussion")
-    decisions: List[str] = Field(description="Decisions made or recommended")
-    open_questions: List[str] = Field(description="Remaining open questions")
-    next_steps: List[str] = Field(description="Recommended next steps")
+    key_points: List[str]
+    decisions: List[str]
+    open_questions: List[str]
+    next_steps: List[str]
 
     @classmethod
     def from_dict(cls, data: dict) -> "Summary":
