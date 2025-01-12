@@ -55,7 +55,28 @@ def get_llm_response(
         "top_p": 0.95,
         "top_k": 64,
         "max_output_tokens": 8192,
-        "response_mime_type": "text/plain",
+        "response_mime_type": "application/json",
+        "response_schema": {
+            "required": [
+                "name",
+                "population", 
+                "capital",
+                "continent",
+                "gdp",
+                "official_language",
+                "total_area_sq_mi"
+            ],
+            "properties": {
+                "name": {"type": "STRING"},
+                "population": {"type": "INTEGER"},
+                "capital": {"type": "STRING"},
+                "continent": {"type": "STRING"},
+                "gdp": {"type": "INTEGER"},
+                "official_language": {"type": "STRING"},
+                "total_area_sq_mi": {"type": "INTEGER"}
+            },
+            "type": "OBJECT"
+        }
     }
     
     # Build complete prompt with response definition if provided
