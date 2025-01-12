@@ -24,6 +24,7 @@ def get_llm_response(
     prompt: str,
     response_definition: Union[Type[BaseModel], List[Type[BaseModel]]],
     temperature: float = 1.0,
+    model: str = "gemini-2.0-flash-exp",
 ) -> Dict[Any, Any]:
     """Get response from LLM API
 
@@ -81,7 +82,8 @@ def get_llm_response(
     full_prompt += prompt
 
     response = genai.GenerativeModel(
-        model, generation_config=generation_config  # type: ignore
+        model,
+        generation_config=generation_config  # type: ignore
     ).generate_content(
         full_prompt,
         generation_config=genai.types.GenerationConfig(temperature=temperature),
