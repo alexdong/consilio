@@ -231,6 +231,7 @@ class Config(BaseModel):
     temperature: float = Field(
         default=0.5, description="Temperature for model responses"
     )
+    current_topic: Optional[Topic] = None
 
     def save(self, path: Optional[Path] = None) -> None:
         """Save config to file"""

@@ -23,7 +23,7 @@ def render_template(template_name: str, **kwargs: Any) -> str:
 
 def get_llm_response(
     prompt: str,
-    response_definition: types.Schema,
+    response_definition: Any,
     temperature: float = 1.0,
 ) -> Dict[Any, Any]:
     """Get response from LLM API
