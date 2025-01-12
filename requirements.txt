@@ -4,21 +4,11 @@ Jinja2
 PyYAML
 python-slugify
 rich
-tomli
-tomli-w
-jsonschema>=4.23.0
-types-jsonschema>=4.23.0
+pydantic>=2.5.0
+google-genai>=0.4.0
 
 # Development tools
 ipython
 ruff
 mypy
 pyright
-
-# AI tools
-llm
-llm-claude-3
-aider-chat[playwright]
-anthropic
-google-generativeai>=0.3.0
-openai>=1.0.0

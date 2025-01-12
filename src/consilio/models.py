@@ -1,31 +1,15 @@
 import logging
 import re
-import tomli
-import tomli_w
-import json
-from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, List
+from typing import List, Optional
+from pydantic import BaseModel, Field
 
-
-@dataclass
-class Perspective:
+class Perspective(BaseModel):
     """Represents a single perspective with its attributes"""
-
-    title: str
-    expertise: str
-    goal: str
-    role: str
-
-    @classmethod
-    def from_dict(cls, data: dict) -> "Perspective":
-        """Create a Perspective instance from a dictionary"""
-        return cls(
-            title=data.get("Title", "Unnamed Perspective"),
-            expertise=data.get("Expertise", ""),
-            goal=data.get("Goal", ""),
-            role=data.get("Role", ""),
-        )
+    title: str = Field(..., description="Title of the perspective")
+    expertise: str = Field(..., description="Area of expertise")
+    goal: str = Field(..., description="Goal or objective")
+    role: str = Field(..., description="Role in the discussion")
 
     def to_markdown(self, index: int) -> str:
         """Convert perspective to markdown format"""
@@ -39,60 +23,34 @@ class Perspective:
         md += "\n"
         return md
 
-    def to_json(self) -> dict:
-        """Convert perspective to JSON format"""
-        return {
-            "Title": self.title,
-            "Expertise": self.expertise,
-            "Goal": self.goal,
-            "Role": self.role,
-        }
-
-
-@dataclass
-class Clarification:
+class Clarification(BaseModel):
     """Represents a clarification response with its sections"""
-
-    questions: List[str]
-    missing_context: List[str]
-    assumptions: List[str]
-    suggestions: List[str]
-
-    @classmethod
-    def from_dict(cls, data: dict) -> "Clarification":
-        """Create a Clarification instance from a dictionary"""
-        return cls(
-            questions=data.get("questions", []),
-            missing_context=data.get("missing_context", []),
-            assumptions=data.get("assumptions", []),
-            suggestions=data.get("suggestions", []),
-        )
+    questions: List[str] = Field(default_factory=list)
+    missing_context: List[str] = Field(default_factory=list)
+    assumptions: List[str] = Field(default_factory=list) 
+    suggestions: List[str] = Field(default_factory=list)
 
     def to_markdown(self) -> str:
         """Convert clarification to markdown format"""
-        md = "__Questions__"
+        md = "__Questions__\n"
 
-        # Questions section
         if self.questions:
             for i, q in enumerate(self.questions, 1):
                 md += f"{i}. {q}\n"
             md += "\n"
 
-        # Missing Context section
         if self.missing_context:
             md += "__Missing Context__\n"
             for item in self.missing_context:
                 md += f"* {item}\n"
             md += "\n"
 
-        # Assumptions section
         if self.assumptions:
             md += "__Assumptions to Verify__\n"
             for item in self.assumptions:
                 md += f"* {item}\n"
             md += "\n"
 
-        # Suggestions section
         if self.suggestions:
             md += "__Suggestions__\n"
             for item in self.suggestions:
@@ -101,66 +59,33 @@ class Clarification:
 
         return md
 
-    def to_json(self) -> dict:
-        """Convert clarification to JSON format"""
-        return {
-            "questions": self.questions,
-            "missing_context": self.missing_context,
-            "assumptions": self.assumptions,
-            "suggestions": self.suggestions,
-        }
-
-
-@dataclass
-class Discussion:
+class Discussion(BaseModel):
     """Represents a discussion response"""
-
-    perspective: str
-    opinion: str
-
-    @classmethod
-    def from_dict(cls, data: dict) -> "Discussion":
-        """Create a Discussion instance from a dictionary"""
-        return cls(
-            perspective=data.get("perspective", ""), opinion=data.get("opinion", "")
-        )
+    perspective: str = Field(..., description="Name of the perspective")
+    opinion: str = Field(..., description="The perspective's opinion")
 
     def to_markdown(self) -> str:
         """Convert discussion to markdown format"""
         return f"**{self.perspective}:**\n{self.opinion}\n\n"
 
-    def to_json(self) -> dict:
-        """Convert discussion to JSON format"""
-        return {"perspective": self.perspective, "opinion": self.opinion}
-
-
-@dataclass
-class Config:
+class Config(BaseModel):
     """Configuration settings for a topic"""
+    key_bindings: str = Field(default="emacs", description="Key bindings style (emacs or vi)")
+    model: str = Field(default="gemini-2.0-flash-exp", description="Model identifier")
+    temperature: float = Field(default=0.5, description="Temperature for model responses")
 
-    key_bindings: str = "emacs"  # or "vi"
-    model: str = "gemini-2.0-flash-exp"
-    temperature: float = 0.5
+    def save(self, path: Optional[Path] = None) -> None:
+        """Save config to file"""
+        path = path or Path("cons.toml")
+        path.write_text(self.model_dump_json(indent=2))
 
-    def __post_init__(self) -> None:
-        """Write config to cons.toml if it doesn't exist"""
-        config_file = Path("cons.toml")
-        if not config_file.exists():
-            config = {
-                "key_bindings": self.key_bindings,
-                "model": self.model,
-                "temperature": self.temperature,
-            }
-            config_file.write_text(tomli_w.dumps(config))
-
-    def __getattribute__(self, name: str) -> Any:
-        """Load config from cons.toml before accessing attributes"""
-        config_file = Path("cons.toml")
-        if config_file.exists():
-            config = tomli.loads(config_file.read_text())
-            if name in config:
-                return config[name]
-        return super().__getattribute__(name)
+    @classmethod
+    def load(cls, path: Optional[Path] = None) -> "Config":
+        """Load config from file"""
+        path = path or Path("cons.toml")
+        if path.exists():
+            return cls.model_validate_json(path.read_text())
+        return cls()
 
 
 @dataclass
