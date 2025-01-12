@@ -40,88 +40,10 @@ def get_llm_response(
     logger = logging.getLogger("consilio.llm")
     logger.debug(f"Getting LLM response with model: {model}")
     logger.debug(f"Prompt length: {len(prompt)} chars")
-    logger.info(f"Making API call to {model if model else 'default model'}")
-
-    if system_prompt is None:
-        system_prompt = (
-            "You are an expert panel coordinator helping to analyze complex topics."
-        )
-    logger.debug(f"User prompt: {prompt}")
+    logger.debug(f"Making API call to {model if model else 'default model'}")
     logger.debug(f"System prompt: {system_prompt}")
+    logger.debug(f"User prompt: {prompt}")
 
-    try:
-        if "claude" in model:
-            response = _get_anthropic_response(
-                prompt, model, system_prompt, temperature
-            )
-        elif "gpt" in model:
-            response = _get_openai_response(prompt, model, system_prompt, temperature)
-        elif "gemini" in model:
-            response = _get_gemini_response(prompt, model, system_prompt, temperature)
-        else:
-            raise click.ClickException(f"Unsupported model: {model}")
-
-    except Exception as e:
-        raise click.ClickException(f"Error getting LLM response: {str(e)}")
-
-    logger.debug(f"Response: {json.dumps(response)}")
-    return response
-
-
-def _get_anthropic_response(
-    prompt: str, model: str, system_prompt: str, temperature: float
-) -> Dict[Any, Any]:
-    """Get response from Anthropic's Claude"""
-    logger = logging.getLogger("consilio.llm.anthropic")
-    logger.info("Making Anthropic API call")
-    logger.debug(f"Using model: {model}, temperature: {temperature}")
-    api_key = os.getenv("ANTHROPIC_API_KEY")
-    if not api_key:
-        raise click.ClickException("ANTHROPIC_API_KEY environment variable not set")
-
-    client = Anthropic(api_key=api_key)
-    message = client.messages.create(
-        model=model,
-        max_tokens=2000,
-        temperature=temperature,
-        system=system_prompt,
-        messages=[{"role": "user", "content": prompt}],
-    )
-    logger.debug(f"Response: {message}")
-    return json.loads(message.content[0].text)  # type: ignore
-
-
-def _get_openai_response(
-    prompt: str, model: str, system_prompt: str, temperature: float
-) -> Dict[Any, Any]:
-    """Get response from OpenAI's GPT models"""
-    logger = logging.getLogger("consilio.llm.openai")
-    logger.info("Making OpenAI API call")
-    logger.debug(f"Using model: {model}, temperature: {temperature}")
-    api_key = os.getenv("OPENAI_API_KEY")
-    if not api_key:
-        raise click.ClickException("OPENAI_API_KEY environment variable not set")
-
-    client = OpenAI(api_key=api_key)
-    response = client.chat.completions.create(
-        model=model,
-        temperature=temperature,
-        messages=[
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": prompt},
-        ],
-    )
-    logger.debug(f"Response: {response}")
-    return json.loads(response.choices[0].message.content)  # type: ignore
-
-
-def _get_gemini_response(
-    prompt: str, model: str, system_prompt: str, temperature: float
-) -> Dict[Any, Any]:
-    """Get response from Google's Gemini models"""
-    logger = logging.getLogger("consilio.llm.gemini")
-    logger.info("Making Gemini API call")
-    logger.debug(f"Using model: {model}, temperature: {temperature}")
     api_key = os.getenv("GOOGLE_API_KEY")
     if not api_key:
         raise click.ClickException("GOOGLE_API_KEY environment variable not set")
