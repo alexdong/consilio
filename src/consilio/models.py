@@ -249,13 +249,13 @@ class Config(BaseModel):
 class Topic(BaseModel):
     """Represents a discussion topic with its associated files"""
 
-    _dir: Path = Field(default_factory=lambda: Path("."))
+    dir_path: Path = Field(default_factory=lambda: Path("."))
     config: Config = Field(default_factory=Config)
 
     @property
     def directory(self) -> Path:
         """Get the topic's directory path"""
-        return self._dir
+        return self.dir_path
 
     @property
     def config_file(self) -> Path:

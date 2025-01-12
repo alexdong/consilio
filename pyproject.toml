@@ -48,3 +48,4 @@ where = ["src"]
 packages = ["consilio"]
 python_version = "3.11"
 mypy_path = ".stubs"
+ignore_missing_imports = true
