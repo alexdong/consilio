@@ -86,27 +86,27 @@ class BiasAnalysis(BaseModel):
         """Convert bias analysis to markdown format"""
         md = "\n"
 
-        md += "### Cognitive Biases\n"
+        md += "__Cognitive Biases__\n"
         for bias in self.cognitive_biases:
             md += f"* {bias}\n"
         md += "\n"
 
-        md += "### Emotional Biases\n"
+        md += "__Emotional Biases__\n"
         for bias in self.emotional_biases:
             md += f"* {bias}\n"
         md += "\n"
 
-        md += "### Cultural/Social Biases\n"
+        md += "__Cultural/Social Biases__\n"
         for bias in self.cultural_biases:
             md += f"* {bias}\n"
         md += "\n"
 
-        md += "### Professional Biases\n"
+        md += "__Professional Biases__\n"
         for bias in self.professional_biases:
             md += f"* {bias}\n"
         md += "\n"
 
-        md += "### Recommendations\n"
+        md += "__Recommendations__\n"
         for rec in self.recommendations:
             md += f"* {rec}\n"
         md += "\n"
@@ -130,29 +130,29 @@ class StressAnalysis(BaseModel):
 
     def to_markdown(self) -> str:
         """Convert stress analysis to markdown format"""
-        md = "## Stress Test Analysis\n\n"
+        md = "__Stress Test Analysis__\n\n"
 
-        md += "### Potential Failure Points\n"
+        md += "__Potential Failure Points__\n"
         for point in self.failure_points:
             md += f"* {point}\n"
         md += "\n"
 
-        md += "### Critical Edge Cases\n"
+        md += "__Critical Edge Cases__\n"
         for case in self.edge_cases:
             md += f"* {case}\n"
         md += "\n"
 
-        md += "### Hidden Assumptions\n"
+        md += "__Hidden Assumptions__\n"
         for assumption in self.hidden_assumptions:
             md += f"* {assumption}\n"
         md += "\n"
 
-        md += "### Resource Constraints\n"
+        md += "__Resource Constraints__\n"
         for constraint in self.resource_constraints:
             md += f"* {constraint}\n"
         md += "\n"
 
-        md += "### Mitigation Strategies\n"
+        md += "__Mitigation Strategies__\n"
         for strategy in self.mitigation_strategies:
             md += f"* {strategy}\n"
         md += "\n"
@@ -191,24 +191,24 @@ class Summary(BaseModel):
 
     def to_markdown(self) -> str:
         """Convert summary to markdown format"""
-        md = "## Discussion Summary\n\n"
+        md = "__Discussion Summary__\n\n"
 
-        md += "### Key Points\n"
+        md += "__Key Points__\n"
         for point in self.key_points:
             md += f"* {point}\n"
         md += "\n"
 
-        md += "### Decisions\n"
+        md += "__Decisions__\n"
         for decision in self.decisions:
             md += f"* {decision}\n"
         md += "\n"
 
-        md += "### Open Questions\n"
+        md += "__Open Questions__\n"
         for question in self.open_questions:
             md += f"* {question}\n"
         md += "\n"
 
-        md += "### Next Steps\n"
+        md += "__Next Steps__\n"
         for step in self.next_steps:
             md += f"* {step}\n"
         md += "\n"
