@@ -5,12 +5,14 @@ from pathlib import Path
 from typing import List, Optional
 from pydantic import BaseModel, Field
 
+
 class Perspective(BaseModel):
     """Represents a single perspective with its attributes"""
-    title: str = Field(..., description="Title of the perspective")
-    expertise: str = Field(..., description="Area of expertise")
-    goal: str = Field(..., description="Goal or objective")
-    role: str = Field(..., description="Role in the discussion")
+
+    title: str
+    expertise: str
+    goal: str
+    role: str
 
     def to_markdown(self, index: int) -> str:
         """Convert perspective to markdown format"""
@@ -24,12 +26,14 @@ class Perspective(BaseModel):
         md += "\n"
         return md
 
+
 class Clarification(BaseModel):
     """Represents a clarification response with its sections"""
-    questions: List[str] = Field(default_factory=list)
-    missing_context: List[str] = Field(default_factory=list)
-    assumptions: List[str] = Field(default_factory=list) 
-    suggestions: List[str] = Field(default_factory=list)
+
+    questions: List[str]
+    missing_context: List[str]
+    assumptions: List[str]
+    suggestions: List[str]
 
     def to_markdown(self) -> str:
         """Convert clarification to markdown format"""
@@ -60,20 +64,28 @@ class Clarification(BaseModel):
 
         return md
 
+
 class Discussion(BaseModel):
     """Represents a discussion response"""
-    perspective: str = Field(..., description="Name of the perspective")
-    opinion: str = Field(..., description="The perspective's opinion")
+
+    perspective: str
+    opinion: str
 
     def to_markdown(self) -> str:
         """Convert discussion to markdown format"""
         return f"**{self.perspective}:**\n{self.opinion}\n\n"
 
+
 class Config(BaseModel):
     """Configuration settings for a topic"""
-    key_bindings: str = Field(default="emacs", description="Key bindings style (emacs or vi)")
+
+    key_bindings: str = Field(
+        default="emacs", description="Key bindings style (emacs or vi)"
+    )
     model: str = Field(default="gemini-2.0-flash-exp", description="Model identifier")
-    temperature: float = Field(default=0.5, description="Temperature for model responses")
+    temperature: float = Field(
+        default=0.5, description="Temperature for model responses"
+    )
 
     def save(self, path: Optional[Path] = None) -> None:
         """Save config to file"""
@@ -91,6 +103,7 @@ class Config(BaseModel):
 
 class Topic(BaseModel):
     """Represents a discussion topic with its associated files"""
+
     _dir: Path = Field(default_factory=lambda: Path("."))
     config: Config = Field(default_factory=Config)
 
