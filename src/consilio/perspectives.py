@@ -1,8 +1,6 @@
 import logging
 import click
 import json
-import jsonschema
-from typing import List
 from rich.console import Console
 from rich.markdown import Markdown
 from consilio.models import Topic, Perspective
@@ -43,9 +41,8 @@ def generate_perspectives(topic: Topic) -> None:
     perspectives = get_llm_response(prompt, response_definition=None)
 
     # Save perspectives to file
-    print(perspectives[0])
     perspectives_objects = [Perspective.model_validate(p) for p in perspectives]
-    json_str = json.dumps([p.to_json() for p in perspectives_objects], indent=2)
+    json_str = json.dumps([p.model_dump() for p in perspectives_objects], indent=2)
     topic.perspectives_file.write_text(json_str)
     click.echo(f"Generated perspectives saved to: {topic.perspectives_file}")
 

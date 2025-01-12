@@ -79,21 +79,17 @@ def start_discussion_round(
     else:
         prompt = _build_subsequent_round_prompt(topic, round_num, user_input=user_input)
 
-    try:
-        # Get LLM response with system prompt
-        response = get_llm_response(prompt, response_definition=List[Discussion])
+    # Get LLM response with system prompt
+    response = get_llm_response(prompt)
 
-        # Display the discussion
-        display_discussion(response)  # type: ignore
+    # Display the discussion
+    display_discussion(response)  # type: ignore
 
-        # Save response
-        response_file = topic.discussion_response_file(round_num)
-        response_file.write_text(json.dumps(response, indent=2))
-        click.echo(f"\nDiscussion round {round_num} completed.")
-        click.echo(f"Files saved in: {response_file}")
-
-    except Exception as e:
-        raise click.ClickException(f"Error in discussion round: {str(e)}")
+    discussion_objects = [Discussion.model_validate(d) for d in response]
+    json_str = json.dumps([p.model_dump() for p in discussion_objects], indent=2)
+    discussion_output_file = topic.discussion_response_file(round_num)
+    discussion_output_file.write_text(json_str)
+    click.echo(f"Generated discussion response to: {discussion_output_file}")
 
 
 def handle_discuss_command(round: Optional[int]) -> None:

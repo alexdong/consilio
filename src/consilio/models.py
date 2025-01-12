@@ -26,10 +26,6 @@ class Perspective(BaseModel):
         md += "\n"
         return md
 
-    def to_json(self) -> dict:
-        """Convert perspective to JSON-compatible dictionary"""
-        return self.model_dump()
-
 
 class Clarification(BaseModel):
     """Represents a clarification response with its sections"""

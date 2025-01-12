@@ -8,7 +8,7 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 from google import genai
 from google.genai import types
 
-from typing import Optional, Dict, Any
+from typing import Optional
 import click
 
 
