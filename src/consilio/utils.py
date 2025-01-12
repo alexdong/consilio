@@ -38,6 +38,8 @@ def get_llm_response(
     logger = logging.getLogger("consilio.utils")
     api_key = os.getenv("GOOGLE_API_KEY")
     if not api_key:
+        api_key = os.getenv("GEMINI_API_KEY")
+    if not api_key:
         raise click.ClickException("GOOGLE_API_KEY environment variable not set")
     client = genai.Client(api_key=api_key)
 
