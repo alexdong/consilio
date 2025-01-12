@@ -26,6 +26,7 @@ def get_llm_response(
     system_prompt: Optional[str] = None,
     model: Optional[str] = None,
     temperature: float = 1.0,
+    response_definition: Optional[str] = None,
 ) -> Dict[Any, Any]:
     """Get response from LLM API
 
@@ -34,6 +35,7 @@ def get_llm_response(
         system_prompt: Optional system prompt to set context (defaults to expert panel coordinator)
         model: Optional model name to use (defaults to config)
         temperature: Controls randomness in the response (0.0-1.0, default 1.0)
+        response_definition: Optional JSON schema or description of expected response format
     """
     config = Topic.load().config
     model = model or config.model
@@ -55,10 +57,17 @@ def get_llm_response(
         "max_output_tokens": 8192,
         "response_mime_type": "text/plain",
     }
+    
+    # Build complete prompt with response definition if provided
+    full_prompt = f"{system_prompt}\n\n"
+    if response_definition:
+        full_prompt += f"Expected Response Format:\n{response_definition}\n\n"
+    full_prompt += prompt
+
     response = genai.GenerativeModel(
         model, generation_config=generation_config  # type: ignore
     ).generate_content(
-        f"{system_prompt}\n\n{prompt}",
+        full_prompt,
         generation_config=genai.types.GenerationConfig(temperature=temperature),
     )
     logger.debug(f"Response: {response}")
