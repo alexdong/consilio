@@ -1,3 +1,4 @@
+import json
 import logging
 import re
 from pathlib import Path
@@ -88,13 +89,10 @@ class Config(BaseModel):
         return cls()
 
 
-@dataclass
-class Topic:
+class Topic(BaseModel):
     """Represents a discussion topic with its associated files"""
-
-    def __init__(self, dir: Path = Path(".")):
-        self._dir = dir
-        self.config = Config()
+    _dir: Path = Field(default_factory=lambda: Path("."))
+    config: Config = Field(default_factory=Config)
 
     @property
     def directory(self) -> Path:
