@@ -52,11 +52,13 @@ def get_bias_analysis(topic: Topic) -> None:
     system_prompt = render_template("system.j2")
 
     try:
-        analysis = get_llm_response(prompt, response_definition=BiasAnalysis)
+        analysis = BiasAnalysis.model_validate(
+            get_llm_response(prompt, response_definition=BiasAnalysis)
+        )
 
         # Save analysis
         bias_file = topic.directory / "bias_analysis.json"
-        bias_file.write_text(json.dumps(analysis, indent=2))
+        bias_file.write_text(analysis.model_dump_json(indent=2))
         click.echo(f"Bias analysis saved to: {bias_file}")
 
     except Exception as e:

@@ -100,11 +100,13 @@ def start_interview_round(
 
     try:
         # Get LLM response
-        response = get_llm_response(prompt, response_definition=Discussion)
+        response = Discussion.model_validate(
+            get_llm_response(prompt, response_definition=Discussion)
+        )
 
         # Save response
         topic.interview_response_file(perspective_index, round_num).write_text(
-            json.dumps(response, indent=2)
+            response.model_dump_json(indent=2)
         )
 
         click.echo(f"\nInterview round {round_num} completed.")

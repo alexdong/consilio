@@ -52,11 +52,13 @@ def get_stress_analysis(topic: Topic) -> None:
     system_prompt = render_template("system.j2")
 
     try:
-        analysis = get_llm_response(prompt, response_definition=StressAnalysis)
+        analysis = StressAnalysis.model_validate(
+            get_llm_response(prompt, response_definition=StressAnalysis)
+        )
 
         # Save analysis
         stress_file = topic.directory / "stress_analysis.json"
-        stress_file.write_text(json.dumps(analysis, indent=2))
+        stress_file.write_text(analysis.model_dump_json(indent=2))
         click.echo(f"Stress analysis saved to: {stress_file}")
 
     except Exception as e:
