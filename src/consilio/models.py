@@ -318,7 +318,7 @@ class Topic(BaseModel):
         try:
             with open(self.perspectives_file) as f:
                 data = json.load(f)
-            return [Perspective.from_dict(p) for p in data]
+            return [Perspective.model_validate(p) for p in data]
         except (FileNotFoundError, json.JSONDecodeError):
             return []
 
