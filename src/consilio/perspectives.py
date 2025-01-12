@@ -3,6 +3,7 @@ import click
 import json
 import jsonschema
 from pathlib import Path
+from typing import List
 from rich.console import Console
 from rich.markdown import Markdown
 from consilio.models import Topic, Perspective

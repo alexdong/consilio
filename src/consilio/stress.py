@@ -3,7 +3,7 @@ import logging
 import click
 from typing import List
 from dataclasses import dataclass
-from .models import Topic
+from .models import Topic, StressAnalysis
 from .utils import get_llm_response, render_template
 
 

@@ -2,7 +2,7 @@ import click
 import json
 import logging
 from typing import Optional, Dict, Any
-from consilio.models import Topic
+from consilio.models import Topic, Discussion
 from consilio.utils import get_llm_response, render_template
 
 
