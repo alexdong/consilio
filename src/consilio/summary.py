@@ -48,16 +48,11 @@ def handle_summary_command() -> None:
 
     # Generate summary using template
     prompt = render_template("summary.j2", topic=topic, rounds=rounds)
+    summary = Summary.model_validate(
+        get_llm_response(prompt, response_definition=Summary)
+    )
 
-    try:
-        summary = Summary.model_validate(
-            get_llm_response(prompt, response_definition=Summary)
-        )
-
-        # Save summary
-        summary_file = topic.directory / "summary.json"
-        summary_file.write_text(summary.model_dump_json(indent=2))
-        click.echo(f"Summary generated and saved to: {summary_file}")
-
-    except Exception as e:
-        click.echo(f"Error generating summary: {str(e)}")
+    # Save summary
+    summary_file = topic.directory / "summary.json"
+    summary_file.write_text(summary.model_dump_json(indent=2))
+    click.echo(f"Summary generated and saved to: {summary_file}")

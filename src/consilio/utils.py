@@ -8,6 +8,7 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 from google import genai
 from google.genai import types
 
+from typing import Optional, Dict, Any
 import click
 
 
@@ -23,7 +24,7 @@ def render_template(template_name: str, **kwargs: Any) -> str:
 
 def get_llm_response(
     prompt: str,
-    response_definition: Any,
+    response_definition: Optional[Any] = None,
     temperature: float = 1.0,
 ) -> Dict[Any, Any]:
     """Get response from LLM API
@@ -57,5 +58,5 @@ def get_llm_response(
             response_schema=response_definition,
         ),
     )
-    logger.debug(f"Response: {response}")
+    logger.debug(f"Response: {response.text}")
     return json.loads(response.text)  # type: ignore

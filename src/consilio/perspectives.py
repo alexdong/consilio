@@ -40,29 +40,22 @@ def generate_perspectives(topic: Topic) -> None:
         num_of_perspectives=num,
     )
 
-    try:
-        perspectives = get_llm_response(prompt, response_definition=List[Perspective])
+    perspectives = get_llm_response(prompt, response_definition=None)
 
-        # Save perspectives to file
-        perspectives_objects = [Perspective.model_validate(p) for p in perspectives]
-        json_str = json.dumps([p.to_json() for p in perspectives_objects], indent=2)
-        topic.perspectives_file.write_text(json_str)
-        click.echo(f"Generated perspectives saved to: {topic.perspectives_file}")
+    # Save perspectives to file
+    print(perspectives[0])
+    perspectives_objects = [Perspective.model_validate(p) for p in perspectives]
+    json_str = json.dumps([p.to_json() for p in perspectives_objects], indent=2)
+    topic.perspectives_file.write_text(json_str)
+    click.echo(f"Generated perspectives saved to: {topic.perspectives_file}")
 
-        # Display perspectives in markdown format
-        display_perspectives(perspectives)  # type: ignore
+    # Display perspectives in markdown format
+    display_perspectives(perspectives)  # type: ignore
 
-        # Ask if user wants to edit
-        if click.confirm("Would you like to edit the perspectives?"):
-            click.echo("Opening perspectives file in editor...")
-            click.edit(filename=str(topic.perspectives_file))
-
-    except jsonschema.ValidationError as e:
-        click.echo(f"Generated perspectives failed validation: {str(e)}")
-    except json.JSONDecodeError as e:
-        click.echo(f"Invalid JSON response from LLM: {str(e)}")
-    except Exception as e:
-        click.echo(f"Error generating perspectives: {str(e)}")
+    # Ask if user wants to edit
+    if click.confirm("Would you like to edit the perspectives?"):
+        click.echo("Opening perspectives file in editor...")
+        click.edit(filename=str(topic.perspectives_file))
 
 
 def handle_perspectives_command() -> None:
