@@ -75,6 +75,7 @@ class Clarification(BaseModel):
 
 class BiasAnalysis(BaseModel):
     """Represents a bias analysis response"""
+
     cognitive_biases: List[str]
     emotional_biases: List[str]
     cultural_biases: List[str]
@@ -83,33 +84,33 @@ class BiasAnalysis(BaseModel):
 
     def to_markdown(self) -> str:
         """Convert bias analysis to markdown format"""
-        md = "## Bias Analysis\n\n"
-        
+        md = "\n"
+
         md += "### Cognitive Biases\n"
         for bias in self.cognitive_biases:
             md += f"* {bias}\n"
         md += "\n"
-        
+
         md += "### Emotional Biases\n"
         for bias in self.emotional_biases:
             md += f"* {bias}\n"
         md += "\n"
-        
+
         md += "### Cultural/Social Biases\n"
         for bias in self.cultural_biases:
             md += f"* {bias}\n"
         md += "\n"
-        
+
         md += "### Professional Biases\n"
         for bias in self.professional_biases:
             md += f"* {bias}\n"
         md += "\n"
-        
+
         md += "### Recommendations\n"
         for rec in self.recommendations:
             md += f"* {rec}\n"
         md += "\n"
-        
+
         return md
 
     @classmethod
@@ -117,8 +118,10 @@ class BiasAnalysis(BaseModel):
         """Create a BiasAnalysis instance from a dictionary"""
         return cls(**data)
 
+
 class StressAnalysis(BaseModel):
     """Represents a stress test analysis response"""
+
     failure_points: List[str]
     edge_cases: List[str]
     hidden_assumptions: List[str]
@@ -128,32 +131,32 @@ class StressAnalysis(BaseModel):
     def to_markdown(self) -> str:
         """Convert stress analysis to markdown format"""
         md = "## Stress Test Analysis\n\n"
-        
+
         md += "### Potential Failure Points\n"
         for point in self.failure_points:
             md += f"* {point}\n"
         md += "\n"
-        
+
         md += "### Critical Edge Cases\n"
         for case in self.edge_cases:
             md += f"* {case}\n"
         md += "\n"
-        
+
         md += "### Hidden Assumptions\n"
         for assumption in self.hidden_assumptions:
             md += f"* {assumption}\n"
         md += "\n"
-        
+
         md += "### Resource Constraints\n"
         for constraint in self.resource_constraints:
             md += f"* {constraint}\n"
         md += "\n"
-        
+
         md += "### Mitigation Strategies\n"
         for strategy in self.mitigation_strategies:
             md += f"* {strategy}\n"
         md += "\n"
-        
+
         return md
 
     @classmethod
@@ -161,8 +164,10 @@ class StressAnalysis(BaseModel):
         """Create a StressAnalysis instance from a dictionary"""
         return cls(**data)
 
+
 class Discussion(BaseModel):
     """Represents a discussion response"""
+
     perspective: str
     opinion: str
 
@@ -175,8 +180,10 @@ class Discussion(BaseModel):
         """Create a Discussion instance from a dictionary"""
         return cls(**data)
 
+
 class Summary(BaseModel):
     """Represents a discussion summary"""
+
     key_points: List[str]
     decisions: List[str]
     open_questions: List[str]
@@ -185,27 +192,27 @@ class Summary(BaseModel):
     def to_markdown(self) -> str:
         """Convert summary to markdown format"""
         md = "## Discussion Summary\n\n"
-        
+
         md += "### Key Points\n"
         for point in self.key_points:
             md += f"* {point}\n"
         md += "\n"
-        
+
         md += "### Decisions\n"
         for decision in self.decisions:
             md += f"* {decision}\n"
         md += "\n"
-        
+
         md += "### Open Questions\n"
         for question in self.open_questions:
             md += f"* {question}\n"
         md += "\n"
-        
+
         md += "### Next Steps\n"
         for step in self.next_steps:
             md += f"* {step}\n"
         md += "\n"
-        
+
         return md
 
     @classmethod
