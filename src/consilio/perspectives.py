@@ -2,14 +2,11 @@ import logging
 import click
 import json
 import jsonschema
-from pathlib import Path
 from typing import List
 from rich.console import Console
 from rich.markdown import Markdown
 from consilio.models import Topic, Perspective
 from consilio.utils import get_llm_response, render_template
-
-schema = (Path(__file__).parent / "schemas" / "perspectives_schema.json").read_text()
 
 
 def display_perspectives(perspectives: list) -> None:
@@ -17,18 +14,13 @@ def display_perspectives(perspectives: list) -> None:
     console = Console()
 
     # Convert perspectives to Perspective objects if they're dicts
-    perspectives = [Perspective.from_dict(p) for p in perspectives]
+    perspectives = [Perspective.model_validate(p) for p in perspectives]
 
     # Build markdown content from Perspective objects
     md_content = "".join(p.to_markdown(i) for i, p in enumerate(perspectives, 1))
 
     # Display using rich
     console.print(Markdown(md_content))
-
-
-def validate_perspectives(perspectives: list) -> None:
-    """Validate perspectives against schema"""
-    jsonschema.validate(instance=perspectives, schema=json.loads(schema))
 
 
 def generate_perspectives(topic: Topic) -> None:
@@ -46,18 +38,13 @@ def generate_perspectives(topic: Topic) -> None:
         "perspectives.j2",
         topic=topic,
         num_of_perspectives=num,
-        schema=schema,
     )
-    system_prompt = render_template("system.j2")
 
     try:
         perspectives = get_llm_response(prompt, response_definition=List[Perspective])
 
-        # Validate perspectives against schema
-        validate_perspectives(perspectives)  # type: ignore
-
         # Save perspectives to file
-        perspectives_objects = [Perspective.from_dict(p) for p in perspectives]
+        perspectives_objects = [Perspective.model_validate(p) for p in perspectives]
         json_str = json.dumps([p.to_json() for p in perspectives_objects], indent=2)
         topic.perspectives_file.write_text(json_str)
         click.echo(f"Generated perspectives saved to: {topic.perspectives_file}")

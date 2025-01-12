@@ -1,4 +1,3 @@
-import json
 import logging
 import click
 from typing import List
@@ -49,7 +48,6 @@ def get_bias_analysis(topic: Topic) -> None:
 
     # Generate analysis using template
     prompt = render_template("bias.j2", topic=topic, rounds=rounds)
-    system_prompt = render_template("system.j2")
 
     try:
         analysis = BiasAnalysis.model_validate(

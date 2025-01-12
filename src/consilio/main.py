@@ -12,6 +12,7 @@ from consilio.init import handle_init_command
 from consilio.clarify import handle_clarify_command
 from consilio.stress import handle_stress_command
 from consilio.bias import handle_bias_command
+from consilio.summary import handle_summary_command
 
 better_exceptions.hook()
 
@@ -86,17 +87,7 @@ def bias():
 @cli.command()
 def summary():
     """Generate comprehensive discussion summary"""
-    from .summary import generate_summary
-    from .models import Config
-
-    config = Config()
-    topic = config.current_topic
-    if not topic:
-        click.echo(
-            "No topic currently selected. Use 'cons topics -t <number>' to select one."
-        )
-        return
-    generate_summary(topic)
+    handle_summary_command()
 
 
 @cli.command()

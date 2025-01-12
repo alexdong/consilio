@@ -1,4 +1,3 @@
-import json
 import logging
 from dataclasses import dataclass
 from typing import List
@@ -14,10 +13,11 @@ class Round:
     response: str
 
 
-def generate_summary(topic: Topic) -> None:
+def handle_summary_command() -> None:
     """Generate a summary of all discussion rounds"""
     logger = logging.getLogger("consilio.summary")
     logger.info("Generating discussion summary")
+    topic = Topic.load()
     if not topic.discussion_file.exists():
         click.echo("No discussion file found.")
         return
@@ -48,7 +48,6 @@ def generate_summary(topic: Topic) -> None:
 
     # Generate summary using template
     prompt = render_template("summary.j2", topic=topic, rounds=rounds)
-    system_prompt = render_template("system.j2")
 
     try:
         summary = Summary.model_validate(
