@@ -1,0 +1,34 @@
+You are faciliate a discussion on the following topic. 
+
+<Topic>
+{{ topic.description }}
+</Topic>
+
+You are adding a new perspective to an existing set of perspectives.
+
+Current perspectives:
+{% if existing_perspectives %}
+{% for perspective in existing_perspectives %}
+{{ loop.index }}. {{ perspective.title }}
+   - Expertise: {{ perspective.expertise }}
+   - Goal: {{ perspective.goal }}
+   - Role: {{ perspective.role }}
+{% endfor %}
+{% else %}
+No existing perspectives yet.
+{% endif %}
+
+Given the user's description: {{ description }}
+
+Please provide detailed information about this new perspective in the following format:
+- title: A short title for the perspective.
+- expertise: A brief description of the expert's background and expertise
+- goal: The goals of the expert in the discussion
+- role: The role of the expert in the discussion
+
+Ensure the new perspective:
+1. Complements the existing perspectives without duplicating their expertise
+2. Offers unique value to the discussion
+3. Maintains a consistent level of detail with existing perspectives
+
+Only return the new perspective details. DO NOT return the existing ones.
