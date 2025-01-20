@@ -55,7 +55,43 @@ def generate_perspectives(topic: Topic) -> None:
         click.edit(filename=str(topic.perspectives_file))
 
 
-def handle_perspectives_command() -> None:
+def add_perspective(topic: Topic) -> None:
+    """Add a new perspective by prompting user for role and generating details"""
+    logger = logging.getLogger("consilio.perspectives")
+    logger.info("Adding new perspective")
+    
+    # Prompt for the role title
+    role_title = click.prompt("Enter the title/role of the new perspective", type=str)
+    
+    # Generate details for this role using LLM
+    prompt = render_template(
+        "single_perspective.j2",
+        role_title=role_title,
+    )
+    
+    new_perspective = get_llm_response(prompt, response_definition=None)
+    
+    # Load existing perspectives
+    existing_perspectives = []
+    if topic.perspectives_file.exists():
+        existing_perspectives = json.loads(topic.perspectives_file.read_text())
+    
+    # Add new perspective
+    existing_perspectives.append(new_perspective)
+    
+    # Save updated perspectives
+    json_str = json.dumps(existing_perspectives, indent=2)
+    topic.perspectives_file.write_text(json_str)
+    
+    click.echo(f"Added new perspective to: {topic.perspectives_file}")
+    
+    # Display the updated perspectives
+    display_perspectives(existing_perspectives)
+
+def handle_perspectives_command(add: bool = False) -> None:
     """Main handler for the perspectives command"""
     topic = Topic.load()
-    generate_perspectives(topic)
+    if add:
+        add_perspective(topic)
+    else:
+        generate_perspectives(topic)

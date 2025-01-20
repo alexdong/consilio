@@ -52,9 +52,10 @@ def clarify():
 
 
 @cli.command()
-def perspectives():
-    """Generate discussion perspectives"""
-    handle_perspectives_command()
+@click.option("-a", "--add", is_flag=True, help="Add a new perspective")
+def perspectives(add: bool):
+    """Generate or add discussion perspectives"""
+    handle_perspectives_command(add)
 
 
 @cli.command()
