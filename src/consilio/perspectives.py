@@ -64,9 +64,15 @@ def add_perspective(topic: Topic) -> None:
     role_title = click.prompt("Enter the title/role of the new perspective", type=str)
     
     # Generate details for this role using LLM
+    # Load existing perspectives for context
+    existing_perspectives = []
+    if topic.perspectives_file.exists():
+        existing_perspectives = json.loads(topic.perspectives_file.read_text())
+    
     prompt = render_template(
-        "single_perspective.j2",
+        "additional_perspective.j2",
         role_title=role_title,
+        existing_perspectives=existing_perspectives
     )
     
     new_perspective = get_llm_response(prompt, response_definition=None)
