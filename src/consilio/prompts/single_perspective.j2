@@ -1,8 +1,25 @@
-Given this role title: {{ role_title }}
+You are adding a new perspective to an existing set of perspectives.
 
-Please provide detailed information about this perspective in the following format:
+Current perspectives:
+{% if existing_perspectives %}
+{% for perspective in existing_perspectives %}
+{{ loop.index }}. {{ perspective.title }}
+   - Expertise: {{ perspective.expertise }}
+   - Goal: {{ perspective.goal }}
+   - Role: {{ perspective.role }}
+{% endfor %}
+{% else %}
+No existing perspectives yet.
+{% endif %}
+
+Given this new role title: {{ role_title }}
+
+Please provide detailed information about this new perspective in the following format:
 - expertise: A brief description of the expert's background and expertise
 - goal: The goals of the expert in the discussion
 - role: The role of the expert in the discussion
 
-Ensure the response maintains consistency with existing perspectives while offering unique value to the discussion.
+Ensure the new perspective:
+1. Complements the existing perspectives without duplicating their expertise
+2. Offers unique value to the discussion
+3. Maintains a consistent level of detail with existing perspectives
