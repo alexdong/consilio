@@ -60,8 +60,8 @@ def _build_subsequent_round_prompt(
     context = "\n".join(history)
     return render_template(
         "subsequent_round.j2",
-        perspectives=topic.perspectives,
         context=context,
+        topic=topic,
         round_num=round_num,
         user_input=user_input,
     )

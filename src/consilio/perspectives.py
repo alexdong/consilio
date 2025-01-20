@@ -72,17 +72,11 @@ def add_perspective(topic: Topic) -> None:
     prompt = render_template(
         "additional_perspective.j2",
         role_title=role_title,
+        topic=topic,
         existing_perspectives=existing_perspectives
     )
     
     new_perspective = get_llm_response(prompt, response_definition=None)
-    
-    # Load existing perspectives
-    existing_perspectives = []
-    if topic.perspectives_file.exists():
-        existing_perspectives = json.loads(topic.perspectives_file.read_text())
-    
-    # Add new perspective
     existing_perspectives.append(new_perspective)
     
     # Save updated perspectives

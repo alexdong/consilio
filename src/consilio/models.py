@@ -1,5 +1,4 @@
 import json
-import logging
 import re
 from pathlib import Path
 from typing import List, Optional
@@ -292,12 +291,9 @@ class Topic(BaseModel):
         )
 
     def _get_latest_round_number(self, prefix: str) -> int:
-        """Get the latest round number for a given file prefix (round/interview)"""
-        logger = logging.getLogger("consilio.models")
-        logger.debug(f"Getting latest {prefix} round number")
-        pattern = re.compile(rf"{prefix}(\d+)-(?:input|response)\.md")
+        pattern = re.compile(rf"{prefix}(\d+)-(input|response)\.md")
         rounds = []
-        for f in self.directory.glob(f"{prefix}-*-*.md"):
+        for f in self.directory.glob(f"{prefix}*-*.md"):
             match = pattern.match(f.name)
             if match and match.group(1):
                 rounds.append(int(match.group(1)))
