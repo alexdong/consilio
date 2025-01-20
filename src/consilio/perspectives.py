@@ -76,8 +76,10 @@ def add_perspective(topic: Topic) -> None:
         existing_perspectives=existing_perspectives
     )
     new_perspective = get_llm_response(prompt, response_definition=None)
+    if "perspectives" in new_perspective:
+        # Handle case where LLM returns a dict with "perspectives" key
+        new_perspective = new_perspective["perspectives"][0]
     existing_perspectives.append(new_perspective)
-    print(existing_perspectives)
     
     # Save updated perspectives
     json_str = json.dumps(existing_perspectives, indent=2)
