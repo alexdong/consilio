@@ -174,68 +174,10 @@ def interview():
 @click.option('--perspective', '-p', type=int, help='Index of the perspective to interview')
 def start(perspective: Optional[int]):
     """Start a new interview with a selected perspective"""
-    logger = logging.getLogger("consilio.interview")
-    topic = Topic.load()
-    if not topic:
-        raise click.ClickException("No topic selected. Use 'cons init' to create one.")
-
-    if not topic.perspectives_file.exists():
-        raise click.ClickException(
-            "No perspectives found. Generate perspectives first with 'cons perspectives'"
-        )
-
-    # Use provided perspective index or prompt for selection
-    perspective_index = perspective if perspective is not None else select_perspective(topic)
-    current_round = topic.get_latest_interview_round(perspective_index) + 1
-    input_file = topic.interview_input_file(perspective_index, current_round)
-    if input_file.exists() and click.confirm(f"Input file {input_file} already exists. Overwrite?", default=False):
-        input_file.unlink()
-
-    # Create template content
-    template = ["# Interview Questions\n\n"]
-    
-    # If the input file already exists, it means that the user wants to re-send the same questions.
-    if not input_file.exists():
-        if current_round > 1:
-            prev_response_file = topic.interview_response_file(perspective_index, current_round - 1)
-            if prev_response_file.exists():
-                try:
-                    response = prev_response_file.read_text()
-                    template.append("Previous Response:\n")
-                    template.append(response)
-                    template.append("\n---\n\n")
-                except Exception as e:
-                    logger.warning(f"Could not load previous response: {e}")
-        
-        template.append("Please provide your questions or discussion points for this interview.\n")
-        input_file.write_text("".join(template))
-    
-    # Open editor for input
-    user_input = click.edit(filename=str(input_file))
-    if not user_input:
-        raise click.ClickException("No input provided")
-
-    click.echo(f"\nStarting interview (Round #{current_round}) ...")
-    start_interview_round(topic, perspective_index, current_round, user_input)
+    handle_interview_command(perspective=perspective)
 
 @interview.command()
 def continue_():
     """Continue interview with the most recent perspective"""
-    topic = Topic.load()
-    if not topic:
-        raise click.ClickException("No topic selected. Use 'cons init' to create one.")
-
-    if not topic.perspectives_file.exists():
-        raise click.ClickException(
-            "No perspectives found. Generate perspectives first with 'cons perspectives'"
-        )
-
-    perspective_index = get_most_recent_perspective(topic)
-    if perspective_index is None:
-        click.echo("No previous interviews found.")
-        return
-
-    # Call start command with the most recent perspective index
-    ctx = click.get_current_context()
-    ctx.invoke(start, perspective=perspective_index)
+    handle_interview_command(continue_last=True)
 
