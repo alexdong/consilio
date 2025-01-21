@@ -162,7 +162,7 @@ def start():
                 logger.warning(f"Could not load previous response: {e}")
     
     template.append("Please provide your questions or discussion points for this interview.\n")
-        input_file.write_text("".join(template))
+    input_file.write_text("".join(template))
     
     # Open editor for input
     user_input = click.edit(filename=str(input_file))
