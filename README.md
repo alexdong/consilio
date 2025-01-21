@@ -63,9 +63,9 @@ Under the hook, it delegates to a set of subcommands depends on the state of the
 
 - `cons topic`. Open the current topic's discussion file in your default editor. If there is no current topic, you will be prompted to create one first.
 
-- `cons perspectives`. If there is a `discussion.md` file in the topic directory but no `perspectives.md` file, you will be prompted to enter the number of perspectives you would like to include in the discussion. Consilio will then generate a list of perspectives based on the topic and save it as `~/.consilio/YYYY-MM-DD-{Topic-Slug}/perspectives.md`. You can:
+- `cons perspectives`. If there is a `discussion.md` file in the topic directory but no `perspectives.md` file, you will be prompted to enter the number of perspectives you would like to include in the discussion. Consilio will then generate a list of perspectives based on the topic and save it as `~/.consilio/YYYY-MM-DD-{Topic-Slug}/perspectives.json`. You can:
   - Use `cons perspectives` to generate a new set of perspectives
-  - Use `cons perspectives --add` to add a single new perspective
+  - Use `cons perspectives --add` to interactively add a single new perspective that complements existing ones
   - Edit the perspectives file directly to modify or remove perspectives
 
 - `cons discuss`. If both the `discussion.md` and `perspectives.md` files exist, Consilio will start the discussion process. Each round of discussion will be saved as `~/.consilio/YYYY-MM-DD-{Topic-Slug}/round-{n}.md`.
