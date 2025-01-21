@@ -100,9 +100,9 @@ def start_interview_round(
         # Display the response
         display_interview(discussion)
 
-        # Save the markdown response to the response_file, not the response JSON dump, AI!
+        # Save the markdown response
         response_file = topic.interview_response_file(perspective_index, round_num)
-        response_file.write_text(discussion.opinion)
+        response_file.write_text(discussion.to_markdown())
         logger.debug(f"Saved interview response to {response_file}")
 
     except Exception as e:
