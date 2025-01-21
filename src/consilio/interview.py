@@ -133,12 +133,20 @@ def start():
 
     click.echo(f"\nInterviewing perspective #{perspective_index}")
 
-    # Create input file with template if it doesn't exist
+    # Handle input file creation or overwrite
     input_file = topic.interview_input_file(perspective_index, current_round)
-    # If the input_file already exists, ask the user if they want to overwrite it. 
-    # If they answer no, send the request again; Otherwise, create a new file and overwrite. AI!
-    if not input_file.exists():
-        template = ["# Interview Questions\n\n"]
+    while True:
+        if input_file.exists():
+            if click.confirm(f"Input file {input_file} already exists. Overwrite?", default=False):
+                break
+            perspective_index = select_perspective(topic)
+            current_round = topic.get_latest_interview_round(perspective_index) + 1
+            input_file = topic.interview_input_file(perspective_index, current_round)
+        else:
+            break
+
+    # Create template content
+    template = ["# Interview Questions\n\n"]
         
         # Include previous response if it exists
         if current_round > 1:
