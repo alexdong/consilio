@@ -180,6 +180,8 @@ def continue_():
         click.echo("No previous interviews found.")
         return
 
+    # The following should call out to `start()` with the perspective index, ai!
+
     current_round = topic.get_latest_interview_round(perspective_index) + 1
 
     click.echo(f"\nContinuing interview with perspective #{perspective_index}")
