@@ -7,7 +7,7 @@ from consilio.logging import setup_logging
 from consilio.version import __version__
 from consilio.init import handle_init_command
 from consilio.perspectives import handle_perspectives_command
-from consilio.interview import handle_interview_command
+from consilio.interview import handle_interview_command, start, continue_
 from consilio.discuss import handle_discuss_command
 from consilio.clarify import handle_clarify_command
 from consilio.stress import handle_stress_command
