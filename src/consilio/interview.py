@@ -116,7 +116,8 @@ def interview():
     pass
 
 @interview.command()
-def start():  # add an optional argument to select a specific perspective. it's None by default. ai!
+@click.option('--perspective', '-p', type=int, help='Index of the perspective to interview')
+def start(perspective: Optional[int]):
     """Start a new interview with a selected perspective"""
     logger = logging.getLogger("consilio.interview")
     topic = Topic.load()
@@ -128,13 +129,8 @@ def start():  # add an optional argument to select a specific perspective. it's 
             "No perspectives found. Generate perspectives first with 'cons perspectives'"
         )
 
-    perspective_index = select_perspective(topic)
-    current_round = topic.get_latest_interview_round(perspective_index) + 1
-
-    click.echo(f"\nInterviewing perspective #{perspective_index}")
-
-    # Handle input file creation or overwrite
-    perspective_index = select_perspective(topic)
+    # Use provided perspective index or prompt for selection
+    perspective_index = perspective if perspective is not None else select_perspective(topic)
     current_round = topic.get_latest_interview_round(perspective_index) + 1
     input_file = topic.interview_input_file(perspective_index, current_round)
     if input_file.exists() and click.confirm(f"Input file {input_file} already exists. Overwrite?", default=False):
