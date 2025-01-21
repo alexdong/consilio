@@ -55,10 +55,13 @@ def perspectives():
     """Generate, add, or edit perspectives for the current topic"""
     handle_perspectives_command()
 
-@cli.command()
+@cli.command(cls=click.Group)
 def interview():
-    """Start or continue interview rounds"""
-    handle_interview_command()
+    """Manage interviews with different perspectives"""
+    pass
+
+interview.add_command(start)
+interview.add_command(continue_)
 
 @cli.command()
 @click.option("-r", "--round", type=int, help="Restart from specific round")
