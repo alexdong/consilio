@@ -180,20 +180,9 @@ def continue_():
         click.echo("No previous interviews found.")
         return
 
-    # The following should call out to `start()` with the perspective index, ai!
-
-    current_round = topic.get_latest_interview_round(perspective_index) + 1
-
-    click.echo(f"\nContinuing interview with perspective #{perspective_index}")
-    click.echo("Please provide your questions or discussion points.")
-    click.echo("Press Ctrl+D when finished.\n")
-
-    user_input = click.get_text_stream("stdin").read().strip()
-    if not user_input:
-        raise click.ClickException("No input provided")
-
-    click.echo(f"\nStarting interview (Round #{current_round}) ...")
-    start_interview_round(topic, perspective_index, current_round, user_input)
+    # Call start command with the most recent perspective index
+    ctx = click.get_current_context()
+    ctx.invoke(start, perspective=perspective_index)
 
 # Set default command
 interview.default_command = "start"
