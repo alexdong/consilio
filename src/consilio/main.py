@@ -5,10 +5,10 @@ from typing import Optional
 import better_exceptions
 from consilio.logging import setup_logging
 from consilio.version import __version__
-from consilio.perspectives import handle_perspectives_command
-from consilio.discuss import handle_discuss_command
-from consilio.interview import handle_interview_command
 from consilio.init import handle_init_command
+from consilio.perspectives import handle_perspectives_command
+from consilio.interview import handle_interview_command
+from consilio.discuss import handle_discuss_command
 from consilio.clarify import handle_clarify_command
 from consilio.stress import handle_stress_command
 from consilio.bias import handle_bias_command
@@ -50,37 +50,21 @@ def clarify():
     """Request clarification before discussion"""
     handle_clarify_command()
 
-
-@cli.group()
+@cli.command()
 def perspectives():
-    """Manage discussion perspectives"""
-    pass
+    """Generate, add, or edit perspectives for the current topic"""
+    handle_perspectives_command()
 
-@perspectives.command()
-def generate():
-    """Generate a new set of perspectives"""
-    handle_perspectives_command(generate=True)
-
-@perspectives.command()
-def add():
-    """Add a single new perspective"""
-    handle_perspectives_command(add=True)
-
-@perspectives.command()
-def edit():
-    """Edit existing perspectives"""
-    handle_perspectives_command(edit=True)
-
+@cli.command()
+def interview():
+    """Start or continue interview rounds"""
+    handle_interview_command()
 
 @cli.command()
 @click.option("-r", "--round", type=int, help="Restart from specific round")
 def discuss(round: Optional[int]):
     """Start or continue discussion rounds"""
     handle_discuss_command(round)
-
-
-from consilio.interview import interview
-
 
 @cli.command()
 def stress():

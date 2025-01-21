@@ -130,7 +130,8 @@ def handle_interview_command(perspective: Optional[int] = None, continue_last: b
 
     # Use provided perspective index or prompt for selection
     perspective_index = perspective if perspective is not None else select_perspective(topic)
-    current_round = topic.get_latest_interview_round(perspective_index) + 1
+    if not continue_last:
+        current_round = topic.get_latest_interview_round(perspective_index) + 1
 
     click.echo(f"\nInterviewing perspective #{perspective_index}")
     
@@ -139,11 +140,11 @@ def handle_interview_command(perspective: Optional[int] = None, continue_last: b
     if input_file.exists() and click.confirm(f"Input file {input_file} already exists. Overwrite?", default=False):
         input_file.unlink()
 
-    # Create template content
-    template = ["# Interview Questions\n\n"]
-    
     # If the input file already exists, it means that the user wants to re-send the same questions.
     if not input_file.exists():
+        # Create template content
+        template = ["# Interview Questions\n\n"]
+    
         if current_round > 1:
             prev_response_file = topic.interview_response_file(perspective_index, current_round - 1)
             if prev_response_file.exists():
@@ -160,9 +161,6 @@ def handle_interview_command(perspective: Optional[int] = None, continue_last: b
     
     # Open editor for input
     user_input = click.edit(filename=str(input_file))
-    if not user_input:
-        raise click.ClickException("No input provided")
-
     click.echo(f"\nStarting interview (Round #{current_round}) ...")
     start_interview_round(topic, perspective_index, current_round, user_input)
 
