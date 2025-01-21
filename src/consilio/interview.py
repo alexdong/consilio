@@ -135,6 +135,8 @@ def start():
 
     # Create input file with template if it doesn't exist
     input_file = topic.interview_input_file(perspective_index, current_round)
+    # If the input_file already exists, ask the user if they want to overwrite it. 
+    # If they answer no, send the request again; Otherwise, create a new file and overwrite. AI!
     if not input_file.exists():
         template = ["# Interview Questions\n\n"]
         
