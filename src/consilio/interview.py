@@ -183,5 +183,3 @@ def continue_():
     ctx = click.get_current_context()
     ctx.invoke(start, perspective=perspective_index)
 
-# Set default command
-interview.default_command = "start"
