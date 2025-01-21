@@ -118,6 +118,7 @@ def interview():
 @interview.command()
 def start():
     """Start a new interview with a selected perspective"""
+    logger = logging.getLogger("consilio.interview")
     topic = Topic.load()
     if not topic:
         raise click.ClickException("No topic selected. Use 'cons init' to create one.")
