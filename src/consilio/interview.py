@@ -6,23 +6,7 @@ from rich.console import Console
 from rich.markdown import Markdown
 from consilio.models import Topic, Discussion
 from consilio.utils import get_llm_response, render_template
-from consilio.perspective_utils import select_perspective, get_most_recent_perspective
-
-def _get_perspective(topic: Topic, index: int) -> Dict[Any, Any]:
-    """Get a specific perspective by index"""
-    logger = logging.getLogger("consilio.interview")
-    logger.debug(f"Getting perspective {index}")
-    try:
-        perspectives = json.loads(topic.perspectives_file.read_text())
-        if index < 0 or index >= len(perspectives):
-            raise click.ClickException(
-                f"Invalid perspective index. Must be between 0 and {len(perspectives)-1}"
-            )
-        return perspectives[index]
-    except (json.JSONDecodeError, FileNotFoundError):
-        raise click.ClickException(
-            "No valid perspectives found. Generate perspectives first."
-        )
+from consilio.perspective_utils import select_perspective, get_most_recent_perspective, get_perspective
 
 def display_interview(discussion: Discussion) -> None:
     """Display interview response in markdown format"""
@@ -99,7 +83,7 @@ def start_interview_round(
     )
     
     # Get perspective and build prompt
-    perspective = _get_perspective(topic, perspective_index)
+    perspective = get_perspective(topic, perspective_index)
     prompt = _build_interview_prompt(
         topic, perspective, perspective_index, round_num, user_input
     )
@@ -147,6 +131,8 @@ def start():
     current_round = topic.get_latest_interview_round(perspective_index) + 1
 
     click.echo(f"\nInterviewing perspective #{perspective_index}")
+
+    # Open up the editor on `Topic.interview_input_file(perspective_index, current_round)` for input. AI!
     click.echo("Please provide your questions or discussion points.")
     click.echo("Press Ctrl+D when finished.\n")
 
