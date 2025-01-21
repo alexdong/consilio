@@ -111,6 +111,7 @@ def start_interview_round(
 
 def handle_interview_command(perspective: Optional[int] = None, continue_last: bool = False) -> None:
     """Main handler for the interview command"""
+    logger = logging.getLogger("consilio.interview")
     topic = Topic.load()
     if not topic:
         raise click.ClickException("No topic selected. Use 'cons init' to create one.")
