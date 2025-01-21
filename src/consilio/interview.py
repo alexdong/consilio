@@ -1,5 +1,4 @@
 import click
-import json
 import logging
 from typing import Dict, Any, Optional
 from rich.console import Console
