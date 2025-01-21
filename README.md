@@ -98,11 +98,12 @@ temperature = 1.0
 
 ### `perspectives`
 
-$ cons perspectives
+$ cons perspectives [flags]
 
 Request available perspectives from the default LLM model and save the response into `perspectives.json` file in the directory.
 
-# move --add flag to here. AI!
+Flags:
+- `--add`: Interactively add a new perspective that complements the existing ones. You'll be prompted to describe the new perspective, and the LLM will generate appropriate details while considering the existing perspectives.
 
 ### `discuss`
 
