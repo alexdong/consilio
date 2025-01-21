@@ -1,7 +1,7 @@
 import click
 import json
 import logging
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 from rich.console import Console
 from rich.markdown import Markdown
 from consilio.models import Topic, Discussion
