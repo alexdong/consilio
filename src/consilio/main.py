@@ -79,12 +79,23 @@ def discuss(round: Optional[int]):
     handle_discuss_command(round)
 
 
-@cli.command()
-@click.option("-p", "--perspective", type=int, help="Perspective index")
-@click.option("-r", "--round", type=int, help="Restart from specific round")
-def interview(perspective_index: int, round: Optional[int]):
-    """Start or continue interview rounds"""
-    handle_interview_command(perspective_index, round)
+@cli.group()
+def interview():
+    """Manage perspective interviews"""
+    pass
+
+@interview.command()
+def start():
+    """Start a new interview with a selected perspective"""
+    handle_interview_command(mode="start")
+
+@interview.command()
+def continue_():
+    """Continue interview with the most recent perspective"""
+    handle_interview_command(mode="continue")
+
+# Default command
+interview.default_command = "start"
 
 
 @cli.command()

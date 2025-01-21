@@ -116,23 +116,61 @@ def start_interview_round(
         raise click.ClickException(f"Error in interview round: {str(e)}")
 
 
-def handle_interview_command(perspective_index: int, round: Optional[int]) -> None:
+def _select_perspective(topic: Topic) -> int:
+    """Display perspective selection menu and get user choice"""
+    try:
+        perspectives = json.loads(topic.perspectives_file.read_text())
+        click.echo("\nAvailable perspectives:")
+        for idx, p in enumerate(perspectives):
+            click.echo(f"\n{idx}. {p.get('title', 'Untitled')}")
+            click.echo(f"   Expertise: {p.get('expertise', 'N/A')}")
+        
+        while True:
+            try:
+                choice = click.prompt("\nSelect perspective number", type=int)
+                if 0 <= choice < len(perspectives):
+                    return choice
+                click.echo("Invalid selection. Please try again.")
+            except click.Abort:
+                raise click.ClickException("Selection aborted")
+    except (json.JSONDecodeError, FileNotFoundError):
+        raise click.ClickException("No valid perspectives found. Generate perspectives first.")
+
+def _get_most_recent_perspective(topic: Topic) -> Optional[int]:
+    """Find the most recently interviewed perspective"""
+    latest_perspective = None
+    latest_round = -1
+    
+    # Check all potential perspective files
+    for p_idx in range(100):  # reasonable upper limit
+        round_num = topic.get_latest_interview_round(p_idx)
+        if round_num > latest_round:
+            latest_round = round_num
+            latest_perspective = p_idx
+    
+    return latest_perspective
+
+def handle_interview_command(mode: str = "start") -> None:
     """Main handler for the interview command"""
     topic = Topic.load()
     if not topic:
-        raise click.ClickException(
-            "No topic selected. Use 'cons topics -t <number>' to select one."
-        )
+        raise click.ClickException("No topic selected. Use 'cons init' to create one.")
 
     if not topic.perspectives_file.exists():
-        raise click.ClickException(
-            "No perspectives found. Generate perspectives first with 'cons perspectives'"
-        )
+        raise click.ClickException("No perspectives found. Generate perspectives first with 'cons perspectives'")
+
+    # Get perspective index based on mode
+    perspective_index = None
+    if mode == "continue":
+        perspective_index = _get_most_recent_perspective(topic)
+        if perspective_index is None:
+            click.echo("No previous interviews found.")
+            return
+    else:  # start mode
+        perspective_index = _select_perspective(topic)
 
     # Determine round number
-    current_round = (
-        round if round else topic.get_latest_interview_round(perspective_index) + 1
-    )
+    current_round = topic.get_latest_interview_round(perspective_index) + 1
 
     # Get user input for the round
     click.echo(f"\nInterviewing perspective #{perspective_index}")
