@@ -135,11 +135,23 @@ def start():
     # Create input file with template if it doesn't exist
     input_file = topic.interview_input_file(perspective_index, current_round)
     if not input_file.exists():
-        # Include the last response in the following placeholder text. AI!
-        input_file.write_text(
-            "# Interview Questions\n\n"
-            "Please provide your questions or discussion points for this interview.\n"
-        )
+        template = ["# Interview Questions\n\n"]
+        
+        # Include previous response if it exists
+        if current_round > 1:
+            prev_response_file = topic.interview_response_file(perspective_index, current_round - 1)
+            if prev_response_file.exists():
+                try:
+                    response_data = json.loads(prev_response_file.read_text())
+                    discussion = Discussion.model_validate(response_data)
+                    template.append("Previous Response:\n")
+                    template.append(discussion.to_markdown())
+                    template.append("\n---\n\n")
+                except Exception as e:
+                    logger.warning(f"Could not load previous response: {e}")
+        
+        template.append("Please provide your questions or discussion points for this interview.\n")
+        input_file.write_text("".join(template))
     
     # Open editor for input
     user_input = click.edit(filename=str(input_file))
