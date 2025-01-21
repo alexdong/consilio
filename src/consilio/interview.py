@@ -164,14 +164,18 @@ def handle_interview_command(perspective: Optional[int] = None, continue_last: b
     click.echo(f"\nStarting interview (Round #{current_round}) ...")
     start_interview_round(topic, perspective_index, current_round, user_input)
 
-@click.command()
+@click.group()
+def interview():
+    """Manage interviews with different perspectives"""
+    pass
+
+@interview.command()
 @click.option('--perspective', '-p', type=int, help='Index of the perspective to interview')
 def start(perspective: Optional[int]):
     """Start a new interview with a selected perspective"""
     handle_interview_command(perspective=perspective)
 
-@click.command()
-def continue_():
+@interview.command()
+def next():
     """Continue interview with the most recent perspective"""
     handle_interview_command(continue_last=True)
-

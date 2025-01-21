@@ -1,7 +1,7 @@
 import click
 import json
 import logging
-from typing import Optional
+from typing import Optional, Dict, Any
 from consilio.models import Topic
 
 def select_perspective(topic: Topic) -> int:
@@ -37,3 +37,20 @@ def get_most_recent_perspective(topic: Topic) -> Optional[int]:
             latest_perspective = p_idx
     
     return latest_perspective
+
+def get_perspective(topic: Topic, index: int) -> Dict[Any, Any]:
+    """Get a specific perspective by index"""
+    logger = logging.getLogger("consilio.interview")
+    logger.debug(f"Getting perspective {index}")
+    try:
+        perspectives = json.loads(topic.perspectives_file.read_text())
+        if index < 0 or index >= len(perspectives):
+            raise click.ClickException(
+                f"Invalid perspective index. Must be between 0 and {len(perspectives)-1}"
+            )
+        return perspectives[index]
+    except (json.JSONDecodeError, FileNotFoundError):
+        raise click.ClickException(
+            "No valid perspectives found. Generate perspectives first."
+        )
+

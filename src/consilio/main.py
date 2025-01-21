@@ -6,8 +6,8 @@ import better_exceptions
 from consilio.logging import setup_logging
 from consilio.version import __version__
 from consilio.init import handle_init_command
+from consilio.interview import interview
 from consilio.perspectives import handle_perspectives_command
-from consilio.interview import handle_interview_command, start, continue_
 from consilio.discuss import handle_discuss_command
 from consilio.clarify import handle_clarify_command
 from consilio.stress import handle_stress_command
@@ -38,12 +38,13 @@ def cli(log_level: str, log_file: Optional[Path]):
     logger = logging.getLogger("consilio.cli")
     logger.debug("CLI started")
 
+cli.add_command(interview)
+
 
 @cli.command()
 def init():
     """Initialize a new Consilio project in the specified directory"""
     handle_init_command()
-
 
 @cli.command()
 def clarify():
@@ -54,14 +55,6 @@ def clarify():
 def perspectives():
     """Generate, add, or edit perspectives for the current topic"""
     handle_perspectives_command()
-
-@cli.command(cls=click.Group)
-def interview():
-    """Manage interviews with different perspectives"""
-    pass
-
-interview.add_command(start)
-interview.add_command(continue_)
 
 @cli.command()
 @click.option("-r", "--round", type=int, help="Restart from specific round")

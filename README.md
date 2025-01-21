@@ -68,7 +68,6 @@ Under the hook, it delegates to a set of subcommands depends on the state of the
   - `cons perspectives add`: Interactively add a single new perspective that complements existing ones
   - `cons perspectives edit`: Open the perspectives file in your default editor to modify or remove perspectives
 
-- `cons discuss`. If both the `discussion.md` and `perspectives.md` files exist, Consilio will start the discussion process. Each round of discussion will be saved as `~/.consilio/YYYY-MM-DD-{Topic-Slug}/round-{n}.md`.
 
 ### `init`
 
@@ -85,13 +84,6 @@ The following configuration options are available in cons.toml:
 ```toml
 # Key bindings for input (default: "emacs")
 key_bindings = "vi"
-
-# LLM model to use (default: "claude-3-5-sonnet-20241022")
-# Can be any of the models available:
-# - claude-3-5-sonnet-20241022
-# - gemini-2.0-flash-exp
-# - gemini-2.0-flash-thinking-exp-1219
-model = "claude-3-5-sonnet-20241022"
 
 # Temperature for LLM responses (0.0-1.0, brainstorm: 0.8, meeting: 0.2)
 temperature = 1.0
@@ -116,13 +108,15 @@ $ cons discuss [flags]
 
 Start a new round of discussion. You will be prompted to provide guidance for the discussion. You can answer questions from the previous round of discussions or specify a particular area you'd like to focus on next.
 
+If both the `discussion.md` and `perspectives.md` files exist, Consilio will start the discussion process. Each round of discussion will be saved as `~/.consilio/YYYY-MM-DD-{Topic-Slug}/round-{n}.md`.
+
 Flags:
 
 - `-r`, `--round [round number]`: Restart the discussion from the specified round number. This is useful if you want to revisit a previous round of discussions or if you have saved the discussion document and want to continue from where you left off.
 
 ### `interview`
 
-$ cons interview [perspective_index] [flags]
+$ cons interview [flags]
 
 Start an interview session with a specific perspective. This allows for focused discussions with individual perspectives, getting deeper insights from their particular viewpoint.
 
