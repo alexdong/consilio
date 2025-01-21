@@ -116,7 +116,7 @@ def interview():
     pass
 
 @interview.command()
-def start():
+def start():  # add an optional argument to select a specific perspective. it's None by default. ai!
     """Start a new interview with a selected perspective"""
     logger = logging.getLogger("consilio.interview")
     topic = Topic.load()
