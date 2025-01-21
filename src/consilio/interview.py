@@ -93,14 +93,14 @@ def start_interview_round(
     logger.debug(f"Saved interview input to {input_file}")
 
     try:
-        # Get LLM response
+        # Get LLM response. The response is a Discussion object.
         response = get_llm_response(prompt, response_definition=Discussion)
         discussion = Discussion.model_validate(response)
         
         # Display the response
         display_interview(discussion)
 
-        # Save response
+        # Save the markdown response to the response_file, not the response JSON dump, AI!
         response_file = topic.interview_response_file(perspective_index, round_num)
         response_file.write_text(discussion.model_dump_json(indent=2))
         logger.debug(f"Saved interview response to {response_file}")
@@ -109,7 +109,7 @@ def start_interview_round(
         logger.error(f"Error in interview round: {str(e)}")
         raise click.ClickException(f"Error in interview round: {str(e)}")
 
-def handle_interview_command(perspective: Optional[int] = None, continue_last: bool = False) -> None:
+def handle_interview_command(perspective: Optional[int] = None, continue_to_next_round: bool = False) -> None:
     """Main handler for the interview command"""
     logger = logging.getLogger("consilio.interview")
     topic = Topic.load()
@@ -121,17 +121,16 @@ def handle_interview_command(perspective: Optional[int] = None, continue_last: b
             "No perspectives found. Generate perspectives first with 'cons perspectives'"
         )
 
-    if continue_last:
+    if continue_to_next_round:
         perspective_index = get_most_recent_perspective(topic)
-        if perspective_index is None:
-            click.echo("No previous interviews found.")
-            return
         perspective = perspective_index
 
     # Use provided perspective index or prompt for selection
     perspective_index = perspective if perspective is not None else select_perspective(topic)
-    if not continue_last:
+    if continue_to_next_round:
         current_round = topic.get_latest_interview_round(perspective_index) + 1
+    else:
+        current_round = 1
 
     click.echo(f"\nInterviewing perspective #{perspective_index}")
     
@@ -158,9 +157,11 @@ def handle_interview_command(perspective: Optional[int] = None, continue_last: b
         
         template.append("Please provide your questions or discussion points for this interview.\n")
         input_file.write_text("".join(template))
+        user_input = click.edit(filename=str(input_file))
+    else:
+        user_input = input_file.read_text()
     
     # Open editor for input
-    user_input = click.edit(filename=str(input_file))
     click.echo(f"\nStarting interview (Round #{current_round}) ...")
     start_interview_round(topic, perspective_index, current_round, user_input)
 
@@ -178,4 +179,4 @@ def start(perspective: Optional[int]):
 @interview.command()
 def next():
     """Continue interview with the most recent perspective"""
-    handle_interview_command(continue_last=True)
+    handle_interview_command(continue_to_next_round=True)
