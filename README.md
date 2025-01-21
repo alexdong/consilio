@@ -98,13 +98,17 @@ temperature = 1.0
 
 ### `perspectives`
 
-$ cons perspectives [flags]
+$ cons perspectives <subcommand>
 
-Request available perspectives from the default LLM model and save the response into `perspectives.json` file in the directory.
+Manage the perspectives for your discussion. Available subcommands:
 
-Flags:
+- `generate` (default): Generate a new set of perspectives. You'll be prompted for the number of perspectives (1-25) you'd like to include. The perspectives will be saved to `perspectives.json`.
 
-- `--add`: Interactively add a new perspective that complements the existing ones. You'll be prompted to describe the new perspective, and the LLM will generate appropriate details while considering the existing perspectives.
+- `add`: Interactively add a single new perspective. You'll be prompted to describe the new perspective, and the LLM will generate appropriate details while considering the existing perspectives.
+
+- `edit`: Open the perspectives file in your default editor to modify or remove perspectives. The file will be validated for proper JSON format after editing.
+
+If no subcommand is specified, defaults to `generate`.
 
 ### `discuss`
 
