@@ -79,23 +79,7 @@ def discuss(round: Optional[int]):
     handle_discuss_command(round)
 
 
-@cli.group()
-def interview():
-    """Manage perspective interviews"""
-    pass
-
-@interview.command()
-def start():
-    """Start a new interview with a selected perspective"""
-    handle_interview_command(mode="start")
-
-@interview.command()
-def continue_():
-    """Continue interview with the most recent perspective"""
-    handle_interview_command(mode="continue")
-
-# Default command
-interview.default_command = "start"
+from consilio.interview import interview
 
 
 @cli.command()
