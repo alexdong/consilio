@@ -149,10 +149,9 @@ def start():
             prev_response_file = topic.interview_response_file(perspective_index, current_round - 1)
             if prev_response_file.exists():
                 try:
-                    response_data = json.loads(prev_response_file.read_text())
-                    discussion = Discussion.model_validate(response_data) # Previous response is a str, ai!
+                    response = prev_response_file.read_text()
                     template.append("Previous Response:\n")
-                    template.append(discussion.to_markdown())
+                    template.append(response)
                     template.append("\n---\n\n")
                 except Exception as e:
                     logger.warning(f"Could not load previous response: {e}")
