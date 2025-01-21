@@ -135,6 +135,7 @@ def start():
     # Create input file with template if it doesn't exist
     input_file = topic.interview_input_file(perspective_index, current_round)
     if not input_file.exists():
+        # Include the last response in the following placeholder text. AI!
         input_file.write_text(
             "# Interview Questions\n\n"
             "Please provide your questions or discussion points for this interview.\n"
