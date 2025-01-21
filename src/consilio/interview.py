@@ -132,11 +132,16 @@ def start():
 
     click.echo(f"\nInterviewing perspective #{perspective_index}")
 
-    # Open up the editor on `Topic.interview_input_file(perspective_index, current_round)` for input. AI!
-    click.echo("Please provide your questions or discussion points.")
-    click.echo("Press Ctrl+D when finished.\n")
-
-    user_input = click.get_text_stream("stdin").read().strip()
+    # Create input file with template if it doesn't exist
+    input_file = topic.interview_input_file(perspective_index, current_round)
+    if not input_file.exists():
+        input_file.write_text(
+            "# Interview Questions\n\n"
+            "Please provide your questions or discussion points for this interview.\n"
+        )
+    
+    # Open editor for input
+    user_input = click.edit(filename=str(input_file))
     if not user_input:
         raise click.ClickException("No input provided")
 
