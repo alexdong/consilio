@@ -111,7 +111,7 @@ def start_interview_round(
 
 @click.group()
 def interview():
-    """Manage perspective interviews"""
+    """Manage interviews with different perspectives"""
     pass
 
 @interview.command()

@@ -6,6 +6,26 @@ from rich.markdown import Markdown
 from consilio.models import Topic, Perspective
 from consilio.utils import get_llm_response, render_template
 
+@click.group()
+def perspectives():
+    """Manage discussion perspectives"""
+    pass
+
+@perspectives.command()
+def generate():
+    """Generate a new set of perspectives"""
+    handle_perspectives_command(generate=True)
+
+@perspectives.command()
+def add():
+    """Add a single new perspective"""
+    handle_perspectives_command(add=True)
+
+@perspectives.command()
+def edit():
+    """Edit existing perspectives"""
+    handle_perspectives_command(edit=True)
+
 
 def display_perspectives(perspectives: list) -> None:
     """Display perspectives in markdown format using rich"""
