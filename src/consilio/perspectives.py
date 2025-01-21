@@ -90,10 +90,34 @@ def add_perspective(topic: Topic) -> None:
     # Display the updated perspectives
     display_perspectives(existing_perspectives)
 
-def handle_perspectives_command(add: bool = False) -> None:
+def edit_perspectives(topic: Topic) -> None:
+    """Open perspectives file in editor"""
+    logger = logging.getLogger("consilio.perspectives")
+    logger.info("Opening perspectives file for editing")
+    
+    if not topic.perspectives_file.exists():
+        click.echo("No perspectives file exists yet. Generate perspectives first.")
+        return
+        
+    click.echo("Opening perspectives file in editor...")
+    click.edit(filename=str(topic.perspectives_file))
+    
+    # Validate the file after editing
+    try:
+        perspectives = json.loads(topic.perspectives_file.read_text())
+        display_perspectives(perspectives)
+    except json.JSONDecodeError:
+        click.echo("Warning: The file contains invalid JSON. Please check the format.")
+
+def handle_perspectives_command(generate: bool = False, add: bool = False, edit: bool = False) -> None:
     """Main handler for the perspectives command"""
     topic = Topic.load()
-    if add:
+    if generate:
+        generate_perspectives(topic)
+    elif add:
         add_perspective(topic)
+    elif edit:
+        edit_perspectives(topic)
     else:
+        # Default to generate if no subcommand specified
         generate_perspectives(topic)

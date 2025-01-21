@@ -51,11 +51,25 @@ def clarify():
     handle_clarify_command()
 
 
-@cli.command()
-@click.option("-a", "--add", is_flag=True, help="Add a new perspective")
-def perspectives(add: bool):
-    """Generate or add discussion perspectives"""
-    handle_perspectives_command(add)
+@cli.group()
+def perspectives():
+    """Manage discussion perspectives"""
+    pass
+
+@perspectives.command()
+def generate():
+    """Generate a new set of perspectives"""
+    handle_perspectives_command(generate=True)
+
+@perspectives.command()
+def add():
+    """Add a single new perspective"""
+    handle_perspectives_command(add=True)
+
+@perspectives.command()
+def edit():
+    """Edit existing perspectives"""
+    handle_perspectives_command(edit=True)
 
 
 @cli.command()
