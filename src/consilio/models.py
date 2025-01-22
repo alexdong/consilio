@@ -291,7 +291,7 @@ class Topic(BaseModel):
         )
 
     def _get_latest_round_number(self, prefix: str) -> int:
-        pattern = re.compile(rf"{prefix}(\d+)-(input|response)\.md")
+        pattern = re.compile(rf"{prefix}(\d+)-response\.md")
         rounds = []
         for f in self.directory.glob(f"{prefix}*-*.md"):
             match = pattern.match(f.name)

@@ -3,6 +3,9 @@ import logging
 from pathlib import Path
 from typing import Optional
 import better_exceptions
+import pdb
+import traceback
+
 from consilio.logging import setup_logging
 from consilio.version import __version__
 from consilio.init import handle_init_command
@@ -105,7 +108,11 @@ def completion(shell: Optional[str]):
 
 def main():
     """Entry point for the CLI"""
-    cli()
+    try:
+        cli()
+    except Exception as e:
+        traceback.print_exc()
+        pdb.post_mortem()
 
 
 if __name__ == "__main__":

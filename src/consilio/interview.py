@@ -156,10 +156,12 @@ def handle_interview_command(perspective: Optional[int] = None, continue_to_next
                     logger.warning(f"Could not load previous response: {e}")
         
         template.append("Please provide your questions or discussion points for this interview.\n")
-        input_file.write_text("".join(template))
-        user_input = click.edit(filename=str(input_file))
+        user_input = click.edit(text="".join(template))
+        assert user_input is not None
+        input_file.write_text(user_input)
     else:
         user_input = input_file.read_text()
+        logger.debug(f"Loaded input: {user_input}")
     
     # Open editor for input
     click.echo(f"\nStarting interview (Round #{current_round}) ...")
