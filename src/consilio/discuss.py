@@ -119,11 +119,11 @@ def handle_discuss_command(round: Optional[int]) -> None:
                     current_round
                 )
             )
-        user_input = click.edit(filename=str(input_file))
-        if user_input is None:  # User aborted
-            raise click.ClickException(
-                "No input provided - editor was closed without saving"
-            )
+            # Include response from last discussion round in markdown file. Prefix each line with >. ai!
+            user_input = click.edit(filename=str(input_file))
+            input_file.write_text(user_input)
+        else:
+            user_input = input_file.read_text()
 
     click.echo(f"\nStarting discussions (Round #{current_round}) ...")
     start_discussion_round(topic, current_round, user_input)
