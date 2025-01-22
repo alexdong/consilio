@@ -119,7 +119,21 @@ def handle_discuss_command(round: Optional[int]) -> None:
                     current_round
                 )
             )
-            # Include response from last discussion round in markdown file. Prefix each line with >. ai!
+            
+            # Include previous round's response if available
+            if current_round > 1:
+                prev_response_file = topic.discussion_response_file(current_round - 1)
+                if prev_response_file.exists():
+                    try:
+                        prev_discussions = json.loads(prev_response_file.read_text())
+                        prev_response = "\n\nPrevious Response:\n"
+                        for d in prev_discussions:
+                            discussion = Discussion.model_validate(d)
+                            prev_response += "\n".join(f"> {line}" for line in discussion.to_markdown().splitlines())
+                        input_file.write_text(input_file.read_text() + prev_response)
+                    except Exception as e:
+                        logger.warning(f"Could not load previous response: {e}")
+            
             user_input = click.edit(filename=str(input_file))
             input_file.write_text(user_input)
         else:
