@@ -94,6 +94,7 @@ def start_discussion_round(
 
 def handle_discuss_command(round: Optional[int]) -> None:
     """Main handler for the discuss command"""
+    logger = logging.getLogger("consilio.discuss")
     topic = Topic.load()
 
     # Determine round number
