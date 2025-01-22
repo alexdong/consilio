@@ -148,11 +148,10 @@ def handle_interview_command(perspective: Optional[int] = None, continue_to_next
             prev_response_file = topic.interview_response_file(perspective_index, current_round - 1)
             if prev_response_file.exists():
                 try:
-                    # Prefix each line with "> " to indicate a quote. AI!
                     response = prev_response_file.read_text()
                     template.append("Previous Response:\n")
-                    template.append(response)
-                    template.append("\n---\n\n")
+                    template.append("\n".join(f"> {line}" for line in response.splitlines()))
+                    template.append("\n\n---\n\n")
                 except Exception as e:
                     logger.warning(f"Could not load previous response: {e}")
         
