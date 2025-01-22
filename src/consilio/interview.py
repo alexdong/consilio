@@ -148,6 +148,7 @@ def handle_interview_command(perspective: Optional[int] = None, continue_to_next
             prev_response_file = topic.interview_response_file(perspective_index, current_round - 1)
             if prev_response_file.exists():
                 try:
+                    # Prefix each line with "> " to indicate a quote. AI!
                     response = prev_response_file.read_text()
                     template.append("Previous Response:\n")
                     template.append(response)
@@ -157,7 +158,6 @@ def handle_interview_command(perspective: Optional[int] = None, continue_to_next
         
         template.append("Please provide your questions or discussion points for this interview.\n")
         user_input = click.edit(text="".join(template))
-        assert user_input is not None
         input_file.write_text(user_input)
     else:
         user_input = input_file.read_text()
