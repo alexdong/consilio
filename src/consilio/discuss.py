@@ -105,7 +105,7 @@ def handle_discuss_command(round: Optional[int]) -> None:
         )
 
     # Get user input for the round
-    user_input = None
+    user_input = []
     if current_round > 1 and click.confirm(
         "\nWould you like to provide your input?", default=True
     ):
@@ -117,22 +117,17 @@ def handle_discuss_command(round: Optional[int]) -> None:
                 prev_response_file = topic.discussion_response_file(current_round - 1)
                 prev_discussions = json.loads(prev_response_file.read_text())
 
-                prev_responses = []
                 for d in prev_discussions:
                     discussion = Discussion.model_validate(d)
-                    prev_responses.extend(f"> {line}" for line in discussion.to_markdown().splitlines())
-                print(prev_responses)
-                input_file.write_text("\n".join(prev_responses))
+                    user_input.extend(f"> {line}" for line in discussion.to_markdown().splitlines())
             else:
-                input_file.write_text(
-                    "Please provide guidance for the discussion.\n"
-                    "- Answer questions from the previous round of discussions\n"
-                    "- Specify particular areas you'd like to focus on next\n".format(
-                        current_round
-                    )
-                )
+                user_input.extend([
+                    "Please provide guidance for the discussion.",
+                    "- Answer questions from the previous round of discussions",
+                    "- Specify particular areas you'd like to focus on next",
+                ])
             
-            user_input = click.edit(filename=str(input_file))
+            user_input = click.edit(text="\n".join(user_input))
             input_file.write_text(user_input)
         else:
             user_input = input_file.read_text()

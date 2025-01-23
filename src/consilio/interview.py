@@ -160,7 +160,6 @@ def handle_interview_command(perspective: Optional[int] = None, continue_to_next
         input_file.write_text(user_input)
     else:
         user_input = input_file.read_text()
-        logger.debug(f"Loaded input: {user_input}")
     
     # Open editor for input
     click.echo(f"\nStarting interview (Round #{current_round}) ...")
