@@ -92,9 +92,10 @@ def start_discussion_round(
     click.echo(f"Generated discussion response to: {discussion_output_file}")
 
 
-def handle_discuss_command(round: Optional[int]) -> None:
+
+@click.command()    
+def discuss():
     """Main handler for the discuss command"""
-    logger = logging.getLogger("consilio.discuss")
     topic = Topic.load()
 
     # Determine round number

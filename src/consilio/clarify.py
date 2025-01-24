@@ -30,10 +30,14 @@ def save_clarification(topic: Topic, clarification: Dict[Any, Any]) -> None:
     click.echo(f"Clarification saved to: {clarification_file}")
 
 
-def get_clarification(topic: Topic) -> None:
+
+@click.command()
+def clarify():
     """Get clarification questions and suggestions"""
     logger = logging.getLogger("consilio.clarify")
     logger.info("Getting clarification for topic")
+
+    topic = Topic.load()
 
     # Generate clarification using template
     prompt = render_template("clarify.j2", topic=topic)
@@ -49,8 +53,3 @@ def get_clarification(topic: Topic) -> None:
     except Exception as e:
         raise click.ClickException(f"Error getting clarification: {str(e)}")
 
-
-def handle_clarify_command() -> None:
-    """Main handler for the clarify command"""
-    topic = Topic.load()
-    get_clarification(topic)

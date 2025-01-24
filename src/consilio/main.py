@@ -8,11 +8,11 @@ import traceback
 
 from consilio.logging import setup_logging
 from consilio.version import __version__
-from consilio.init import handle_init_command
+from consilio.init import init
+from consilio.clarify import clarify
 from consilio.interview import interview
-from consilio.perspectives import handle_perspectives_command
-from consilio.discuss import handle_discuss_command
-from consilio.clarify import handle_clarify_command
+from consilio.perspectives import perspectives
+from consilio.discuss import discuss
 
 better_exceptions.hook()
 
@@ -38,29 +38,11 @@ def cli(log_level: str, log_file: Optional[Path]):
     logger = logging.getLogger("consilio.cli")
     logger.debug("CLI started")
 
+cli.add_command(init)
+cli.add_command(clarify)
+cli.add_commnad(perspectives)
+cli.add_command(discuss)
 cli.add_command(interview)
-
-
-@cli.command()
-def init():
-    """Initialize a new Consilio project in the specified directory"""
-    handle_init_command()
-
-@cli.command()
-def clarify():
-    """Request clarification before discussion"""
-    handle_clarify_command()
-
-@cli.command()
-def perspectives():
-    """Generate, add, or edit perspectives for the current topic"""
-    handle_perspectives_command()
-
-@cli.command()
-@click.option("-r", "--round", type=int, help="Restart from specific round")
-def discuss(round: Optional[int]):
-    """Start or continue discussion rounds"""
-    handle_discuss_command(round)
 
 
 @cli.command()
@@ -90,7 +72,7 @@ def main():
     """Entry point for the CLI"""
     try:
         cli()
-    except Exception as e:
+    except Exception:
         traceback.print_exc()
         pdb.post_mortem()
 

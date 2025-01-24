@@ -132,12 +132,18 @@ def edit_perspectives(topic: Topic) -> None:
     except json.JSONDecodeError:
         click.echo("Warning: The file contains invalid JSON. Please check the format.")
 
-def handle_perspectives_command(generate: bool = False, add: bool = False, edit: bool = False) -> None:
-    """Main handler for the perspectives command"""
+
+@click.group()
+def perspectives():
+    """Manage discussion perspectives"""
+    pass
+
+@perspectives.command("generate")
+def generate():
     topic = Topic.load()
-    if generate:
-        generate_perspectives(topic)
-    elif add:
-        add_perspective(topic)
-    elif edit:
-        edit_perspectives(topic)
+    generate_perspectives(topic)
+
+@perspectives.command("add")
+def add():
+    topic = Topic.load()
+    add_perspective(topic)

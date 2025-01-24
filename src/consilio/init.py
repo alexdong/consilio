@@ -5,7 +5,8 @@ from consilio.models import Topic
 from consilio.utils import render_template
 
 
-def handle_init_command() -> None:
+@click.command()
+def init():
     """Initialize a new project and open README.md in editor"""
     topic = Topic.load()
     readme_path = topic.discussion_file
