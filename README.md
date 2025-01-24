@@ -109,10 +109,6 @@ Flags:
 - `cons --help` to get the help message.
 
 
-## Inspiration
-
-- [Virtual Lab](https://github.com/zou-group/virtual-lab): The Virtual Lab is an AI-human collaboration for science research. [x.com](https://x.com/james_y_zou/status/1856729107045982607)
-
 ## See Also
 
 - [CONTRIBUTING.md](CONTRIBUTING.md) document for the contribution guidelines.
