@@ -13,9 +13,6 @@ from consilio.interview import interview
 from consilio.perspectives import handle_perspectives_command
 from consilio.discuss import handle_discuss_command
 from consilio.clarify import handle_clarify_command
-from consilio.stress import handle_stress_command
-from consilio.bias import handle_bias_command
-from consilio.summary import handle_summary_command
 
 better_exceptions.hook()
 
@@ -64,23 +61,6 @@ def perspectives():
 def discuss(round: Optional[int]):
     """Start or continue discussion rounds"""
     handle_discuss_command(round)
-
-@cli.command()
-def stress():
-    """Stress test current discussion and decisions"""
-    handle_stress_command()
-
-
-@cli.command()
-def bias():
-    """Check for cognitive and other biases"""
-    handle_bias_command()
-
-
-@cli.command()
-def summary():
-    """Generate comprehensive discussion summary"""
-    handle_summary_command()
 
 
 @cli.command()
