@@ -63,8 +63,8 @@ Under the hook, it delegates to a set of subcommands depends on the state of the
 
 - `cons topic`. Open the current topic's discussion file in your default editor. If there is no current topic, you will be prompted to create one first.
 
-- `cons perspectives`. Manage the perspectives for your discussion:
-  - `cons perspectives generate` (or just `cons perspectives`): Generate a new set of perspectives. You'll be prompted for the number of perspectives you'd like to include.
+- `cons perspectives`. Generate a new set of perspectives (default behavior). You'll be prompted for the number of perspectives you'd like to include.
+  - `cons perspectives generate`: Same as `cons perspectives`
   - `cons perspectives add`: Interactively add a single new perspective that complements existing ones
   - `cons perspectives edit`: Open the perspectives file in your default editor to modify or remove perspectives
 
@@ -90,17 +90,17 @@ temperature = 1.0
 
 ### `perspectives`
 
-$ cons perspectives <subcommand>
+$ cons perspectives [subcommand]
 
-Manage the perspectives for your discussion. Available subcommands:
+Generate or manage perspectives for your discussion. If no subcommand is specified, generates a new set of perspectives (1-25) based on your topic.
 
-- `generate` (default): Generate a new set of perspectives. You'll be prompted for the number of perspectives (1-25) you'd like to include. The perspectives will be saved to `perspectives.json`.
+Available subcommands:
+
+- `generate`: Same as running without a subcommand. Generate a new set of perspectives. You'll be prompted for the number of perspectives you'd like to include. The perspectives will be saved to `perspectives.json`.
 
 - `add`: Interactively add a single new perspective. You'll be prompted to describe the new perspective, and the LLM will generate appropriate details while considering the existing perspectives.
 
 - `edit`: Open the perspectives file in your default editor to modify or remove perspectives. The file will be validated for proper JSON format after editing.
-
-If no subcommand is specified, defaults to `generate`.
 
 ### `discuss`
 
