@@ -6,29 +6,19 @@ from rich.markdown import Markdown
 from consilio.models import Topic, Perspective
 from consilio.utils import get_llm_response, render_template
 
-@click.group(invoke_without_command=True)
-@click.pass_context
-def perspectives(ctx):
-    """Manage discussion perspectives"""
-    if ctx.invoked_subcommand is None:
-        # Default to generate if no subcommand specified
-        handle_perspectives_command(generate=True)
+@click.group()
+def perspectives():
+    pass
 
-@perspectives.command("generate")
-def generate_cmd():
+@perspectives.command()
+def generate():
     """Generate a new set of perspectives"""
-    handle_perspectives_command(generate=True)
+    generate_perspectives(Topic.load())
 
-@perspectives.command("add")
-def add_cmd():
+@perspectives.command()
+def add():
     """Add a single new perspective"""
-    handle_perspectives_command(add=True)
-
-@perspectives.command("edit")
-def edit_cmd():
-    """Edit existing perspectives"""
-    handle_perspectives_command(edit=True)
-
+    add_perspective(Topic.load())
 
 def display_perspectives(perspectives: list) -> None:
     """Display perspectives in markdown format using rich"""
@@ -112,38 +102,3 @@ def add_perspective(topic: Topic) -> None:
     
     # Display the updated perspectives
     display_perspectives(existing_perspectives)
-
-def edit_perspectives(topic: Topic) -> None:
-    """Open perspectives file in editor"""
-    logger = logging.getLogger("consilio.perspectives")
-    logger.info("Opening perspectives file for editing")
-    
-    if not topic.perspectives_file.exists():
-        click.echo("No perspectives file exists yet. Generate perspectives first.")
-        return
-        
-    click.echo("Opening perspectives file in editor...")
-    click.edit(filename=str(topic.perspectives_file))
-    
-    # Validate the file after editing
-    try:
-        perspectives = json.loads(topic.perspectives_file.read_text())
-        display_perspectives(perspectives)
-    except json.JSONDecodeError:
-        click.echo("Warning: The file contains invalid JSON. Please check the format.")
-
-
-@click.group()
-def perspectives():
-    """Manage discussion perspectives"""
-    pass
-
-@perspectives.command("generate")
-def generate():
-    topic = Topic.load()
-    generate_perspectives(topic)
-
-@perspectives.command("add")
-def add():
-    topic = Topic.load()
-    add_perspective(topic)

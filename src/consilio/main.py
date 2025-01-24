@@ -40,7 +40,7 @@ def cli(log_level: str, log_file: Optional[Path]):
 
 cli.add_command(init)
 cli.add_command(clarify)
-cli.add_commnad(perspectives)
+cli.add_command(perspectives)
 cli.add_command(discuss)
 cli.add_command(interview)
 

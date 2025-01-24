@@ -99,7 +99,7 @@ def discuss():
     topic = Topic.load()
 
     # Determine round number
-    current_round = round if round else topic.latest_discussion_round + 1
+    current_round = topic.latest_discussion_round + 1
     if current_round == 1 and not topic.perspectives_file.exists():
         raise click.ClickException(
             "No perspectives found. Generate perspectives first with 'cons perspectives'"
@@ -127,11 +127,15 @@ def discuss():
                     "- Answer questions from the previous round of discussions",
                     "- Specify particular areas you'd like to focus on next",
                 ])
-            
-            user_input = click.edit(text="\n".join(user_input))
+            user_input = "\n".join(user_input)
+            user_input = click.edit(text=user_input)
+            assert user_input is not None
+            assert isinstance(user_input, str)
             input_file.write_text(user_input)
         else:
             user_input = input_file.read_text()
 
     click.echo(f"\nStarting discussions (Round #{current_round}) ...")
+    assert user_input is not None
+    assert isinstance(user_input, str)
     start_discussion_round(topic, current_round, user_input)
