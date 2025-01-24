@@ -6,23 +6,26 @@ from rich.markdown import Markdown
 from consilio.models import Topic, Perspective
 from consilio.utils import get_llm_response, render_template
 
-@click.group()
-def perspectives():
+@click.group(invoke_without_command=True)
+@click.pass_context
+def perspectives(ctx):
     """Manage discussion perspectives"""
-    pass
+    if ctx.invoked_subcommand is None:
+        # Default to generate if no subcommand specified
+        handle_perspectives_command(generate=True)
 
-@perspectives.command()
-def generate():
+@perspectives.command("generate")
+def generate_cmd():
     """Generate a new set of perspectives"""
     handle_perspectives_command(generate=True)
 
-@perspectives.command()
-def add():
+@perspectives.command("add")
+def add_cmd():
     """Add a single new perspective"""
     handle_perspectives_command(add=True)
 
-@perspectives.command()
-def edit():
+@perspectives.command("edit")
+def edit_cmd():
     """Edit existing perspectives"""
     handle_perspectives_command(edit=True)
 
@@ -129,7 +132,7 @@ def edit_perspectives(topic: Topic) -> None:
     except json.JSONDecodeError:
         click.echo("Warning: The file contains invalid JSON. Please check the format.")
 
-def handle_perspectives_command(generate: bool = True, add: bool = False, edit: bool = False) -> None:
+def handle_perspectives_command(generate: bool = False, add: bool = False, edit: bool = False) -> None:
     """Main handler for the perspectives command"""
     topic = Topic.load()
     if generate:
@@ -138,6 +141,3 @@ def handle_perspectives_command(generate: bool = True, add: bool = False, edit: 
         add_perspective(topic)
     elif edit:
         edit_perspectives(topic)
-    else:
-        # Default to generate if no subcommand specified
-        generate_perspectives(topic)
