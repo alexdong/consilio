@@ -1,6 +1,7 @@
 import click
 import json
 import logging
+from functools import partial
 from typing import Optional, List
 from consilio.models import Topic, Discussion, display_discussions
 from consilio.utils import render_template
@@ -80,7 +81,7 @@ def discuss():
     # Build prompt based on round
     build_prompt = (
         _build_first_round_prompt if current_round == 1 
-        else lambda t, i: _build_subsequent_round_prompt(t, current_round, i) # replace lambda with partial, ai!
+        else partial(_build_subsequent_round_prompt, round_num=current_round)
     )
 
     if current_round == 1:
