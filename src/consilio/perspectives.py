@@ -23,6 +23,8 @@ def generate():
 
     execute(
         topic=topic,
+        user_input_filepath=None,
+        user_input_template="",
         build_prompt_fn=lambda t, _: render_template(
             "perspectives.j2",
             topic=t,
@@ -57,6 +59,8 @@ def add():
     
     execute(
         topic=topic,
+        user_input_filepath=None,
+        user_input_template="",
         build_prompt_fn=lambda t, _: render_template(
             "additional_perspective.j2",
             topic=t,
@@ -66,6 +70,5 @@ def add():
         response_definition=Perspective,
         response_filepath=topic.perspectives_file,
         display_fn=lambda p: display_perspectives([p] + existing_perspectives),
-        save_fn=save_and_append
     )
 
