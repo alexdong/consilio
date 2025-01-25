@@ -1,8 +1,11 @@
 import logging
 import click
 import json
+from pathlib import Path
+from typing import List
 from consilio.models import Topic, Perspective, display_perspectives
 from consilio.utils import get_llm_response, render_template
+from consilio.executor import execute
 
 @click.group()
 def perspectives():
