@@ -25,6 +25,20 @@ class Perspective(BaseModel):
         md += "\n"
         return md
 
+def display_perspectives(perspectives: list) -> None: # list should be List of Perspective, ai!
+    """Display perspectives in markdown format using rich"""
+    console = Console()
+
+    # Convert perspectives to Perspective objects if they're dicts
+    perspectives = [Perspective.model_validate(p) for p in perspectives]
+
+    # Build markdown content from Perspective objects
+    md_content = "".join(p.to_markdown(i) for i, p in enumerate(perspectives, 1))
+
+    # Display using rich
+    console.print(Markdown(md_content))
+
+
 
 class Clarification(BaseModel):
     """Represents a clarification response with its sections"""
