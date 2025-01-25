@@ -25,7 +25,7 @@ class Perspective(BaseModel):
         md += "\n"
         return md
 
-def display_perspectives(perspectives: list) -> None: # list should be List of Perspective, ai!
+def display_perspectives(perspectives: List[Perspective]) -> None:
     """Display perspectives in markdown format using rich"""
     console = Console()
 
