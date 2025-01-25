@@ -1,7 +1,7 @@
 import json
 import re
 from pathlib import Path
-from typing import List, Optional
+from typing import List, Optional, Dict
 from pydantic import BaseModel, Field
 from rich.console import Console
 from rich.markdown import Markdown
@@ -84,98 +84,6 @@ class Clarification(BaseModel):
         return self.model_dump()
 
 
-class BiasAnalysis(BaseModel):
-    """Represents a bias analysis response"""
-
-    cognitive_biases: List[str]
-    emotional_biases: List[str]
-    cultural_biases: List[str]
-    professional_biases: List[str]
-    recommendations: List[str]
-
-    def to_markdown(self) -> str:
-        """Convert bias analysis to markdown format"""
-        md = "\n"
-
-        md += "__Cognitive Biases__\n"
-        for bias in self.cognitive_biases:
-            md += f"* {bias}\n"
-        md += "\n"
-
-        md += "__Emotional Biases__\n"
-        for bias in self.emotional_biases:
-            md += f"* {bias}\n"
-        md += "\n"
-
-        md += "__Cultural/Social Biases__\n"
-        for bias in self.cultural_biases:
-            md += f"* {bias}\n"
-        md += "\n"
-
-        md += "__Professional Biases__\n"
-        for bias in self.professional_biases:
-            md += f"* {bias}\n"
-        md += "\n"
-
-        md += "__Recommendations__\n"
-        for rec in self.recommendations:
-            md += f"* {rec}\n"
-        md += "\n"
-
-        return md
-
-    @classmethod
-    def from_dict(cls, data: dict) -> "BiasAnalysis":
-        """Create a BiasAnalysis instance from a dictionary"""
-        return cls(**data)
-
-
-class StressAnalysis(BaseModel):
-    """Represents a stress test analysis response"""
-
-    failure_points: List[str]
-    edge_cases: List[str]
-    hidden_assumptions: List[str]
-    resource_constraints: List[str]
-    mitigation_strategies: List[str]
-
-    def to_markdown(self) -> str:
-        """Convert stress analysis to markdown format"""
-        md = "__Stress Test Analysis__\n\n"
-
-        md += "__Potential Failure Points__\n"
-        for point in self.failure_points:
-            md += f"* {point}\n"
-        md += "\n"
-
-        md += "__Critical Edge Cases__\n"
-        for case in self.edge_cases:
-            md += f"* {case}\n"
-        md += "\n"
-
-        md += "__Hidden Assumptions__\n"
-        for assumption in self.hidden_assumptions:
-            md += f"* {assumption}\n"
-        md += "\n"
-
-        md += "__Resource Constraints__\n"
-        for constraint in self.resource_constraints:
-            md += f"* {constraint}\n"
-        md += "\n"
-
-        md += "__Mitigation Strategies__\n"
-        for strategy in self.mitigation_strategies:
-            md += f"* {strategy}\n"
-        md += "\n"
-
-        return md
-
-    @classmethod
-    def from_dict(cls, data: dict) -> "StressAnalysis":
-        """Create a StressAnalysis instance from a dictionary"""
-        return cls(**data)
-
-
 class Discussion(BaseModel):
     """Represents a discussion response"""
 
@@ -192,44 +100,21 @@ class Discussion(BaseModel):
         return cls(**data)
 
 
-class Summary(BaseModel):
-    """Represents a discussion summary"""
+def display_discussions(discussion_list: List[Dict[str, str]]) -> None:
+    """Display discussion in markdown format using rich"""
+    console = Console()
 
-    key_points: List[str]
-    decisions: List[str]
-    open_questions: List[str]
-    next_steps: List[str]
+    # Convert to Discussion objects if they're dicts
+    discussions = [Discussion.from_dict(d) for d in discussion_list]
 
-    def to_markdown(self) -> str:
-        """Convert summary to markdown format"""
-        md = "__Discussion Summary__\n\n"
+    # Build markdown content from Discussion objects
+    md_content = "## Discussion Round\n\n" + "".join(
+        d.to_markdown() for d in discussions
+    )
 
-        md += "__Key Points__\n"
-        for point in self.key_points:
-            md += f"* {point}\n"
-        md += "\n"
+    # Display using rich
+    console.print(Markdown(md_content))
 
-        md += "__Decisions__\n"
-        for decision in self.decisions:
-            md += f"* {decision}\n"
-        md += "\n"
-
-        md += "__Open Questions__\n"
-        for question in self.open_questions:
-            md += f"* {question}\n"
-        md += "\n"
-
-        md += "__Next Steps__\n"
-        for step in self.next_steps:
-            md += f"* {step}\n"
-        md += "\n"
-
-        return md
-
-    @classmethod
-    def from_dict(cls, data: dict) -> "Summary":
-        """Create a Summary instance from a dictionary"""
-        return cls(**data)
 
 
 class Config(BaseModel):

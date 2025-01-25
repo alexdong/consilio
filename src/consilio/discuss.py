@@ -1,27 +1,10 @@
 import click
 import json
 import logging
-from typing import Optional, List, Dict
-from rich.console import Console
-from rich.markdown import Markdown
-from consilio.models import Topic, Discussion
+from typing import Optional
+from consilio.models import Topic, Discussion, display_discussions
 from consilio.utils import get_llm_response, render_template
 
-
-def display_discussion(discussion_list: List[Dict[str, str]]) -> None:
-    """Display discussion in markdown format using rich"""
-    console = Console()
-
-    # Convert to Discussion objects if they're dicts
-    discussions = [Discussion.from_dict(d) for d in discussion_list]
-
-    # Build markdown content from Discussion objects
-    md_content = "## Discussion Round\n\n" + "".join(
-        d.to_markdown() for d in discussions
-    )
-
-    # Display using rich
-    console.print(Markdown(md_content))
 
 
 def _build_first_round_prompt(topic: Topic) -> str:
@@ -65,32 +48,6 @@ def _build_subsequent_round_prompt(
         round_num=round_num,
         user_input=user_input,
     )
-
-
-def start_discussion_round(
-    topic: Topic, round_num: int, user_input: Optional[str]
-) -> None:
-    """Start a new discussion round"""
-    logger = logging.getLogger("consilio.discuss")
-    logger.info(f"Starting discussion round {round_num}")
-    # Build appropriate prompt based on round number
-    if round_num == 1:
-        prompt = _build_first_round_prompt(topic)
-    else:
-        prompt = _build_subsequent_round_prompt(topic, round_num, user_input=user_input)
-
-    # Get LLM response with system prompt
-    response = get_llm_response(prompt)
-
-    # Display the discussion
-    display_discussion(response)  # type: ignore
-
-    discussion_objects = [Discussion.model_validate(d) for d in response]
-    json_str = json.dumps([p.model_dump() for p in discussion_objects], indent=2)
-    discussion_output_file = topic.discussion_response_file(round_num)
-    discussion_output_file.write_text(json_str)
-    click.echo(f"Generated discussion response to: {discussion_output_file}")
-
 
 
 @click.command()    
@@ -138,4 +95,21 @@ def discuss():
     click.echo(f"\nStarting discussions (Round #{current_round}) ...")
     assert user_input is not None
     assert isinstance(user_input, str)
-    start_discussion_round(topic, current_round, user_input)
+    
+    if current_round == 1:
+        prompt = _build_first_round_prompt(topic)
+    else:
+        prompt = _build_subsequent_round_prompt(topic, current_round, user_input=user_input)
+
+    # Get LLM response with system prompt
+    response = get_llm_response(prompt)
+
+    # Display the discussion
+    display_discussions(response)  # type: ignore
+
+    discussion_objects = [Discussion.model_validate(d) for d in response]
+    json_str = json.dumps([p.model_dump() for p in discussion_objects], indent=2)
+    discussion_output_file = topic.discussion_response_file(current_round)
+    discussion_output_file.write_text(json_str)
+    click.echo(f"Generated discussion response to: {discussion_output_file}")
+

@@ -1,43 +1,21 @@
 import logging
 import click
 import json
-from rich.console import Console
-from rich.markdown import Markdown
-from consilio.models import Topic, Perspective
+from consilio.models import Topic, Perspective, display_perspectives
 from consilio.utils import get_llm_response, render_template
 
 @click.group()
 def perspectives():
     pass
 
-@perspectives.command()
+
+@click.command()
 def generate():
-    """Generate a new set of perspectives"""
-    generate_perspectives(Topic.load())
-
-@perspectives.command()
-def add():
-    """Add a single new perspective"""
-    add_perspective(Topic.load())
-
-def display_perspectives(perspectives: list) -> None:
-    """Display perspectives in markdown format using rich"""
-    console = Console()
-
-    # Convert perspectives to Perspective objects if they're dicts
-    perspectives = [Perspective.model_validate(p) for p in perspectives]
-
-    # Build markdown content from Perspective objects
-    md_content = "".join(p.to_markdown(i) for i, p in enumerate(perspectives, 1))
-
-    # Display using rich
-    console.print(Markdown(md_content))
-
-
-def generate_perspectives(topic: Topic) -> None:
     """Generate perspectives for a topic using LLM"""
     logger = logging.getLogger("consilio.perspectives")
     logger.info("Generating new perspectives")
+    topic = Topic.load()
+
     # Prompt for number of perspectives
     num = click.prompt(
         "How many perspectives would you like? It's often beneficial to start with a larger number of persepctives before trimming the number down. (1-25)",
@@ -68,10 +46,13 @@ def generate_perspectives(topic: Topic) -> None:
         click.edit(filename=str(topic.perspectives_file))
 
 
-def add_perspective(topic: Topic) -> None:
+@perspectives.command()
+def add():
     """Add a new perspective by prompting user for role and generating details"""
     logger = logging.getLogger("consilio.perspectives")
     logger.info("Adding new perspective")
+
+    topic = Topic.load()
     
     # Prompt for the role title
     description = click.prompt("Enter a description of the new perspective", type=str)
@@ -102,3 +83,4 @@ def add_perspective(topic: Topic) -> None:
     
     # Display the updated perspectives
     display_perspectives(existing_perspectives)
+
