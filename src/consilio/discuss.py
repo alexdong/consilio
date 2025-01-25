@@ -1,5 +1,6 @@
 import click
 import json
+import logging
 from typing import Optional, List
 from consilio.models import Topic, Discussion, display_discussions
 from consilio.utils import render_template

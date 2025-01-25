@@ -1,4 +1,5 @@
 import click
+import logging
 from typing import Dict, Any, Optional
 from consilio.models import Topic, Discussion, display_interview
 from consilio.utils import render_template
