@@ -12,33 +12,24 @@ def perspectives():
 @click.command()
 def generate():
     """Generate perspectives for a topic using LLM"""
-    logger = logging.getLogger("consilio.perspectives")
-    logger.info("Generating new perspectives")
     topic = Topic.load()
-
-    # Prompt for number of perspectives
     num = click.prompt(
-        "How many perspectives would you like? It's often beneficial to start with a larger number of persepctives before trimming the number down. (1-25)",
+        "How many perspectives would you like? (1-25)",
         type=click.IntRange(1, 25),
         default=10,
     )
 
-    prompt = render_template(
-        "perspectives.j2",
+    execute(
         topic=topic,
-        num_of_perspectives=num,
+        build_prompt_fn=lambda t, _: render_template(
+            "perspectives.j2",
+            topic=t,
+            num_of_perspectives=num,
+        ),
+        response_definition=List[Perspective],
+        response_filepath=topic.perspectives_file,
+        display_fn=display_perspectives,
     )
-
-    perspectives = get_llm_response(prompt, response_definition=None)
-
-    # Save perspectives to file
-    perspectives_objects = [Perspective.model_validate(p) for p in perspectives]
-    json_str = json.dumps([p.model_dump() for p in perspectives_objects], indent=2)
-    topic.perspectives_file.write_text(json_str)
-    click.echo(f"Generated perspectives saved to: {topic.perspectives_file}")
-
-    # Display perspectives in markdown format
-    display_perspectives(perspectives)  # type: ignore
 
     # Ask if user wants to edit
     if click.confirm("Would you like to edit the perspectives?"):
@@ -49,38 +40,30 @@ def generate():
 @perspectives.command()
 def add():
     """Add a new perspective by prompting user for role and generating details"""
-    logger = logging.getLogger("consilio.perspectives")
-    logger.info("Adding new perspective")
-
     topic = Topic.load()
-    
-    # Prompt for the role title
     description = click.prompt("Enter a description of the new perspective", type=str)
     
-    # Generate details for this role using LLM
-    # Load existing perspectives for context
     existing_perspectives = []
     if topic.perspectives_file.exists():
         existing_perspectives = json.loads(topic.perspectives_file.read_text())
     
-    prompt = render_template(
-        "additional_perspective.j2",
+    def save_and_append(new_perspective: Perspective, file: Path) -> None:
+        """Custom save function that appends to existing perspectives"""
+        existing_perspectives.append(new_perspective.model_dump())
+        json_str = json.dumps(existing_perspectives, indent=2)
+        file.write_text(json_str)
+    
+    execute(
         topic=topic,
-        description=description,
-        existing_perspectives=existing_perspectives
+        build_prompt_fn=lambda t, _: render_template(
+            "additional_perspective.j2",
+            topic=t,
+            description=description,
+            existing_perspectives=existing_perspectives
+        ),
+        response_definition=Perspective,
+        response_filepath=topic.perspectives_file,
+        display_fn=lambda p: display_perspectives([p] + existing_perspectives),
+        save_fn=save_and_append
     )
-    new_perspective = get_llm_response(prompt, response_definition=None)
-    if "perspectives" in new_perspective:
-        # Handle case where LLM returns a dict with "perspectives" key
-        new_perspective = new_perspective["perspectives"][0]
-    existing_perspectives.append(new_perspective)
-    
-    # Save updated perspectives
-    json_str = json.dumps(existing_perspectives, indent=2)
-    topic.perspectives_file.write_text(json_str)
-    
-    click.echo(f"Added new perspective to: {topic.perspectives_file}")
-    
-    # Display the updated perspectives
-    display_perspectives(existing_perspectives)
 
