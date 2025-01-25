@@ -3,6 +3,8 @@ import re
 from pathlib import Path
 from typing import List, Optional
 from pydantic import BaseModel, Field
+from rich.console import Console
+from rich.markdown import Markdown
 
 
 class Perspective(BaseModel):
