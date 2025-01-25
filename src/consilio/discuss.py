@@ -62,16 +62,16 @@ def discuss():
             "No perspectives found. Generate perspectives first with 'cons perspectives'"
         )
 
-    # Prepare template for user input
-    template = []
+    # Prepare input_template for user input
+    input_template = []
     if current_round > 1:
         prev_response_file = topic.discussion_response_file(current_round - 1)
         prev_discussions = json.loads(prev_response_file.read_text())
         for d in prev_discussions:
             discussion = Discussion.model_validate(d)
-            template.extend(f"> {line}" for line in discussion.to_markdown().splitlines())
+            input_template.extend(f"> {line}" for line in discussion.to_markdown().splitlines())
     else:
-        template.extend([
+        input_template.extend([
             "Please provide guidance for the discussion.",
             "- Answer questions from the previous round of discussions",
             "- Specify particular areas you'd like to focus on next",
@@ -80,14 +80,19 @@ def discuss():
     # Build prompt based on round
     build_prompt = (
         _build_first_round_prompt if current_round == 1 
-        else lambda t, i: _build_subsequent_round_prompt(t, current_round, i)
+        else lambda t, i: _build_subsequent_round_prompt(t, current_round, i) # replace lambda with partial, ai!
     )
+
+    if current_round == 1:
+        user_input_filepath = None
+    else:
+        user_input_filepath = topic.discussion_input_file(current_round)
 
     execute(
         topic=topic,
-        user_input_filepath=topic.discussion_input_file(current_round) if current_round > 1 else None,
-        user_input_template="\n".join(template),
-        build_prompt_fn=build_prompt,
+        user_input_filepath=user_input_filepath,
+        user_input_template="\n".join(input_template),
+        build_prompt_fn=build_prompt, 
         response_definition=List[Discussion],
         response_filepath=topic.discussion_response_file(current_round),
         display_fn=display_discussions,
