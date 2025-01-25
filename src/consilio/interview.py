@@ -1,17 +1,14 @@
 import click
 import logging
 from typing import Dict, Any, Optional
-from rich.console import Console
-from rich.markdown import Markdown
-from consilio.models import Topic, Discussion
+from consilio.models import Topic, Discussion, display_interview
 from consilio.utils import get_llm_response, render_template
 from consilio.perspective_utils import select_perspective, get_most_recent_perspective, get_perspective
 
-def display_interview(discussion: Discussion) -> None:
-    """Display interview response in markdown format"""
-    console = Console()
-    md_content = "## Interview Response\n\n" + discussion.to_markdown()
-    console.print(Markdown(md_content))
+@click.group()
+def interview():
+    """Manage interviews with different perspectives"""
+    pass
 
 def _build_interview_prompt(
     topic: Topic,
@@ -166,11 +163,6 @@ def handle_interview_command(perspective: Optional[int] = None, continue_to_next
     click.echo(f"\nStarting interview (Round #{current_round}) ...")
     assert user_input is not None
     start_interview_round(topic, perspective_index, current_round, user_input)
-
-@click.group()
-def interview():
-    """Manage interviews with different perspectives"""
-    pass
 
 @interview.command()
 @click.option('--perspective', '-p', type=int, help='Index of the perspective to interview')

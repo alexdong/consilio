@@ -116,6 +116,12 @@ def display_discussions(discussion_list: List[Dict[str, str]]) -> None:
     console.print(Markdown(md_content))
 
 
+def display_interview(discussion: Discussion) -> None:
+    """Display interview response in markdown format"""
+    console = Console()
+    md_content = "## Interview Response\n\n" + discussion.to_markdown()
+    console.print(Markdown(md_content))
+
 
 class Config(BaseModel):
     """Configuration settings for a topic"""
