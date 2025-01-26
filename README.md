@@ -61,7 +61,7 @@ current directory) and open README.md in your default editor.
 ### Clarify Goals
 
 `cons clarify`: **Rubber duck your README.md file**. This command generate a
-set of clarifying questions based on the README.md file. I often use this
+few sets of clarifying questions based on the README.md file. I often use this
 command at the beginning of a thinking session to get the idea out "onto the
 paper". These questions are great catalysts to externalise thoughts in a
 structured manner.
@@ -69,10 +69,12 @@ structured manner.
 
 ### Manage Perspectives
 
-`cons perspectives [subcommand]`: **Invite different experts to the table**.
+`cons perspectives generate`: **Invite different experts to the table**.
 This comand generate or add perspectives into your thinking session. The
 perspectives can be different stakeholders, advisors from distinct backgrounds
-or experts in different fields into your decision making process. 
+or experts in different fields into your decision making process. Think of each 
+perspective as an expert in a Mixtures of Experts model, each can be called up
+to do further context-aware inference time reasoning.
 
 Available subcommands:
 

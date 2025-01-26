@@ -11,7 +11,7 @@ def perspectives():
     pass
 
 
-@click.command()
+@perspectives.command()
 def generate():
     """Generate perspectives for a topic using LLM"""
     topic = Topic.load()
