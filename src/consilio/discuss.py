@@ -94,7 +94,7 @@ def discuss():
         user_input_filepath=user_input_filepath,
         user_input_template="\n".join(input_template),
         build_prompt_fn=build_prompt, 
-        response_definition=List[Discussion],
+        response_definition=None,
         response_filepath=topic.discussion_response_file(current_round),
         display_fn=display_discussions,
     )
