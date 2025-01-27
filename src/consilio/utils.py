@@ -49,7 +49,7 @@ def get_llm_response(
     logger.debug(f"User prompt: {prompt}")
 
     response = client.models.generate_content(
-        model="gemini-2.0-flash-exp",
+        model="gemini-2.0-flash-thinking-exp-01-21",
         contents=types.Part.from_text(prompt),
         config=types.GenerateContentConfig(
             system_instruction=system_prompt,

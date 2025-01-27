@@ -30,7 +30,7 @@ def generate():
             topic=t,
             num_of_perspectives=num,
         ),
-        response_definition=None,
+        response_definition=List[Perspective],
         response_filepath=topic.perspectives_file,
         display_fn=display_perspectives,
     )
