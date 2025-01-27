@@ -51,11 +51,12 @@ def _build_subsequent_round_prompt(
     )
 
 
-@click.command() # add a --round option to specify the round number to re-run the discussion, ai!
-def discuss():
+@click.command()
+@click.option('--round', 'round_num', type=int, help='Round number to re-run (defaults to next round)')
+def discuss(round_num: Optional[int] = None):
     """Main handler for the discuss command"""
     topic = Topic.load()
-    current_round = topic.latest_discussion_round + 1
+    current_round = round_num if round_num is not None else topic.latest_discussion_round + 1
 
     if current_round == 1 and not topic.perspectives_file.exists():
         raise click.ClickException(
