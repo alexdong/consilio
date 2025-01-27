@@ -51,7 +51,7 @@ def _build_subsequent_round_prompt(
     )
 
 
-@click.command()    
+@click.command() # add a --round option to specify the round number to re-run the discussion, ai!
 def discuss():
     """Main handler for the discuss command"""
     topic = Topic.load()
