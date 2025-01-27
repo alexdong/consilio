@@ -10,7 +10,7 @@ T = TypeVar('T', bound=BaseModel)
 
 def save_response(response: Any, file: Path) -> None:
     """Generic response saver for model objects"""
-    json_str = json.dumps([r.model_dump() for r in response], indent=2)
+    json_str = json.dumps(response, indent=2)
     file.write_text(json_str)
 
 def execute(
