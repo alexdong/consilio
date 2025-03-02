@@ -102,6 +102,10 @@ automatically included in your `input.md` file with `> ` prefixed to each line.
 A helpful mental model is to think of the input file as a Reply-to-All email. 
 The responses from the group discussion will be saved in an `output.md` file.
 
+`cons discuss --round 2`: If you want to re-run the discussion at one particular round, for example, you
+incorporate new perspectives or add substantial new information to the README.md
+file, you can use the `--round` option to specify the round number and re-run the
+discussion from that round. 
 
 ### Conduct Interviews
 
