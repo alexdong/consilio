@@ -1,7 +1,7 @@
 import json
 import re
 from pathlib import Path
-from typing import List, Optional, Dict
+from typing import Optional
 from pydantic import BaseModel, Field
 from rich.console import Console
 from rich.markdown import Markdown
@@ -27,28 +27,27 @@ class Perspective(BaseModel):
         md += "\n"
         return md
 
-def display_perspectives(perspectives: List[Perspective]) -> None:
+
+def display_perspectives(perspectives: list[Perspective]) -> None:
     """Display perspectives in markdown format using rich"""
     console = Console()
 
-    # Convert perspectives to Perspective objects if they're dicts
-    perspectives = [Perspective.model_validate(p) for p in perspectives]
-
     # Build markdown content from Perspective objects
-    md_content = "".join(p.to_markdown(i) for i, p in enumerate(perspectives, 1))
+    md_content = "".join(
+        Perspective(**p).to_markdown(i) for i, p in enumerate(perspectives, 1)
+    )
 
     # Display using rich
     console.print(Markdown(md_content))
 
 
-
 class Clarification(BaseModel):
     """Represents a clarification response with its sections"""
 
-    questions: List[str]
-    missing_context: List[str]
-    assumptions: List[str]
-    suggestions: List[str]
+    questions: list[str]
+    missing_context: list[str]
+    assumptions: list[str]
+    suggestions: list[str]
 
     def to_markdown(self) -> str:
         """Convert clarification to markdown format"""
@@ -100,7 +99,7 @@ class Discussion(BaseModel):
         return cls(**data)
 
 
-def display_discussions(discussion_list: List[Dict[str, str]]) -> None:
+def display_discussions(discussion_list: list[dict[str, str]]) -> None:
     """Display discussion in markdown format using rich"""
     console = Console()
 
@@ -212,12 +211,12 @@ class Topic(BaseModel):
         return self.discussion_file.read_text()
 
     @property
-    def perspectives(self) -> List[Perspective]:
+    def perspectives(self) -> list[Perspective]:
         """Get the list of perspectives"""
         try:
             with open(self.perspectives_file) as f:
                 data = json.load(f)
-            return [Perspective.model_validate(p) for p in data]
+            return [Perspective(**p) for p in data]
         except (FileNotFoundError, json.JSONDecodeError):
             return []
 

@@ -1,19 +1,25 @@
 import click
 import logging
-from typing import Dict, Any, Optional
+from typing import Any, Optional
 from consilio.models import Topic, Discussion, display_interview
 from consilio.utils import render_template
-from consilio.perspective_utils import select_perspective, get_most_recent_perspective, get_perspective
+from consilio.perspective_utils import (
+    select_perspective,
+    get_most_recent_perspective,
+    get_perspective,
+)
 from consilio.executor import execute
+
 
 @click.group()
 def interview():
     """Manage interviews with different perspectives"""
     pass
 
+
 def _build_interview_prompt(
     topic: Topic,
-    perspective: Dict[Any, Any],
+    perspective: dict[Any, Any],
     perspective_index: int,
     round_num: int,
     user_input: str,
@@ -71,7 +77,9 @@ def _build_interview_prompt(
     )
 
 
-def handle_interview_command(perspective: Optional[int] = None, continue_to_next_round: bool = False) -> None:
+def handle_interview_command(
+    perspective: Optional[int] = None, continue_to_next_round: bool = False
+) -> None:
     """Main handler for the interview command"""
     topic = Topic.load()
     if not topic:
@@ -87,43 +95,57 @@ def handle_interview_command(perspective: Optional[int] = None, continue_to_next
         perspective = perspective_index
 
     # Use provided perspective index or prompt for selection
-    perspective_index = perspective if perspective is not None else select_perspective(topic)
+    perspective_index = (
+        perspective if perspective is not None else select_perspective(topic)
+    )
     if continue_to_next_round:
         current_round = topic.get_latest_interview_round(perspective_index) + 1
     else:
         current_round = 1
 
     click.echo(f"\nInterviewing perspective #{perspective_index}")
-    
+
     # Create template content
     template = ["# Interview Questions\n\n"]
     if current_round > 1:
-        prev_response_file = topic.interview_response_file(perspective_index, current_round - 1)
+        prev_response_file = topic.interview_response_file(
+            perspective_index, current_round - 1
+        )
         if prev_response_file.exists():
             response = prev_response_file.read_text()
             template.append("Previous Response:\n")
             template.append("\n".join(f"> {line}" for line in response.splitlines()))
             template.append("\n\n---\n\n")
-    template.append("Please provide your questions or discussion points for this interview.\n")
+    template.append(
+        "Please provide your questions or discussion points for this interview.\n"
+    )
 
     perspective_data = get_perspective(topic, perspective_index)
     execute(
         topic=topic,
-        user_input_filepath=topic.interview_input_file(perspective_index, current_round),
+        user_input_filepath=topic.interview_input_file(
+            perspective_index, current_round
+        ),
         user_input_template="".join(template),
         build_prompt_fn=lambda t, i: _build_interview_prompt(
             t, perspective_data, perspective_index, current_round, i
         ),
         response_definition=Discussion,
-        response_filepath=topic.interview_response_file(perspective_index, current_round),
+        response_filepath=topic.interview_response_file(
+            perspective_index, current_round
+        ),
         display_fn=display_interview,
     )
 
+
 @interview.command()
-@click.option('--perspective', '-p', type=int, help='Index of the perspective to interview')
+@click.option(
+    "--perspective", "-p", type=int, help="Index of the perspective to interview"
+)
 def start(perspective: Optional[int]):
     """Start a new interview with a selected perspective"""
     handle_interview_command(perspective=perspective)
+
 
 @interview.command()
 def next():

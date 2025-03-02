@@ -1,11 +1,10 @@
 import click
 import json
 import logging
-from typing import Optional, List
+from typing import Optional
 from consilio.models import Topic, Discussion, display_discussions
 from consilio.utils import render_template
 from consilio.executor import execute
-
 
 
 def _build_first_round_prompt(topic: Topic) -> str:
@@ -52,11 +51,18 @@ def _build_subsequent_round_prompt(
 
 
 @click.command()
-@click.option('--round', 'round_num', type=int, help='Round number to re-run (defaults to next round)')
+@click.option(
+    "--round",
+    "round_num",
+    type=int,
+    help="Round number to re-run (defaults to next round)",
+)
 def discuss(round_num: Optional[int] = None):
     """Main handler for the discuss command"""
     topic = Topic.load()
-    current_round = round_num if round_num is not None else topic.latest_discussion_round + 1
+    current_round = (
+        round_num if round_num is not None else topic.latest_discussion_round + 1
+    )
 
     if current_round == 1 and not topic.perspectives_file.exists():
         raise click.ClickException(
@@ -64,26 +70,32 @@ def discuss(round_num: Optional[int] = None):
         )
 
     # Prepare input_template for user input
-    input_template = []
+    input_template: list[str] = []
     if current_round > 1:
         prev_response_file = topic.discussion_response_file(current_round - 1)
         prev_discussions = json.loads(prev_response_file.read_text())
         for d in prev_discussions:
             discussion = Discussion.model_validate(d)
-            input_template.extend(f"> {line}" for line in discussion.to_markdown().splitlines())
+            input_template.extend(
+                f"> {line}" for line in discussion.to_markdown().splitlines()
+            )
     else:
-        input_template.extend([
-            "Please provide guidance for the discussion.",
-            "- Answer questions from the previous round of discussions",
-            "- Specify particular areas you'd like to focus on next",
-        ])
+        input_template.extend(
+            [
+                "Please provide guidance for the discussion.",
+                "- Answer questions from the previous round of discussions",
+                "- Specify particular areas you'd like to focus on next",
+            ]
+        )
 
     # Build prompt based on round
     def build_prompt(topic: Topic, user_input: str = "") -> str:
         if current_round == 1:
             return _build_first_round_prompt(topic)
         else:
-            return _build_subsequent_round_prompt(topic, round_num=current_round, user_input=user_input)
+            return _build_subsequent_round_prompt(
+                topic, round_num=current_round, user_input=user_input
+            )
 
     if current_round == 1:
         user_input_filepath = None
@@ -94,9 +106,8 @@ def discuss(round_num: Optional[int] = None):
         topic=topic,
         user_input_filepath=user_input_filepath,
         user_input_template="\n".join(input_template),
-        build_prompt_fn=build_prompt, 
+        build_prompt_fn=build_prompt,
         response_definition=None,
         response_filepath=topic.discussion_response_file(current_round),
         display_fn=display_discussions,
     )
-

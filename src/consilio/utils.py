@@ -2,7 +2,7 @@ import os
 import json
 import logging
 from pathlib import Path
-from typing import Dict, Any
+from typing import Any
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 from google import genai
@@ -26,7 +26,7 @@ def get_llm_response(
     prompt: str,
     response_definition: Optional[Any] = None,
     temperature: float = 1.0,
-) -> Dict[Any, Any]:
+) -> dict[Any, Any]:
     """Get response from LLM API
 
     Args:
@@ -48,16 +48,22 @@ def get_llm_response(
     logger.debug(f"System prompt: {system_prompt}")
     logger.debug(f"User prompt: {prompt}")
 
+    config = types.GenerateContentConfig(
+        system_instruction=system_prompt,
+        temperature=temperature,
+        response_mime_type="application/json",
+        # response_schema=response_definition,
+    )
     response = client.models.generate_content(
         # model="gemini-2.0-flash-thinking-exp-01-21",
-        model="gemini-2.0-flash-exp",
+        model="gemini-2.0-pro-exp-02-05",
         contents=types.Part.from_text(prompt),
-        config=types.GenerateContentConfig(
-            system_instruction=system_prompt,
-            temperature=temperature,
-            response_mime_type="application/json",
-            response_schema=response_definition,
-        ),
+        config=config,
     )
     logger.debug(f"Response: {response.text}")
     return json.loads(response.text)  # type: ignore
+
+
+if __name__ == "__main__":
+    response = get_llm_response("")
+    print(response)

@@ -1,14 +1,14 @@
 import json
 import logging
 import click
-from typing import Dict, Any
+from typing import Any
 from rich.console import Console
 from rich.markdown import Markdown
 from .models import Topic, Clarification
 from .utils import get_llm_response, render_template
 
 
-def display_clarification(clarification: Dict[Any, Any]) -> None:
+def display_clarification(clarification: dict[Any, Any]) -> None:
     """Display clarification in markdown format using rich"""
     console = Console()
 
@@ -19,7 +19,7 @@ def display_clarification(clarification: Dict[Any, Any]) -> None:
     console.print(Markdown(message))
 
 
-def save_clarification(topic: Topic, clarification: Dict[Any, Any]) -> None:
+def save_clarification(topic: Topic, clarification: dict[Any, Any]) -> None:
     """Save clarification response to file"""
     logger = logging.getLogger("consilio.clarify")
     logger.info("Saving clarification response")
@@ -28,7 +28,6 @@ def save_clarification(topic: Topic, clarification: Dict[Any, Any]) -> None:
         json.dumps(Clarification.model_validate(clarification).to_json(), indent=2)
     )
     click.echo(f"Clarification saved to: {clarification_file}")
-
 
 
 @click.command()
@@ -52,4 +51,3 @@ def clarify():
 
     except Exception as e:
         raise click.ClickException(f"Error getting clarification: {str(e)}")
-

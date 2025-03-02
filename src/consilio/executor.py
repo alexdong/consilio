@@ -6,12 +6,14 @@ import click
 from consilio.models import Topic, BaseModel
 from consilio.utils import get_llm_response
 
-T = TypeVar('T', bound=BaseModel)
+T = TypeVar("T", bound=BaseModel)
+
 
 def save_response(response: Any, file: Path) -> None:
     """Generic response saver for model objects"""
     json_str = json.dumps(response, indent=2)
     file.write_text(json_str)
+
 
 def execute(
     topic: Topic,
@@ -21,7 +23,7 @@ def execute(
     response_definition: Optional[Any],
     response_filepath: Path,
     display_fn: Callable[..., None],
-) -> None:
+) -> dict[Any, Any]:
     logger = logging.getLogger("consilio.executor")
 
     user_input = ""
@@ -29,7 +31,7 @@ def execute(
         if user_input_filepath.exists():
             user_input = user_input_filepath.read_text()
         else:
-            user_input = click.edit(text=user_input_template) # type: ignore
+            user_input = click.edit(text=user_input_template)  # type: ignore
             assert user_input is not None
             user_input_filepath.write_text(user_input)
     logger.debug(f"User input saved to: {user_input_filepath}")
@@ -39,8 +41,9 @@ def execute(
 
     response = get_llm_response(prompt, response_definition)
     logger.debug(f"Response generated: {response}")
-    
+
     save_response(response, response_filepath)
     logger.debug(f"Generated response saved to: {response_filepath}")
 
     display_fn(response)
+    return response

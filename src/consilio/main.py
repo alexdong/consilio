@@ -38,6 +38,7 @@ def cli(log_level: str, log_file: Optional[Path]):
     logger = logging.getLogger("consilio.cli")
     logger.debug("CLI started")
 
+
 cli.add_command(init)
 cli.add_command(clarify)
 cli.add_command(perspectives)
