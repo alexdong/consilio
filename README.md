@@ -66,6 +66,10 @@ command at the beginning of a thinking session to get the idea out "onto the
 paper". These questions are great catalysts to externalise thoughts in a
 structured manner.
 
+You can copy the output into README.md file and start answering the questions.
+The questions by default starts with `> `. So just start typing your answers
+below each question is a good way to provide more context to the LLMs.
+
 
 ### Manage Perspectives
 
