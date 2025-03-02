@@ -115,10 +115,10 @@ def display_discussions(discussion_list: list[dict[str, str]]) -> None:
     console.print(Markdown(md_content))
 
 
-def display_interview(discussion: Discussion) -> None:
+def display_interview(interview: dict) -> None:
     """Display interview response in markdown format"""
     console = Console()
-    md_content = "## Interview Response\n\n" + discussion.to_markdown()
+    md_content = "## Interview Response\n\n" + interview["opinion"]
     console.print(Markdown(md_content))
 
 
