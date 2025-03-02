@@ -1,3 +1,4 @@
+import json
 import click
 import logging
 from typing import Any, Optional
@@ -113,8 +114,9 @@ def handle_interview_command(
         )
         if prev_response_file.exists():
             response = prev_response_file.read_text()
-            template.append("Previous Response:\n")
-            template.append("\n".join(f"> {line}" for line in response.splitlines()))
+            lines = json.loads(response)["opinion"].split("\n")
+            template.append("Previous Response:\n\n")
+            template.append("\n".join(f"> {line}" for line in lines))
             template.append("\n\n---\n\n")
     template.append(
         "Please provide your questions or discussion points for this interview.\n"
