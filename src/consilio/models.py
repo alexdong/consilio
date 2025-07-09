@@ -1,7 +1,7 @@
 import json
 import re
 from pathlib import Path
-from typing import Optional
+
 from pydantic import BaseModel, Field
 from rich.console import Console
 from rich.markdown import Markdown
@@ -126,20 +126,20 @@ class Config(BaseModel):
     """Configuration settings for a topic"""
 
     key_bindings: str = Field(
-        default="emacs", description="Key bindings style (emacs or vi)"
+        default="emacs", description="Key bindings style (emacs or vi)",
     )
     model: str = Field(default="gemini-2.0-flash-exp", description="Model identifier")
     temperature: float = Field(
-        default=0.5, description="Temperature for model responses"
+        default=0.5, description="Temperature for model responses",
     )
 
-    def save(self, path: Optional[Path] = None) -> None:
+    def save(self, path: Path | None = None) -> None:
         """Save config to file"""
         path = path or Path("cons.toml")
         path.write_text(self.model_dump_json(indent=2))
 
     @classmethod
-    def load(cls, path: Optional[Path] = None) -> "Config":
+    def load(cls, path: Path | None = None) -> "Config":
         """Load config from file"""
         path = path or Path("cons.toml")
         if path.exists():
@@ -150,7 +150,7 @@ class Config(BaseModel):
 class Topic(BaseModel):
     """Represents a discussion topic with its associated files"""
 
-    dir_path: Path = Field(default_factory=lambda: Path("."))
+    dir_path: Path = Field(default_factory=lambda: Path())
     config: Config = Field(default_factory=Config)
 
     @property

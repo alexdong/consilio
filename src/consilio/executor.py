@@ -1,9 +1,12 @@
-import logging
-from pathlib import Path
-from typing import Any, Callable, Optional, TypeVar
 import json
+import logging
+from collections.abc import Callable
+from pathlib import Path
+from typing import Any, TypeVar
+
 import click
-from consilio.models import Topic, BaseModel
+
+from consilio.models import BaseModel, Topic
 from consilio.utils import get_llm_response
 
 T = TypeVar("T", bound=BaseModel)
@@ -17,10 +20,10 @@ def save_response(response: Any, file: Path) -> None:
 
 def execute(
     topic: Topic,
-    user_input_filepath: Optional[Path],
+    user_input_filepath: Path | None,
     user_input_template: str,
     build_prompt_fn: Callable[[Topic, str], str],
-    response_definition: Optional[Any],
+    response_definition: Any | None,
     response_filepath: Path,
     display_fn: Callable[..., None],
 ) -> dict[Any, Any]:

@@ -1,10 +1,11 @@
-import click
 import json
 import logging
-from typing import Optional
-from consilio.models import Topic, Discussion, display_discussions
-from consilio.utils import render_template
+
+import click
+
 from consilio.executor import execute
+from consilio.models import Discussion, Topic, display_discussions
+from consilio.utils import render_template
 
 
 def _build_first_round_prompt(topic: Topic) -> str:
@@ -13,12 +14,12 @@ def _build_first_round_prompt(topic: Topic) -> str:
     logger.debug("Building first round prompt")
 
     return render_template(
-        "first_round.j2", topic=topic, perspectives=topic.perspectives
+        "first_round.j2", topic=topic, perspectives=topic.perspectives,
     )
 
 
 def _build_subsequent_round_prompt(
-    topic: Topic, round_num: int, user_input: Optional[str]
+    topic: Topic, round_num: int, user_input: str | None,
 ) -> str:
     """Build prompt including previous rounds' context"""
     logger = logging.getLogger("consilio.discuss")
@@ -38,7 +39,7 @@ def _build_subsequent_round_prompt(
                 history.append(f"<response>\n{response_file.read_text()}</response>\n")
             history.append("</Discussion>\n")
         except Exception as e:
-            click.echo(f"Warning: Error reading round {i}: {str(e)}")
+            click.echo(f"Warning: Error reading round {i}: {e!s}")
 
     context = "\n".join(history)
     return render_template(
@@ -57,7 +58,7 @@ def _build_subsequent_round_prompt(
     type=int,
     help="Round number to re-run (defaults to next round)",
 )
-def discuss(round_num: Optional[int] = None):
+def discuss(round_num: int | None = None) -> None:
     """Main handler for the discuss command"""
     topic = Topic.load()
     current_round = (
@@ -65,8 +66,9 @@ def discuss(round_num: Optional[int] = None):
     )
 
     if current_round == 1 and not topic.perspectives_file.exists():
+        msg = "No perspectives found. Generate perspectives first with 'cons perspectives'"
         raise click.ClickException(
-            "No perspectives found. Generate perspectives first with 'cons perspectives'"
+            msg,
         )
 
     # Prepare input_template for user input
@@ -85,17 +87,16 @@ def discuss(round_num: Optional[int] = None):
                 "Please provide guidance for the discussion.",
                 "- Answer questions from the previous round of discussions",
                 "- Specify particular areas you'd like to focus on next",
-            ]
+            ],
         )
 
     # Build prompt based on round
     def build_prompt(topic: Topic, user_input: str = "") -> str:
         if current_round == 1:
             return _build_first_round_prompt(topic)
-        else:
-            return _build_subsequent_round_prompt(
-                topic, round_num=current_round, user_input=user_input
-            )
+        return _build_subsequent_round_prompt(
+            topic, round_num=current_round, user_input=user_input,
+        )
 
     if current_round == 1:
         user_input_filepath = None

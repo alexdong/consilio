@@ -1,25 +1,24 @@
-.PHONY: lint clean build release test test-coverage
+.PHONY: dev test test-coverage type-coverage
 
-lint:
-	ruff check . --fix
-	mypy
-	pyright
+dev:
+	uv run ruff check . --fix --unsafe-fixes
+	uv run ruff format .
+	uv run ty check .
 
 test:
-	py.test -v tests
+	pytest --lf
 
-test-coverage: test
-	pytest --cov=consilio --cov-report=term-missing --cov-report=html tests/
+test-coverage:
+	pytest --cov=. --cov-report=html --cov-report=term --duration=5 
 
-clean:
-	rm -rf build/ dist/ *.egg-info
-
-build: clean
-	python -m build
-
-release: build
-	$(eval VERSION := $(shell grep '^version = ' pyproject.toml | sed -E 's/version = "(.*)"/\1/'))                                                                                   
-	@echo "Releasing version $(VERSION)"                                                                                                                                              
-	git tag -a "v$(VERSION)" -m "Release version $(VERSION)"                                                                                                                          
-	git push origin "v$(VERSION)"                                                                                                                                                     
-	gh release create "v$(VERSION)" --title "Release v$(VERSION)" --notes "Release version $(VERSION)"
+type-coverage:
+	@echo "🔍 Checking type annotation coverage..."
+	@echo "📊 Checking for missing return type annotations..."
+	@uv run ruff check . --select ANN201 --quiet || echo "❌ Missing return type annotations found"
+	@echo "📊 Checking for missing parameter type annotations..."
+	@uv run ruff check . --select ANN001,ANN002,ANN003 --quiet || echo "❌ Missing parameter type annotations found"
+	@echo "📊 Running comprehensive type check..."
+	@uv run ty check . > /dev/null 2>&1 && echo "✅ Type checking passed - excellent coverage!" || echo "❌ Type checking failed"
+	@echo "📊 Checking for Any usage (should be minimal)..."
+	@uv run ruff check . --select ANN401 --quiet && echo "✅ No problematic Any usage found" || echo "⚠️  Some Any usage found (may be acceptable in tests)"
+	@echo "📈 Type coverage assessment complete!"

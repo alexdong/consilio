@@ -1,7 +1,9 @@
-import click
 import json
 import logging
-from typing import Optional, Any
+from typing import Any
+
+import click
+
 from consilio.models import Topic
 
 
@@ -21,14 +23,16 @@ def select_perspective(topic: Topic) -> int:
                     return choice
                 click.echo("Invalid selection. Please try again.")
             except click.Abort:
-                raise click.ClickException("Selection aborted")
+                msg = "Selection aborted"
+                raise click.ClickException(msg)
     except (json.JSONDecodeError, FileNotFoundError):
+        msg = "No valid perspectives found. Generate perspectives first."
         raise click.ClickException(
-            "No valid perspectives found. Generate perspectives first."
+            msg,
         )
 
 
-def get_most_recent_perspective(topic: Topic) -> Optional[int]:
+def get_most_recent_perspective(topic: Topic) -> int | None:
     """Find the most recently interviewed perspective"""
     latest_perspective = None
     latest_round = -1
@@ -51,10 +55,11 @@ def get_perspective(topic: Topic, index: int) -> dict[Any, Any]:
         perspectives = json.loads(topic.perspectives_file.read_text())
         if index < 0 or index >= len(perspectives):
             raise click.ClickException(
-                f"Invalid perspective index. Must be between 0 and {len(perspectives)-1}"
+                f"Invalid perspective index. Must be between 0 and {len(perspectives)-1}",
             )
         return perspectives[index]
     except (json.JSONDecodeError, FileNotFoundError):
+        msg = "No valid perspectives found. Generate perspectives first."
         raise click.ClickException(
-            "No valid perspectives found. Generate perspectives first."
+            msg,
         )

@@ -1,10 +1,12 @@
 import json
 import logging
-import click
 from typing import Any
+
+import click
 from rich.console import Console
 from rich.markdown import Markdown
-from .models import Topic, Clarification
+
+from .models import Clarification, Topic
 from .utils import get_llm_response, render_template
 
 
@@ -25,13 +27,13 @@ def save_clarification(topic: Topic, clarification: dict[Any, Any]) -> None:
     logger.info("Saving clarification response")
     clarification_file = topic.clarification_answers_file
     clarification_file.write_text(
-        json.dumps(Clarification.model_validate(clarification).to_json(), indent=2)
+        json.dumps(Clarification.model_validate(clarification).to_json(), indent=2),
     )
     click.echo(f"Clarification saved to: {clarification_file}")
 
 
 @click.command()
-def clarify():
+def clarify() -> None:
     """Get clarification questions and suggestions"""
     logger = logging.getLogger("consilio.clarify")
     logger.info("Getting clarification for topic")
@@ -50,4 +52,4 @@ def clarify():
         display_clarification(clarification)
 
     except Exception as e:
-        raise click.ClickException(f"Error getting clarification: {str(e)}")
+        raise click.ClickException(f"Error getting clarification: {e!s}")

@@ -1,19 +1,20 @@
-import click
 import json
 from pathlib import Path
 
-from consilio.models import Topic, Perspective, display_perspectives
-from consilio.utils import render_template
+import click
+
 from consilio.executor import execute
+from consilio.models import Perspective, Topic, display_perspectives
+from consilio.utils import render_template
 
 
 @click.group()
-def perspectives():
+def perspectives() -> None:
     pass
 
 
 @perspectives.command()
-def generate():
+def generate() -> None:
     """Generate perspectives for a topic using LLM"""
     topic = Topic.load()
     num = click.prompt(
@@ -43,7 +44,7 @@ def generate():
 
 
 @perspectives.command()
-def add():
+def add() -> None:
     """Add a new perspective by prompting user for role and generating details"""
     topic = Topic.load()
     description = click.prompt("Enter a description of the new perspective", type=str)
@@ -55,7 +56,7 @@ def add():
 
     def save_and_append(new_perspective: Perspective, file: Path) -> None:
         """Custom save function that appends to existing perspectives"""
-        perspectives = existing_items + [new_perspective.model_dump()]
+        perspectives = [*existing_items, new_perspective.model_dump()]
         json_str = json.dumps(perspectives, indent=2)
         file.write_text(json_str)
 
@@ -71,7 +72,7 @@ def add():
         ),
         response_definition=Perspective,
         response_filepath=topic.perspectives_file,
-        display_fn=lambda p: display_perspectives([p] + existing_items),
+        display_fn=lambda p: display_perspectives([p, *existing_items]),
     )
 
     # Save the new perspective

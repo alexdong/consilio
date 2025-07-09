@@ -1,21 +1,22 @@
 import json
-import click
 import logging
-from typing import Any, Optional
-from consilio.models import Topic, Discussion, display_interview
-from consilio.utils import render_template
+from typing import Any
+
+import click
+
+from consilio.executor import execute
+from consilio.models import Discussion, Topic, display_interview
 from consilio.perspective_utils import (
-    select_perspective,
     get_most_recent_perspective,
     get_perspective,
+    select_perspective,
 )
-from consilio.executor import execute
+from consilio.utils import render_template
 
 
 @click.group()
-def interview():
+def interview() -> None:
     """Manage interviews with different perspectives"""
-    pass
 
 
 def _build_interview_prompt(
@@ -28,7 +29,7 @@ def _build_interview_prompt(
     """Build prompt for interview rounds"""
     logger = logging.getLogger("consilio.interview")
     logger.debug(
-        f"Building interview prompt for perspective {perspective_index}, round {round_num}"
+        f"Building interview prompt for perspective {perspective_index}, round {round_num}",
     )
     history = []
 
@@ -40,14 +41,14 @@ def _build_interview_prompt(
 
             if input_file.exists():
                 history.append(
-                    f"Discussion Round {i} Input:\n{input_file.read_text()}\n"
+                    f"Discussion Round {i} Input:\n{input_file.read_text()}\n",
                 )
             if response_file.exists():
                 history.append(
-                    f"Discussion Round {i} Response:\n{response_file.read_text()}\n"
+                    f"Discussion Round {i} Response:\n{response_file.read_text()}\n",
                 )
         except Exception as e:
-            click.echo(f"Warning: Error reading discussion round {i}: {str(e)}")
+            click.echo(f"Warning: Error reading discussion round {i}: {e!s}")
 
     # Add context from previous interview rounds
     interview_history = []
@@ -58,14 +59,14 @@ def _build_interview_prompt(
 
             if input_file.exists():
                 interview_history.append(
-                    f"Interview Round {i} Input:\n{input_file.read_text()}\n"
+                    f"Interview Round {i} Input:\n{input_file.read_text()}\n",
                 )
             if response_file.exists():
                 interview_history.append(
-                    f"Interview Round {i} Response:\n{response_file.read_text()}\n"
+                    f"Interview Round {i} Response:\n{response_file.read_text()}\n",
                 )
         except Exception as e:
-            click.echo(f"Warning: Error reading interview round {i}: {str(e)}")
+            click.echo(f"Warning: Error reading interview round {i}: {e!s}")
 
     return render_template(
         "interview.j2",
@@ -79,16 +80,18 @@ def _build_interview_prompt(
 
 
 def handle_interview_command(
-    perspective: Optional[int] = None, continue_to_next_round: bool = False
+    perspective: int | None = None, continue_to_next_round: bool = False,
 ) -> None:
     """Main handler for the interview command"""
     topic = Topic.load()
     if not topic:
-        raise click.ClickException("No topic selected. Use 'cons init' to create one.")
+        msg = "No topic selected. Use 'cons init' to create one."
+        raise click.ClickException(msg)
 
     if not topic.perspectives_file.exists():
+        msg = "No perspectives found. Generate perspectives first with 'cons perspectives'"
         raise click.ClickException(
-            "No perspectives found. Generate perspectives first with 'cons perspectives'"
+            msg,
         )
 
     if continue_to_next_round:
@@ -110,7 +113,7 @@ def handle_interview_command(
     template = ["# Interview Questions\n\n"]
     if current_round > 1:
         prev_response_file = topic.interview_response_file(
-            perspective_index, current_round - 1
+            perspective_index, current_round - 1,
         )
         if prev_response_file.exists():
             response = prev_response_file.read_text()
@@ -119,22 +122,22 @@ def handle_interview_command(
             template.append("\n".join(f"> {line}" for line in lines))
             template.append("\n\n---\n\n")
     template.append(
-        "Please provide your questions or discussion points for this interview.\n"
+        "Please provide your questions or discussion points for this interview.\n",
     )
 
     perspective_data = get_perspective(topic, perspective_index)
     execute(
         topic=topic,
         user_input_filepath=topic.interview_input_file(
-            perspective_index, current_round
+            perspective_index, current_round,
         ),
         user_input_template="".join(template),
         build_prompt_fn=lambda t, i: _build_interview_prompt(
-            t, perspective_data, perspective_index, current_round, i
+            t, perspective_data, perspective_index, current_round, i,
         ),
         response_definition=Discussion,
         response_filepath=topic.interview_response_file(
-            perspective_index, current_round
+            perspective_index, current_round,
         ),
         display_fn=display_interview,
     )
@@ -142,14 +145,14 @@ def handle_interview_command(
 
 @interview.command()
 @click.option(
-    "--perspective", "-p", type=int, help="Index of the perspective to interview"
+    "--perspective", "-p", type=int, help="Index of the perspective to interview",
 )
-def start(perspective: Optional[int]):
+def start(perspective: int | None) -> None:
     """Start a new interview with a selected perspective"""
     handle_interview_command(perspective=perspective)
 
 
 @interview.command()
-def next():
+def next() -> None:
     """Continue interview with the most recent perspective"""
     handle_interview_command(continue_to_next_round=True)

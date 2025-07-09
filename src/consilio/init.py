@@ -1,12 +1,14 @@
-import click
 import subprocess
+
+import click
 import tomli_w
+
 from consilio.models import Topic
 from consilio.utils import render_template
 
 
 @click.command()
-def init():
+def init() -> None:
     """Initialize a new project and open README.md in editor"""
     topic = Topic.load()
     readme_path = topic.discussion_file

@@ -1,9 +1,9 @@
 import logging
 import sys
 from pathlib import Path
-from typing import Optional
 
-def setup_logging(log_level: str = "INFO", log_file: Optional[Path] = None) -> None:
+
+def setup_logging(log_level: str = "INFO", log_file: Path | None = None) -> None:
     """Setup logging configuration for Consilio
     
     Args:
@@ -16,10 +16,10 @@ def setup_logging(log_level: str = "INFO", log_file: Optional[Path] = None) -> N
 
     # Create formatters
     file_formatter = logging.Formatter(
-        '%(asctime)s [%(levelname)s] %(name)s: %(message)s',
-        datefmt='%Y-%m-%d %H:%M:%S'
+        "%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S",
     )
-    console_formatter = logging.Formatter('[%(levelname)s] %(message)s')
+    console_formatter = logging.Formatter("[%(levelname)s] %(message)s")
 
     # Console handler
     console_handler = logging.StreamHandler(sys.stdout)

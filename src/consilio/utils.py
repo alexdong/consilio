@@ -1,22 +1,20 @@
-import os
 import json
 import logging
+import os
 from pathlib import Path
 from typing import Any
-from jinja2 import Environment, FileSystemLoader, select_autoescape
 
+import click
 from google import genai
 from google.genai import types
-
-from typing import Optional
-import click
+from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 
 def render_template(template_name: str, **kwargs: Any) -> str:
     """Render a Jinja2 template with the given context"""
     templates_dir = Path(__file__).parent / "prompts"
     env = Environment(
-        loader=FileSystemLoader(templates_dir), autoescape=select_autoescape()
+        loader=FileSystemLoader(templates_dir), autoescape=select_autoescape(),
     )
     template = env.get_template(template_name)
     return template.render(**kwargs)
@@ -24,7 +22,7 @@ def render_template(template_name: str, **kwargs: Any) -> str:
 
 def get_llm_response(
     prompt: str,
-    response_definition: Optional[Any] = None,
+    response_definition: Any | None = None,
     temperature: float = 1.0,
 ) -> dict[Any, Any]:
     """Get response from LLM API
@@ -41,7 +39,8 @@ def get_llm_response(
     if not api_key:
         api_key = os.getenv("GEMINI_API_KEY")
     if not api_key:
-        raise click.ClickException("GOOGLE_API_KEY environment variable not set")
+        msg = "GOOGLE_API_KEY environment variable not set"
+        raise click.ClickException(msg)
     client = genai.Client(api_key=api_key)
 
     system_prompt = render_template("system.j2")
