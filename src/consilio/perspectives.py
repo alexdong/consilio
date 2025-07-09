@@ -77,7 +77,8 @@ def add() -> None:
 
     # Save the new perspective
     save_and_append(
-        Perspective.model_validate(new_perspective), topic.perspectives_file
+        Perspective.model_validate(new_perspective),
+        topic.perspectives_file,
     )
 
 
