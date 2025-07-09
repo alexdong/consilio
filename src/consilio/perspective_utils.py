@@ -7,29 +7,38 @@ import click
 from consilio.models import Topic
 
 
+def _display_perspectives(perspectives: list[dict[str, Any]]) -> None:
+    """Display available perspectives"""
+    click.echo("\nAvailable perspectives:")
+    for idx, p in enumerate(perspectives):
+        click.echo(f"\n{idx}. {p.get('title', 'Untitled')}")
+        click.echo(f"   Expertise: {p.get('expertise', 'N/A')}")
+
+
+def _get_user_selection(max_choice: int) -> int:
+    """Get valid perspective selection from user"""
+    while True:
+        try:
+            choice = click.prompt("\nSelect perspective number", type=int)
+            if 0 <= choice < max_choice:
+                return choice
+            click.echo("Invalid selection. Please try again.")
+        except click.Abort:
+            msg = "Selection aborted"
+            raise click.ClickException(msg) from None
+
+
 def select_perspective(topic: Topic) -> int:
     """Display perspective selection menu and get user choice"""
     try:
         perspectives = json.loads(topic.perspectives_file.read_text())
-        click.echo("\nAvailable perspectives:")
-        for idx, p in enumerate(perspectives):
-            click.echo(f"\n{idx}. {p.get('title', 'Untitled')}")
-            click.echo(f"   Expertise: {p.get('expertise', 'N/A')}")
-
-        while True:
-            try:
-                choice = click.prompt("\nSelect perspective number", type=int)
-                if 0 <= choice < len(perspectives):
-                    return choice
-                click.echo("Invalid selection. Please try again.")
-            except click.Abort:
-                msg = "Selection aborted"
-                raise click.ClickException(msg)
-    except (json.JSONDecodeError, FileNotFoundError):
+        _display_perspectives(perspectives)
+        return _get_user_selection(len(perspectives))
+    except (json.JSONDecodeError, FileNotFoundError) as e:
         msg = "No valid perspectives found. Generate perspectives first."
         raise click.ClickException(
             msg,
-        )
+        ) from e
 
 
 def get_most_recent_perspective(topic: Topic) -> int | None:
@@ -47,19 +56,19 @@ def get_most_recent_perspective(topic: Topic) -> int | None:
     return latest_perspective
 
 
-def get_perspective(topic: Topic, index: int) -> dict[Any, Any]:
+def get_perspective(topic: Topic, index: int) -> dict[str, Any]:
     """Get a specific perspective by index"""
     logger = logging.getLogger("consilio.interview")
-    logger.debug(f"Getting perspective {index}")
+    logger.debug("Getting perspective %s", index)
     try:
         perspectives = json.loads(topic.perspectives_file.read_text())
         if index < 0 or index >= len(perspectives):
             raise click.ClickException(
-                f"Invalid perspective index. Must be between 0 and {len(perspectives)-1}",
+                f"Invalid perspective index. Must be between 0 and {len(perspectives) - 1}",
             )
         return perspectives[index]
-    except (json.JSONDecodeError, FileNotFoundError):
+    except (json.JSONDecodeError, FileNotFoundError) as e:
         msg = "No valid perspectives found. Generate perspectives first."
         raise click.ClickException(
             msg,
-        )
+        ) from e

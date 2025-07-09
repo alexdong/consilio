@@ -24,13 +24,16 @@ CONTEXT_SETTINGS = {"help_option_names": ["-h", "--help"]}
 @click.option(
     "--log-level",
     type=click.Choice(
-        ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"], case_sensitive=False,
+        ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
+        case_sensitive=False,
     ),
     default="DEBUG",
     help="Set logging level",
 )
 @click.option(
-    "--log-file", type=click.Path(path_type=Path), help="Write logs to specified file",
+    "--log-file",
+    type=click.Path(path_type=Path),
+    help="Write logs to specified file",
 )
 def cli(log_level: str, log_file: Path | None) -> None:
     """Consilio: AI-Facilitated Decision Making Assistant"""

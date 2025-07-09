@@ -5,7 +5,7 @@ from pathlib import Path
 
 def setup_logging(log_level: str = "INFO", log_file: Path | None = None) -> None:
     """Setup logging configuration for Consilio
-    
+
     Args:
         log_level: Logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
         log_file: Optional file path to write logs to

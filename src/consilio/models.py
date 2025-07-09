@@ -33,9 +33,7 @@ def display_perspectives(perspectives: list[Perspective]) -> None:
     console = Console()
 
     # Build markdown content from Perspective objects
-    md_content = "".join(
-        Perspective(**p).to_markdown(i) for i, p in enumerate(perspectives, 1)
-    )
+    md_content = "".join(p.to_markdown(i) for i, p in enumerate(perspectives, 1))
 
     # Display using rich
     console.print(Markdown(md_content))
@@ -49,34 +47,36 @@ class Clarification(BaseModel):
     assumptions: list[str]
     suggestions: list[str]
 
+    def _format_section(
+        self,
+        title: str,
+        items: list[str],
+        *,
+        numbered: bool = False,
+    ) -> str:
+        """Format a section with items"""
+        if not items:
+            return ""
+
+        section = f"__{title}__\n"
+        if numbered:
+            for i, item in enumerate(items, 1):
+                section += f"{i}. {item}\n"
+        else:
+            for item in items:
+                section += f"* {item}\n"
+        section += "\n"
+        return section
+
     def to_markdown(self) -> str:
         """Convert clarification to markdown format"""
-        md = "__Questions__\n"
-
-        if self.questions:
-            for i, q in enumerate(self.questions, 1):
-                md += f"{i}. {q}\n"
-            md += "\n"
-
-        if self.missing_context:
-            md += "__Missing Context__\n"
-            for item in self.missing_context:
-                md += f"* {item}\n"
-            md += "\n"
-
-        if self.assumptions:
-            md += "__Assumptions to Verify__\n"
-            for item in self.assumptions:
-                md += f"* {item}\n"
-            md += "\n"
-
-        if self.suggestions:
-            md += "__Suggestions__\n"
-            for item in self.suggestions:
-                md += f"* {item}\n"
-            md += "\n"
-
-        return md
+        sections = [
+            self._format_section("Questions", self.questions, numbered=True),
+            self._format_section("Missing Context", self.missing_context),
+            self._format_section("Assumptions to Verify", self.assumptions),
+            self._format_section("Suggestions", self.suggestions),
+        ]
+        return "".join(sections)
 
     def to_json(self) -> dict:
         """Convert clarification to JSON-compatible dictionary"""
@@ -126,11 +126,13 @@ class Config(BaseModel):
     """Configuration settings for a topic"""
 
     key_bindings: str = Field(
-        default="emacs", description="Key bindings style (emacs or vi)",
+        default="emacs",
+        description="Key bindings style (emacs or vi)",
     )
     model: str = Field(default="gemini-2.0-flash-exp", description="Model identifier")
     temperature: float = Field(
-        default=0.5, description="Temperature for model responses",
+        default=0.5,
+        description="Temperature for model responses",
     )
 
     def save(self, path: Path | None = None) -> None:
@@ -214,9 +216,9 @@ class Topic(BaseModel):
     def perspectives(self) -> list[Perspective]:
         """Get the list of perspectives"""
         try:
-            with open(self.perspectives_file) as f:
+            with self.perspectives_file.open() as f:
                 data = json.load(f)
-            return [Perspective(**p) for p in data]
+            return [Perspective.model_validate(p) for p in data]
         except (FileNotFoundError, json.JSONDecodeError):
             return []
 
@@ -225,7 +227,7 @@ class Topic(BaseModel):
         """Get the number of the latest discussion round"""
         return self._get_latest_round_number("discussion-r")
 
-    def get_latest_interview_round(self, perspective_index) -> int:
+    def get_latest_interview_round(self, perspective_index: int) -> int:
         """Get the number of the latest interview round"""
         return self._get_latest_round_number(f"interview-p{perspective_index}-r")
 

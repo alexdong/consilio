@@ -32,7 +32,7 @@ def generate() -> None:
             topic=t,
             num_of_perspectives=num,
         ),
-        response_definition=list[Perspective],
+        response_definition=Perspective,
         response_filepath=topic.perspectives_file,
         display_fn=display_perspectives,
     )
@@ -76,7 +76,9 @@ def add() -> None:
     )
 
     # Save the new perspective
-    save_and_append(Perspective(**new_perspective), topic.perspectives_file)
+    save_and_append(
+        Perspective.model_validate(new_perspective), topic.perspectives_file
+    )
 
 
 if __name__ == "__main__":

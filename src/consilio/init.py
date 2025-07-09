@@ -33,9 +33,7 @@ def init() -> None:
         content = readme_path.read_text()
 
     try:
-        click.edit(
-            text=content,
-            filename=str(readme_path),
-        )
+        # click.edit with filename doesn't take text parameter
+        click.edit(filename=str(readme_path))
     except subprocess.SubprocessError:
         click.echo(f"Failed to open {readme_path} in editor")

@@ -10,7 +10,7 @@ from .models import Clarification, Topic
 from .utils import get_llm_response, render_template
 
 
-def display_clarification(clarification: dict[Any, Any]) -> None:
+def display_clarification(clarification: dict[str, Any]) -> None:
     """Display clarification in markdown format using rich"""
     console = Console()
 
@@ -21,7 +21,7 @@ def display_clarification(clarification: dict[Any, Any]) -> None:
     console.print(Markdown(message))
 
 
-def save_clarification(topic: Topic, clarification: dict[Any, Any]) -> None:
+def save_clarification(topic: Topic, clarification: dict[str, Any]) -> None:
     """Save clarification response to file"""
     logger = logging.getLogger("consilio.clarify")
     logger.info("Saving clarification response")
@@ -52,4 +52,4 @@ def clarify() -> None:
         display_clarification(clarification)
 
     except Exception as e:
-        raise click.ClickException(f"Error getting clarification: {e!s}")
+        raise click.ClickException(f"Error getting clarification: {e!s}") from e
