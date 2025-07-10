@@ -1,0 +1,20 @@
+# NumPy llms.txt
+
+## Status: Not Found
+
+Attempted to fetch llms.txt from:
+- https://numpy.org/doc/stable/llms.txt (search found no results)
+- Various numpy.org documentation pages
+
+NumPy is the fundamental package for scientific computing with Python.
+
+Official documentation:
+- Main site: https://numpy.org/
+- Documentation: https://numpy.org/doc/stable/
+- Learn: https://numpy.org/learn/
+
+Search only found numpy.loadtxt for loading data from text files, no llms.txt documentation file.
+
+---
+Retrieved: 2025-07-09
+Method: WebSearch on numpy.org confirmed no llms.txt available

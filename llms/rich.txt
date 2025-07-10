@@ -1,0 +1,20 @@
+# Rich llms.txt
+
+## Status: Not Found
+
+Attempted to fetch llms.txt from:
+- https://rich.readthedocs.io/llms.txt (no llms.txt support found)
+- ReadTheDocs documentation pages
+
+Rich is a Python library for writing rich text (with color and style) to the terminal.
+
+Official documentation:
+- Stable: https://rich.readthedocs.io/en/stable/
+- Latest: https://rich.readthedocs.io/en/latest/
+
+No llms.txt file appears to be available for Rich as of the search date.
+Could potentially use tools like LLM.codes to convert Rich documentation to LLM-friendly format.
+
+---
+Retrieved: 2025-07-09
+Method: WebSearch confirmed no llms.txt available

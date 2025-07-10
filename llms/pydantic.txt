@@ -1,0 +1,17 @@
+# Pydantic llms.txt
+
+## Status: Not Found
+
+Attempted to fetch llms.txt from:
+- https://docs.pydantic.dev/latest/llms-full.txt (domain not allowed)
+- https://github.com/pydantic/pydantic-ai/raw/main/llms.txt (domain not allowed)
+
+Search results indicate that pydantic-ai project has an llms.txt file according to issue #1028 on GitHub, but direct access was not possible.
+
+## Alternative Sources
+Based on user information:
+- ai.pydantic.dev/llms-full.txt may be available
+
+---
+Retrieved: 2025-07-09
+Method: WebSearch indicated existence but could not fetch directly

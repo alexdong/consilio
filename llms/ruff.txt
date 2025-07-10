@@ -1,0 +1,18 @@
+# Ruff llms.txt
+
+## Status: Not Found
+
+Attempted to fetch llms.txt from:
+- https://docs.astral.sh/ruff/llms.txt (not directly searched)
+- Astral documentation sites
+
+Ruff is an extremely fast Python linter and code formatter, written in Rust.
+
+Expected documentation at:
+- https://docs.astral.sh/ruff/
+
+No llms.txt file search results found for Ruff as of the search date.
+
+---
+Retrieved: 2025-07-09
+Method: Limited search performed, no llms.txt references found

@@ -1,0 +1,17 @@
+# Click llms.txt
+
+## Status: Not Found
+
+Attempted to fetch llms.txt from:
+- https://click.palletsprojects.com/llms.txt (search indicated no native support)
+- Various documentation pages at click.palletsprojects.com
+
+Click is a Python package for creating command line interfaces. Official documentation at:
+- Main docs: https://click.palletsprojects.com/en/stable/
+- API reference: https://click.palletsprojects.com/en/stable/api/
+
+No llms.txt file appears to be available for Click as of the search date.
+
+---
+Retrieved: 2025-07-09
+Method: WebSearch confirmed no llms.txt available
